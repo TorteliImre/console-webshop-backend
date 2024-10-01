@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
+import { UserService } from './user.service';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -47,6 +48,9 @@ export class SetUserPicDto {
 
 @Controller('user')
 export class UserController {
+  constructor(private userService: UserService) {
+  }
+
   @Get(':id')
   @ApiOkResponse({ type: GetUserDto })
   async getUser(@Param('id') id: number) {
