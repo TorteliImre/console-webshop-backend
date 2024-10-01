@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { User } from 'entities/User';
 import { Repository } from 'typeorm';
-import { CreateUserDto, GetUserDto } from './user.controller';
+import { CreateUserDto, GetUserDto, SetUserBioDto, SetUserPicDto } from './user.controller';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -23,5 +23,13 @@ export class UserService {
     let found = await this.userRepository.findOne({ where: { id } });
     if (!found) throw new BadRequestException('No such user');
     return found.toGetUserDto();
+  }
+
+  async setUserBio(dto: SetUserBioDto): Promise<void> {
+    await this.userRepository.update(dto.id, {bio: dto.bio});
+  }
+
+  async setUserPicture(dto: SetUserPicDto): Promise<void> {
+    await this.userRepository.update(dto.id, {picture: Buffer.from(dto.picture, "base64")});
   }
 }

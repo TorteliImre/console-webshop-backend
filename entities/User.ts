@@ -52,8 +52,7 @@ export class User {
     result.name = this.name;
     result.email = this.email;
     result.bio = this.bio;
-    result.picture = this.picture?.toString('base64');
-    console.log(result);
+    result.picture = this.picture?.toString('base64') || null;
     return result;
   }
 }

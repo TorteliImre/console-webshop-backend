@@ -71,11 +71,11 @@ export class UserController {
 
   @Post('setUserBio')
   async setUserBio(@Body() dto: SetUserBioDto) {
-    console.log(dto);
+    await this.userService.setUserBio(dto);
   }
 
   @Post('setUserPicture')
   async setUserPicture(@Body() dto: SetUserPicDto) {
-    console.log(dto);
+    await this.userService.setUserPicture(dto);
   }
 }
