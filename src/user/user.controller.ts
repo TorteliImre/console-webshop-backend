@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { UserService } from './user.service';
 
@@ -48,19 +56,17 @@ export class SetUserPicDto {
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService) {}
 
   @Get(':id')
   @ApiOkResponse({ type: GetUserDto })
   async getUser(@Param('id') id: number) {
-    console.log(id);
-    return new GetUserDto();
+    return await this.userService.findById(id);
   }
 
   @Post('create')
   async createUser(@Body() dto: CreateUserDto) {
-    console.log(dto);
+    return { id: await this.userService.create(dto) };
   }
 
   @Post('setUserBio')
