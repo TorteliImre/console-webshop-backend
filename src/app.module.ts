@@ -13,6 +13,8 @@ import { ProductStates } from 'entities/ProductStates';
 import { AdvertPics } from 'entities/AdvertPics';
 import { Bookmarks } from 'entities/Bookmarks';
 import { Comments } from 'entities/Comments';
+import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -38,8 +40,9 @@ import { Comments } from 'entities/Comments';
       autoLoadEntities: true,
     }),
     UserModule,
+    AuthModule,
   ],
-  controllers: [AppController, UserController],
+  controllers: [AppController, UserController, AuthController],
   providers: [AppService],
 })
 export class AppModule {}

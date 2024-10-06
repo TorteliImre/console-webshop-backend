@@ -6,8 +6,17 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  UseGuards,
+  Request,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiProperty,
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserService } from './user.service';
 
 export class CreateUserDto {
@@ -59,23 +68,33 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get(':id')
+  @ApiOperation({ tags: ['users'] })
   @ApiOkResponse({ type: GetUserDto })
   async getUser(@Param('id') id: number) {
     return await this.userService.findById(id);
   }
 
   @Post('create')
+  @ApiOperation({ tags: ['users'] })
   async createUser(@Body() dto: CreateUserDto) {
     return { id: await this.userService.create(dto) };
   }
 
   @Post('setUserBio')
-  async setUserBio(@Body() dto: SetUserBioDto) {
+  @ApiOperation({ tags: ['users'] })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async setUserBio(@Body() dto: SetUserBioDto, @Request() req) {
+    if (dto.id != req.user.id) throw new UnauthorizedException('Wrong user id');
     await this.userService.setUserBio(dto);
   }
 
   @Post('setUserPicture')
-  async setUserPicture(@Body() dto: SetUserPicDto) {
+  @ApiOperation({ tags: ['users'] })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async setUserPicture(@Body() dto: SetUserPicDto, @Request() req) {
+    if (dto.id != req.user.id) throw new UnauthorizedException('Wrong user id');
     await this.userService.setUserPicture(dto);
   }
 }
