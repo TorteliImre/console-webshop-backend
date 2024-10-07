@@ -15,6 +15,7 @@ import { Bookmarks } from 'entities/Bookmarks';
 import { Comments } from 'entities/Comments';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
+import { FiltersModule } from './filters/filters.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    FiltersModule,
   ],
   controllers: [AppController, UserController, AuthController],
   providers: [AppService],
