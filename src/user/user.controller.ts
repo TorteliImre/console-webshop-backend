@@ -61,9 +61,15 @@ export class SetUserPicDto {
   picture: string;
 }
 
+export class SetUserPassDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  password: string;
+}
+
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   @Get(':id')
   @ApiOperation({ tags: ['users'] })
@@ -92,5 +98,13 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   async setUserPicture(@Body() dto: SetUserPicDto, @Request() req) {
     await this.userService.setUserPicture(dto.picture, req.user.id);
+  }
+
+  @Post('setPassword')
+  @ApiOperation({ tags: ['users'] })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async setUserPassword(@Body() dto: SetUserPassDto, @Request() req) {
+    await this.userService.setUserPassword(dto.password, req.user.id);
   }
 }
