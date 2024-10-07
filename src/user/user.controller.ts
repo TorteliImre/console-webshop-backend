@@ -10,66 +10,20 @@ import {
   Request,
   UnauthorizedException,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiOkResponse,
-  ApiOperation,
-  ApiProperty,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import {
+  CreateUserDto,
+  GetUserDto,
+  SetUserBioDto,
+  SetUserPassDto,
+  SetUserPicDto,
+} from './user.dto';
 import { UserService } from './user.service';
-import { IsEmail, IsInt, IsNotEmpty } from 'class-validator';
-
-export class CreateUserDto {
-  @ApiProperty()
-  @IsNotEmpty()
-  name: string;
-
-  @ApiProperty()
-  @IsEmail()
-  email: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  password: string;
-}
-
-export class GetUserDto {
-  @ApiProperty()
-  id: number;
-
-  @ApiProperty()
-  name: string;
-
-  @ApiProperty()
-  email: string;
-
-  @ApiProperty({ required: false })
-  bio: string;
-
-  @ApiProperty({ required: false })
-  picture: string;
-}
-
-export class SetUserBioDto {
-  @ApiProperty()
-  bio: string;
-}
-
-export class SetUserPicDto {
-  @ApiProperty()
-  picture: string;
-}
-
-export class SetUserPassDto {
-  @ApiProperty()
-  @IsNotEmpty()
-  password: string;
-}
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Get(':id')
   @ApiOperation({ tags: ['users'] })

@@ -8,7 +8,7 @@ import {
 import { Advert } from './Advert';
 import { Bookmarks } from './Bookmarks';
 import { Comments } from './Comments';
-import { GetUserDto } from 'src/user/user.controller';
+import { GetUserDto } from 'src/user/user.dto';
 
 @Index('user_name_unique', ['name'], { unique: true })
 @Entity('user', { schema: 'console-webshop' })

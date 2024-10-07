@@ -16,6 +16,8 @@ import { Comments } from 'entities/Comments';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 import { FiltersModule } from './filters/filters.module';
+import { FiltersController } from './filters/filters.controller';
+import { FiltersService } from './filters/filters.service';
 
 @Module({
   imports: [
@@ -44,7 +46,7 @@ import { FiltersModule } from './filters/filters.module';
     AuthModule,
     FiltersModule,
   ],
-  controllers: [AppController, UserController, AuthController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

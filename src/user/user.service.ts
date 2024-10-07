@@ -7,7 +7,7 @@ import {
   GetUserDto,
   SetUserBioDto,
   SetUserPicDto,
-} from './user.controller';
+} from './user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
