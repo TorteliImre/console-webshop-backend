@@ -15,7 +15,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async create(dto: CreateUserDto): Promise<number> {
     let passHash = await bcrypt.hash(dto.password, 10);
@@ -30,13 +30,13 @@ export class UserService {
     return found.toGetUserDto();
   }
 
-  async setUserBio(dto: SetUserBioDto): Promise<void> {
-    await this.userRepository.update(dto.id, { bio: dto.bio });
+  async setUserBio(bio: string, id: number): Promise<void> {
+    await this.userRepository.update(id, { bio });
   }
 
-  async setUserPicture(dto: SetUserPicDto): Promise<void> {
-    await this.userRepository.update(dto.id, {
-      picture: Buffer.from(dto.picture, 'base64'),
+  async setUserPicture(picture: string, id: number): Promise<void> {
+    await this.userRepository.update(id, {
+      picture: Buffer.from(picture, 'base64'),
     });
   }
 
