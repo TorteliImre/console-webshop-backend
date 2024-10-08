@@ -41,6 +41,7 @@ import { FiltersService } from './filters/filters.service';
       ],
       synchronize: true,
       autoLoadEntities: true,
+      logging: true,
     }),
     UserModule,
     AuthModule,
@@ -49,4 +50,4 @@ import { FiltersService } from './filters/filters.service';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
