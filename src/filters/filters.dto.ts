@@ -1,7 +1,7 @@
-import { Location } from 'entities/Location';
+import { Manufacturers } from 'entities/Manufacturers';
+import { ProductStates } from 'entities/ProductStates';
 
 export class GetFiltersResultDto {
-  locations: Location[];
-  manufacturers: string[];
-  states: string[];
+  manufacturers: Manufacturers[];
+  states: ProductStates[];
 }
