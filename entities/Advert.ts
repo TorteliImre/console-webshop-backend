@@ -6,92 +6,92 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Location } from "./Location";
-import { Manufacturers } from "./Manufacturers";
-import { Models } from "./Models";
-import { ProductStates } from "./ProductStates";
-import { User } from "./User";
-import { AdvertPics } from "./AdvertPics";
-import { Bookmarks } from "./Bookmarks";
-import { Comments } from "./Comments";
+} from 'typeorm';
+import { Location } from './Location';
+import { Manufacturers } from './Manufacturers';
+import { Models } from './Models';
+import { ProductStates } from './ProductStates';
+import { User } from './User';
+import { AdvertPics } from './AdvertPics';
+import { Bookmarks } from './Bookmarks';
+import { Comments } from './Comments';
 
-@Index("advert_location_FK", ["locationZip"], {})
-@Index("advert_manufacturers_FK", ["manufacturerId"], {})
-@Index("advert_models_FK", ["modelId"], {})
-@Index("advert_product_states_FK", ["stateId"], {})
-@Index("advert_user_FK", ["ownerId"], {})
-@Entity("advert", { schema: "console-webshop" })
+@Index('advert_location_FK', ['locationId'], {})
+@Index('advert_manufacturers_FK', ['manufacturerId'], {})
+@Index('advert_models_FK', ['modelId'], {})
+@Index('advert_product_states_FK', ['stateId'], {})
+@Index('advert_user_FK', ['ownerId'], {})
+@Entity('advert', { schema: 'console-webshop' })
 export class Advert {
-  @PrimaryGeneratedColumn({ type: "int", name: "id" })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column("varchar", { name: "title", length: 100 })
+  @Column('varchar', { name: 'title', length: 100 })
   title: string;
 
-  @Column("int", { name: "owner_id", nullable: true })
+  @Column('int', { name: 'owner_id', nullable: true })
   ownerId: number | null;
 
-  @Column("varchar", { name: "description", length: 1000 })
+  @Column('varchar', { name: 'description', length: 1000 })
   description: string;
 
-  @Column("int", { name: "location_zip" })
-  locationZip: number;
+  @Column('int', { name: 'location_id' })
+  locationId: number;
 
-  @Column("int", { name: "price_huf" })
+  @Column('int', { name: 'price_huf' })
   priceHuf: number;
 
-  @Column("int", { name: "state_id" })
+  @Column('int', { name: 'state_id' })
   stateId: number;
 
-  @Column("int", { name: "manufacturer_id" })
+  @Column('int', { name: 'manufacturer_id' })
   manufacturerId: number;
 
-  @Column("int", { name: "model_id" })
+  @Column('int', { name: 'model_id' })
   modelId: number;
 
-  @Column("varchar", { name: "revision", nullable: true, length: 100 })
+  @Column('varchar', { name: 'revision', nullable: true, length: 100 })
   revision: string | null;
 
-  @Column("int", { name: "view_count" })
+  @Column('int', { name: 'view_count' })
   viewCount: number;
 
-  @Column("tinyint", { name: "is_sold", width: 1 })
+  @Column('tinyint', { name: 'is_sold', width: 1 })
   isSold: boolean;
 
   @ManyToOne(() => Location, (location) => location.adverts, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
   })
-  @JoinColumn([{ name: "location_zip", referencedColumnName: "zip" }])
-  locationZip2: Location;
+  @JoinColumn([{ name: 'location_id', referencedColumnName: 'id' }])
+  locationId2: Location;
 
   @ManyToOne(() => Manufacturers, (manufacturers) => manufacturers.adverts, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
   })
-  @JoinColumn([{ name: "manufacturer_id", referencedColumnName: "id" }])
+  @JoinColumn([{ name: 'manufacturer_id', referencedColumnName: 'id' }])
   manufacturer: Manufacturers;
 
   @ManyToOne(() => Models, (models) => models.adverts, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
   })
-  @JoinColumn([{ name: "model_id", referencedColumnName: "id" }])
+  @JoinColumn([{ name: 'model_id', referencedColumnName: 'id' }])
   model: Models;
 
   @ManyToOne(() => ProductStates, (productStates) => productStates.adverts, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
   })
-  @JoinColumn([{ name: "state_id", referencedColumnName: "id" }])
+  @JoinColumn([{ name: 'state_id', referencedColumnName: 'id' }])
   state: ProductStates;
 
   @ManyToOne(() => User, (user) => user.adverts, {
-    onDelete: "SET NULL",
-    onUpdate: "RESTRICT",
+    onDelete: 'SET NULL',
+    onUpdate: 'RESTRICT',
   })
-  @JoinColumn([{ name: "owner_id", referencedColumnName: "id" }])
+  @JoinColumn([{ name: 'owner_id', referencedColumnName: 'id' }])
   owner: User;
 
   @OneToMany(() => AdvertPics, (advertPics) => advertPics.advert)

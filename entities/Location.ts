@@ -12,6 +12,6 @@ export class Location {
   @Column('varchar', { name: 'name', length: 100 })
   name: string;
 
-  @OneToMany(() => Advert, (advert) => advert.locationZip2)
+  @OneToMany(() => Advert, (advert) => advert.locationId)
   adverts: Advert[];
 }
