@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Location } from 'entities/Location';
 import { Manufacturers } from 'entities/Manufacturers';
 import { ProductStates } from 'entities/ProductStates';
+import { Models } from 'entities/Models';
 
 @Injectable()
 export class FiltersService {
@@ -13,9 +14,11 @@ export class FiltersService {
     private locationRepository: Repository<Location>,
     @InjectRepository(Manufacturers)
     private manufacturersRepository: Repository<Manufacturers>,
+    @InjectRepository(Models)
+    private modelsRepository: Repository<Models>,
     @InjectRepository(ProductStates)
     private statesRepository: Repository<Manufacturers>,
-  ) { }
+  ) {}
 
   async getBasicFilters(): Promise<GetFiltersResultDto> {
     let result = new GetFiltersResultDto();
@@ -26,6 +29,19 @@ export class FiltersService {
 
   async findLocations(query: string): Promise<Location[]> {
     const queryInt = parseInt(query);
-    return this.locationRepository.find({ where: [{ name: ILike(`${query}%`) }, { zip: (isNaN(queryInt) ? -1 : queryInt) }], take: 100, order: { name: 'ASC' } });
+    return this.locationRepository.find({
+      where: [
+        { name: ILike(`${query}%`) },
+        { zip: isNaN(queryInt) ? -1 : queryInt },
+      ],
+      take: 100,
+      order: { name: 'ASC' },
+    });
+  }
+
+  async getModelsForManufacturer(manufacturerId: number): Promise<Models[]> {
+    return this.modelsRepository.find({
+      where: { manufacturerId: manufacturerId },
+    });
   }
 }

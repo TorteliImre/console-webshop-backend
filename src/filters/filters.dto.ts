@@ -13,3 +13,9 @@ export class FindLocationsDto {
   @ApiProperty()
   query: string;
 }
+
+export class GetModelsForManufacturerDto {
+  @IsNotEmpty()
+  @ApiProperty()
+  manufacturerId: number;
+}
