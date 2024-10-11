@@ -7,6 +7,7 @@ import {
   GetModelsForManufacturerDto,
 } from './filters.dto';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { Models } from 'entities/Models';
 
 @Controller('filters')
 export class FiltersController {
@@ -28,7 +29,7 @@ export class FiltersController {
 
   @Get('getModelsForManufacturer')
   @ApiOperation({ tags: ['filters'] })
-  @ApiOkResponse({ type: Location, isArray: true })
+  @ApiOkResponse({ type: Models, isArray: true })
   async getModelsForManufacturer(@Query() dto: GetModelsForManufacturerDto) {
     return await this.filtersService.getModelsForManufacturer(
       dto.manufacturerId,
