@@ -18,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
 import { FiltersModule } from './filters/filters.module';
 import { FiltersController } from './filters/filters.controller';
 import { FiltersService } from './filters/filters.service';
+import { AdvertModule } from './advert/advert.module';
 
 @Module({
   imports: [
@@ -46,8 +47,9 @@ import { FiltersService } from './filters/filters.service';
     UserModule,
     AuthModule,
     FiltersModule,
+    AdvertModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
