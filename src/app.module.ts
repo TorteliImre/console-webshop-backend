@@ -20,6 +20,8 @@ import { FiltersController } from './filters/filters.controller';
 import { FiltersService } from './filters/filters.service';
 import { AdvertModule } from './advert/advert.module';
 
+const isTestingDb = true;
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -28,7 +30,7 @@ import { AdvertModule } from './advert/advert.module';
       port: 3306,
       username: 'root',
       password: '',
-      database: 'console-webshop',
+      database: isTestingDb ? 'console-webshop-testing' : 'console-webshop',
       entities: [
         User,
         Advert,
@@ -43,6 +45,7 @@ import { AdvertModule } from './advert/advert.module';
       synchronize: true,
       autoLoadEntities: true,
       logging: true,
+      dropSchema: isTestingDb,
     }),
     UserModule,
     AuthModule,
