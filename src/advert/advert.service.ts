@@ -7,11 +7,14 @@ import { AddPictureToAdvertDto, CreateAdvertDto } from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
 import { Repository } from 'typeorm';
+import { AdvertPics } from 'entities/AdvertPics';
 
 @Injectable()
 export class AdvertService {
   @InjectRepository(Advert)
   private advertRepository: Repository<Advert>;
+  @InjectRepository(AdvertPics)
+  private advertPicsRepository: Repository<AdvertPics>;
 
   async findById(id: number) {
     return await this.advertRepository.findOneBy({ id });

@@ -33,7 +33,20 @@ export class AdvertController {
   @ApiOperation({ tags: ['adverts'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async createAdvert(@Query() dto: CreateAdvertDto, @Request() req) {
-    return { id: await this.filtersService.createAdvert(dto, req.user.id) };
+  async createAdvert(@Query() dto: AdvertDto, @Request() req) {
+    return { id: await this.advertsService.createAdvert(dto, req.user.id) };
+  }
+
+  @Post('addPictureToAdvert')
+  @ApiOperation({ tags: ['adverts'] })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async addPictureToAdvert(
+    @Query() dto: AddPictureToAdvertDto,
+    @Request() req,
+  ) {
+    return {
+      id: await this.advertsService.addPictureToAdvert(dto, req.user.id),
+    };
   }
 }

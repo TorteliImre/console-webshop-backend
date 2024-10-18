@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsNumberString,
+  IsString,
   MaxLength,
 } from 'class-validator';
 import { Advert } from 'entities/Advert';
@@ -54,4 +55,18 @@ export class CreateAdvertDto {
     result.revision = this.revision;
     return result;
   }
+}
+
+export class AddPictureToAdvertDto {
+  @ApiProperty()
+  @IsInt()
+  advertId: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  picture: string;
+
+  @ApiProperty({ nullable: true, required: false })
+  @IsNotEmpty()
+  description: string | null;
 }
