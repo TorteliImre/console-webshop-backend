@@ -160,6 +160,62 @@ class MainTest(unittest.TestCase):
             ).json()
             self.assertEqual(resp, {"id": 1})
 
+        with self.subTest("Get advertisement"):
+            resp = requests.get(
+                BASE_URL + "/advert/1",
+            ).json()
+            self.assertEqual(
+                resp,
+                {
+                    "id": 1,
+                    "isSold": 0,
+                    "title": "Test advertisement",
+                    "description": "This is the description of the test advertisement.",
+                    "locationId": 1171,
+                    "priceHuf": 15000,
+                    "stateId": 4,
+                    "manufacturerId": 3,
+                    "modelId": 16,
+                    "ownerId": 1,
+                    "revision": "",
+                    "viewCount": 0,
+                },
+            )
+
+        with self.subTest("Modify advertisement"):
+            resp = requests.patch(
+                BASE_URL + "/advert/modify",
+                headers={"Authorization": "Bearer " + token2},
+                data={
+                    "id": 1,
+                    "description": "This is the NEW description.",
+                    "priceHuf": 12345,
+                    "ignoreThis": 123,
+                    "ownerId": 6, # Should be ignored
+                },
+            )
+
+            resp = requests.get(
+                BASE_URL + "/advert/1",
+            ).json()
+            self.assertEqual(
+                resp,
+                {
+                    "id": 1,
+                    "title": "Test advertisement",
+                    "ownerId": 1,
+                    "description": "This is the NEW description.",
+                    "locationId": 1171,
+                    "priceHuf": 12345,
+                    "stateId": 4,
+                    "manufacturerId": 3,
+                    "modelId": 16,
+                    "revision": "",
+                    "viewCount": 0,
+                    "isSold": 0,
+                },
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

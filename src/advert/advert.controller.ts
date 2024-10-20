@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Request,
@@ -12,6 +13,7 @@ import {
 import {
   AddPictureToAdvertDto,
   CreateAdvertDto as AdvertDto,
+  ModifyAdvertDto,
 } from './advert.do';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { AdvertService } from './advert.service';
@@ -36,6 +38,14 @@ export class AdvertController {
   @UseGuards(JwtAuthGuard)
   async createAdvert(@Body() dto: AdvertDto, @Request() req) {
     return { id: await this.advertsService.createAdvert(dto, req.user.id) };
+  }
+
+  @Patch('modify')
+  @ApiOperation({ tags: ['adverts'] })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async modifyAdvert(@Body() dto: ModifyAdvertDto, @Request() req) {
+    await this.advertsService.modifyAdvert(dto, req.user.id);
   }
 
   @Post('addPictureToAdvert')

@@ -3,7 +3,11 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AddPictureToAdvertDto, CreateAdvertDto } from './advert.do';
+import {
+  AddPictureToAdvertDto,
+  CreateAdvertDto,
+  ModifyAdvertDto,
+} from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
 import { Repository } from 'typeorm';
@@ -25,6 +29,19 @@ export class AdvertService {
     toInsert.ownerId = userId;
     let result = await this.advertRepository.insert(toInsert);
     return result.identifiers[0].id;
+  }
+
+  async modifyAdvert(dto: ModifyAdvertDto, userId: number) {
+    let found = await this.advertRepository.findOneBy({ id: dto.id });
+    if (found == null) {
+      throw new NotFoundException('No such advertisement id');
+    }
+    if (found.ownerId != userId) {
+      throw new UnauthorizedException(
+        'Cannot modify advertisement of another user',
+      );
+    }
+    await this.advertRepository.update(dto.id, dto);
   }
 
   async addPictureToAdvert(dto: AddPictureToAdvertDto, userId: number) {
