@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Get,
   Param,
@@ -29,11 +30,11 @@ export class AdvertController {
     return found;
   }
 
-  @Post('createAdvert')
+  @Post('create')
   @ApiOperation({ tags: ['adverts'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async createAdvert(@Query() dto: AdvertDto, @Request() req) {
+  async createAdvert(@Body() dto: AdvertDto, @Request() req) {
     return { id: await this.advertsService.createAdvert(dto, req.user.id) };
   }
 
