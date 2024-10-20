@@ -21,8 +21,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: {
-      defaultModelsExpandDepth: 10,
-      defaultModelExpandDepth: 10,
+      defaultModelsExpandDepth: 2,
+      defaultModelExpandDepth: 2,
       defaultModelRendering: 'model',
     },
     // Hack to expand the schemas at the bottom

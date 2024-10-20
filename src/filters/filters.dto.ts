@@ -1,21 +1,63 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsArray, IsNotEmpty, IsObject } from 'class-validator';
 import { Manufacturers } from 'entities/Manufacturers';
 import { ProductStates } from 'entities/ProductStates';
+import { isTypedArray } from 'util/types';
+
+export class ManufacturerDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  name: string;
+}
+
+export class ProductStateDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  name: string;
+}
 
 export class GetFiltersResultDto {
-  manufacturers: Manufacturers[];
-  states: ProductStates[];
+  @ApiProperty({ type: ManufacturerDto, isArray: true })
+  manufacturers: ManufacturerDto[];
+
+  @ApiProperty({ type: ProductStateDto, isArray: true })
+  states: ProductStateDto[];
 }
 
 export class FindLocationsDto {
-  @IsNotEmpty()
   @ApiProperty()
+  @IsNotEmpty()
   query: string;
 }
 
 export class GetModelsForManufacturerDto {
+  @ApiProperty()
   @IsNotEmpty()
+  manufacturerId: number;
+}
+
+export class ModelDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  name: string;
+
   @ApiProperty()
   manufacturerId: number;
+}
+
+export class LocationDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  zip: number;
+
+  @ApiProperty()
+  name: string;
 }

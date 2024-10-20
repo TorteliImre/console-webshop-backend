@@ -5,6 +5,8 @@ import {
   FindLocationsDto,
   GetFiltersResultDto,
   GetModelsForManufacturerDto,
+  LocationDto,
+  ModelDto,
 } from './filters.dto';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { Models } from 'entities/Models';
@@ -22,14 +24,14 @@ export class FiltersController {
 
   @Get('findLocations')
   @ApiOperation({ tags: ['filters'] })
-  @ApiOkResponse({ type: Location, isArray: true })
+  @ApiOkResponse({ type: LocationDto, isArray: true })
   async findLocations(@Query() dto: FindLocationsDto) {
     return await this.filtersService.findLocations(dto.query);
   }
 
   @Get('getModelsForManufacturer')
   @ApiOperation({ tags: ['filters'] })
-  @ApiOkResponse({ type: Models, isArray: true })
+  @ApiOkResponse({ type: ModelDto, isArray: true })
   async getModelsForManufacturer(@Query() dto: GetModelsForManufacturerDto) {
     return await this.filtersService.getModelsForManufacturer(
       dto.manufacturerId,
