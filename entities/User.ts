@@ -22,11 +22,11 @@ export class User {
   @Column('varchar', { name: 'email', length: 100 })
   email: string;
 
-  @Column('varchar', { name: 'bio', nullable: true, length: 1000 })
-  bio: string | null;
+  @Column('varchar', { name: 'bio', default: '', length: 1000 })
+  bio: string;
 
-  @Column('longblob', { name: 'picture', nullable: true })
-  picture: Buffer | null;
+  @Column('longblob', { name: 'picture', default: '' })
+  picture: Buffer;
 
   @Column('text', { name: 'password_hash' })
   passwordHash: string;
@@ -52,7 +52,7 @@ export class User {
     result.name = this.name;
     result.email = this.email;
     result.bio = this.bio;
-    result.picture = this.picture?.toString('base64') || null;
+    result.picture = this.picture.toString('base64');
     return result;
   }
 }

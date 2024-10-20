@@ -40,7 +40,7 @@ export class CreateAdvertDto {
   @IsInt()
   modelId: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ nullable: true })
   revision: string | null;
 
   toEntity(): Advert {
@@ -66,7 +66,6 @@ export class AddPictureToAdvertDto {
   @IsNotEmpty()
   picture: string;
 
-  @ApiProperty({ nullable: true, required: false })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ nullable: true })
   description: string | null;
 }

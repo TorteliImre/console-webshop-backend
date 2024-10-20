@@ -50,13 +50,13 @@ export class Advert {
   @Column('int', { name: 'model_id' })
   modelId: number;
 
-  @Column('varchar', { name: 'revision', nullable: true, length: 100 })
-  revision: string | null;
+  @Column('varchar', { name: 'revision', default: '', length: 100 })
+  revision: string;
 
-  @Column('int', { name: 'view_count' })
+  @Column('int', { name: 'view_count', default: 0 })
   viewCount: number;
 
-  @Column('tinyint', { name: 'is_sold', width: 1 })
+  @Column('tinyint', { name: 'is_sold', width: 1, default: 0 })
   isSold: boolean;
 
   @ManyToOne(() => Location, (location) => location.adverts, {
