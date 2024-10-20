@@ -24,6 +24,9 @@ async function bootstrap() {
       defaultModelExpandDepth: 10,
       defaultModelRendering: 'model',
     },
+    // Hack to expand the schemas at the bottom
+    customJsStr:
+      'const onLoad = window.onload; window.onload = () => {onLoad(); setTimeout(() => {document.querySelectorAll("#swagger-ui section.models button.model-box-control").forEach(btn => btn.click());}, 100)}',
   });
 
   await app.listen(3000);
