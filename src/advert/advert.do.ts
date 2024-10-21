@@ -147,3 +147,20 @@ export class GetAdvertPictureDto {
   @IsString()
   description: string;
 }
+
+export class ModifyAdvertPictureDto {
+  @ApiProperty()
+  @IsInt()
+  @Min(1)
+  id: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNotEmpty()
+  data: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  description: string;
+}

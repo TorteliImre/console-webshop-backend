@@ -14,6 +14,7 @@ import {
   AddPictureToAdvertDto,
   CreateAdvertDto as AdvertDto,
   ModifyAdvertDto,
+  ModifyAdvertPictureDto,
 } from './advert.do';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { AdvertService } from './advert.service';
@@ -62,5 +63,16 @@ export class AdvertController {
   @ApiOperation({ tags: ['adverts'] })
   async getAdvertPicture(@Param('id') id: number) {
     return await this.advertsService.findPictureById(id);
+  }
+
+  @Patch('modifyAdvertPicture')
+  @ApiOperation({ tags: ['adverts'] })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async modifyAdvertPicture(
+    @Body() dto: ModifyAdvertPictureDto,
+    @Request() req,
+  ) {
+    await this.advertsService.modifyAdvertPicure(dto, req.user.id);
   }
 }

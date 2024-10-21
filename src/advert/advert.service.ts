@@ -1,4 +1,6 @@
 import {
+  BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -7,11 +9,13 @@ import {
   AddPictureToAdvertDto,
   CreateAdvertDto,
   ModifyAdvertDto,
+  ModifyAdvertPictureDto,
 } from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
 import { Repository } from 'typeorm';
 import { AdvertPics } from 'entities/AdvertPics';
+import assert from 'assert';
 
 @Injectable()
 export class AdvertService {
@@ -74,4 +78,22 @@ export class AdvertService {
     return found;
   }
 
+  async modifyAdvertPicure(dto: ModifyAdvertPictureDto, userId: number) {
+    const pic = await this.advertPicsRepository.findOneBy({ id: dto.id });
+    if (pic == null) {
+      throw new NotFoundException('No such advertisement picture id');
+    }
+
+    const advert = await this.advertRepository.findOneBy({ id: pic.advertId });
+    assert(advert != null);
+    if (advert.ownerId != userId) {
+      throw new ForbiddenException(
+        'Cannot modify advertisement of another user',
+      );
+    }
+
+    const toUpdate = { ...dto } as any;
+    toUpdate.data = Buffer.from(dto.data, 'base64');
+    this.advertPicsRepository.update(dto.id, toUpdate);
+  }
 }
