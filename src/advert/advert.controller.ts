@@ -52,10 +52,7 @@ export class AdvertController {
   @ApiOperation({ tags: ['adverts'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async addPictureToAdvert(
-    @Query() dto: AddPictureToAdvertDto,
-    @Request() req,
-  ) {
+  async addPictureToAdvert(@Body() dto: AddPictureToAdvertDto, @Request() req) {
     return {
       id: await this.advertsService.addPictureToAdvert(dto, req.user.id),
     };

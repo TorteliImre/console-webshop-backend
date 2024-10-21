@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# pylint: disable=missing-timeout,line-too-long,missing-final-newline,missing-module-docstring,missing-function-docstring,invalid-name
+# pylint: disable=missing-timeout,line-too-long,missing-final-newline,missing-module-docstring,missing-function-docstring,missing-class-docstring,invalid-name
 
 import unittest
 import requests
@@ -216,6 +216,17 @@ class MainTest(unittest.TestCase):
                 },
             )
 
+        with self.subTest("Add picture to advertisement"):
+            resp = requests.post(
+                BASE_URL + "/advert/addPictureToAdvert",
+                headers={"Authorization": "Bearer " + token1},
+                data={
+                    "advertId": 1,
+                    "picture": "test picture",
+                    "description": "This is the description of the picture.",
+                },
+            ).json()
+            self.assertEqual(resp, {"id": 1})
 
 if __name__ == "__main__":
     unittest.main()
