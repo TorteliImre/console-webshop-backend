@@ -191,7 +191,7 @@ class MainTest(unittest.TestCase):
                     "description": "This is the NEW description.",
                     "priceHuf": 12345,
                     "ignoreThis": 123,
-                    "ownerId": 6, # Should be ignored
+                    "ownerId": 6,  # Should be ignored
                 },
             )
 
@@ -222,11 +222,24 @@ class MainTest(unittest.TestCase):
                 headers={"Authorization": "Bearer " + token1},
                 data={
                     "advertId": 1,
-                    "picture": "test picture",
+                    "data": "test picture",
                     "description": "This is the description of the picture.",
                 },
             ).json()
             self.assertEqual(resp, {"id": 1})
+
+        with self.subTest("Getting advert picture"):
+            resp = requests.get(
+                BASE_URL + "/advert/pictures/1",
+            ).json()
+            self.assertEqual(
+                resp,
+                {
+                    "advertId": 1,
+                    "data": "test picture",
+                    "description": "This is the description of the picture.",
+                },
+            )
 
 if __name__ == "__main__":
     unittest.main()

@@ -57,4 +57,10 @@ export class AdvertController {
       id: await this.advertsService.addPictureToAdvert(dto, req.user.id),
     };
   }
+
+  @Get('/pictures/:id')
+  @ApiOperation({ tags: ['adverts'] })
+  async getAdvertPicture(@Param('id') id: number) {
+    return await this.advertsService.findPictureById(id);
+  }
 }

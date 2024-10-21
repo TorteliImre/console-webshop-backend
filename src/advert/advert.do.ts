@@ -128,8 +128,22 @@ export class AddPictureToAdvertDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  picture: string;
+  data: string;
 
   @ApiPropertyOptional({ nullable: true })
   description: string | null;
+}
+
+export class GetAdvertPictureDto {
+  @ApiProperty()
+  @IsInt()
+  advertId: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  data: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  description: string;
 }

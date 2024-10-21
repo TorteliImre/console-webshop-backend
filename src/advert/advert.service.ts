@@ -62,9 +62,16 @@ export class AdvertService {
 
     const toInsert = new AdvertPics();
     toInsert.advertId = dto.advertId;
-    toInsert.data = Buffer.from(dto.picture, 'base64');
+    toInsert.data = Buffer.from(dto.data, 'base64');
     toInsert.description = dto.description;
     const result = await this.advertPicsRepository.insert(toInsert);
     return result.identifiers[0].id;
   }
+
+  async findPictureById(id: number) {
+    const found = await this.advertPicsRepository.findOneBy({ id });
+    if (!found) throw new BadRequestException('No such advert picture');
+    return found;
+  }
+
 }
