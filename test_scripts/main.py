@@ -185,7 +185,7 @@ class MainTest(unittest.TestCase):
         with self.subTest("Modify advertisement"):
             resp = requests.patch(
                 BASE_URL + "/advert/modify",
-                headers={"Authorization": "Bearer " + token2},
+                headers={"Authorization": "Bearer " + token1},
                 data={
                     "id": 1,
                     "description": "This is the NEW description.",
