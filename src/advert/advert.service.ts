@@ -75,7 +75,10 @@ export class AdvertService {
   async findPictureById(id: number) {
     const found = await this.advertPicsRepository.findOneBy({ id });
     if (!found) throw new BadRequestException('No such advert picture');
-    return found;
+
+    const toReturn = { ...found } as any;
+    toReturn.data = found.data.toString('base64');
+    return toReturn;
   }
 
   async modifyAdvertPicure(dto: ModifyAdvertPictureDto, userId: number) {

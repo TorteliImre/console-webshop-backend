@@ -222,7 +222,7 @@ class MainTest(unittest.TestCase):
                 headers={"Authorization": "Bearer " + token1},
                 data={
                     "advertId": 1,
-                    "data": "test picture",
+                    "data": "dGVzdCBwaWN0dXJl",
                     "description": "This is the description of the picture.",
                 },
             ).json()
@@ -235,9 +235,11 @@ class MainTest(unittest.TestCase):
             self.assertEqual(
                 resp,
                 {
+                    "id": 1,
                     "advertId": 1,
-                    "data": "test picture",
+                    "data": "dGVzdCBwaWN0dXJl",
                     "description": "This is the description of the picture.",
+                    "isPriority": 0
                 },
             )
 
