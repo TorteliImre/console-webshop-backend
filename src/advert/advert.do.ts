@@ -130,8 +130,10 @@ export class AddPictureToAdvertDto {
   @IsNotEmpty()
   data: string;
 
-  @ApiPropertyOptional({ nullable: true })
-  description: string | null;
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  description: string;
 }
 
 export class GetAdvertPictureDto {
