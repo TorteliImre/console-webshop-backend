@@ -23,7 +23,7 @@ export class AdvertPics {
   @Column('int', { name: 'advert_id' })
   advertId: number;
 
-  @Column('tinyint', { name: 'is_priority', width: 1 })
+  @Column('tinyint', { name: 'is_priority', width: 1, default: 0 })
   isPriority: boolean;
 
   @ManyToOne(() => Advert, (advert) => advert.advertPics, {
