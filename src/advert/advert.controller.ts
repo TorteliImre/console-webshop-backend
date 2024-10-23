@@ -20,7 +20,7 @@ import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { AdvertService } from './advert.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@Controller('advert')
+@Controller('adverts')
 export class AdvertController {
   constructor(private readonly advertsService: AdvertService) {}
 
@@ -33,7 +33,7 @@ export class AdvertController {
     return found;
   }
 
-  @Post('create')
+  @Post()
   @ApiOperation({ tags: ['adverts'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -41,7 +41,7 @@ export class AdvertController {
     return { id: await this.advertsService.createAdvert(dto, req.user.id) };
   }
 
-  @Patch('modify')
+  @Patch()
   @ApiOperation({ tags: ['adverts'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -50,13 +50,13 @@ export class AdvertController {
   }
 
   @Get('/pictures/:id')
-  @ApiOperation({ tags: ['adverts'] })
+  @ApiOperation({ tags: ['advert pictures'] })
   async getAdvertPicture(@Param('id') id: number) {
     return await this.advertsService.findPictureById(id);
   }
 
-  @Post('pictures/create')
-  @ApiOperation({ tags: ['adverts'] })
+  @Post('pictures')
+  @ApiOperation({ tags: ['advert pictures'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addPictureToAdvert(@Body() dto: AddPictureToAdvertDto, @Request() req) {
@@ -65,8 +65,8 @@ export class AdvertController {
     };
   }
 
-  @Patch('/pictures/modify')
-  @ApiOperation({ tags: ['adverts'] })
+  @Patch('/pictures')
+  @ApiOperation({ tags: ['advert pictures'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyAdvertPicture(

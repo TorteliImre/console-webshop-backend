@@ -146,7 +146,7 @@ class MainTest(unittest.TestCase):
 
         with self.subTest("Create advertisement"):
             resp = requests.post(
-                BASE_URL + "/advert/create",
+                BASE_URL + "/adverts",
                 headers={"Authorization": "Bearer " + token1},
                 data={
                     "title": "Test advertisement",
@@ -162,7 +162,7 @@ class MainTest(unittest.TestCase):
 
         with self.subTest("Get advertisement"):
             resp = requests.get(
-                BASE_URL + "/advert/1",
+                BASE_URL + "/adverts/1",
             ).json()
             self.assertEqual(
                 resp,
@@ -184,7 +184,7 @@ class MainTest(unittest.TestCase):
 
         with self.subTest("Modify advertisement"):
             resp = requests.patch(
-                BASE_URL + "/advert/modify",
+                BASE_URL + "/adverts",
                 headers={"Authorization": "Bearer " + token1},
                 data={
                     "id": 1,
@@ -196,7 +196,7 @@ class MainTest(unittest.TestCase):
             )
 
             resp = requests.get(
-                BASE_URL + "/advert/1",
+                BASE_URL + "/adverts/1",
             ).json()
             self.assertEqual(
                 resp,
@@ -218,7 +218,7 @@ class MainTest(unittest.TestCase):
 
         with self.subTest("Add picture to advertisement"):
             resp = requests.post(
-                BASE_URL + "/advert/pictures/create",
+                BASE_URL + "/adverts/pictures",
                 headers={"Authorization": "Bearer " + token1},
                 data={
                     "advertId": 1,
@@ -230,7 +230,7 @@ class MainTest(unittest.TestCase):
 
         with self.subTest("Getting advert picture"):
             resp = requests.get(
-                BASE_URL + "/advert/pictures/1",
+                BASE_URL + "/adverts/pictures/1",
             ).json()
             self.assertEqual(
                 resp,
