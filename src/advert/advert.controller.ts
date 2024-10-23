@@ -49,7 +49,7 @@ export class AdvertController {
     await this.advertsService.modifyAdvert(dto, req.user.id);
   }
 
-  @Post('addPictureToAdvert')
+  @Post('pictures/create')
   @ApiOperation({ tags: ['adverts'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -65,7 +65,7 @@ export class AdvertController {
     return await this.advertsService.findPictureById(id);
   }
 
-  @Patch('modifyAdvertPicture')
+  @Patch('/pictures/modify')
   @ApiOperation({ tags: ['adverts'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)

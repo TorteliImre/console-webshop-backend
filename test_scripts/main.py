@@ -218,7 +218,7 @@ class MainTest(unittest.TestCase):
 
         with self.subTest("Add picture to advertisement"):
             resp = requests.post(
-                BASE_URL + "/advert/addPictureToAdvert",
+                BASE_URL + "/advert/pictures/create",
                 headers={"Authorization": "Bearer " + token1},
                 data={
                     "advertId": 1,
