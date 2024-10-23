@@ -8,12 +8,14 @@ import {
 import {
   AddPictureToAdvertDto,
   CreateAdvertDto,
+  FindAdvertsDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
+  priceHufMax,
 } from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
-import { Repository } from 'typeorm';
+import { Between, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { AdvertPics } from 'entities/AdvertPics';
 import assert from 'assert';
 
@@ -46,6 +48,20 @@ export class AdvertService {
       );
     }
     await this.advertRepository.update(dto.id, dto);
+  }
+
+  async findAdverts(dto: FindAdvertsDto) {
+    let where = { ...dto } as FindOptionsWhere<Advert>;
+    where.priceHuf =
+      dto.priceHufMin || dto.priceHufMax
+        ? Between(dto.priceHufMin ?? 0, dto.priceHufMax ?? priceHufMax)
+        : undefined;
+    (where as any).priceHufMin = undefined;
+    (where as any).priceHufMax = undefined;
+    where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
+    where.revision = dto.revision ? ILike(`%${dto.revision}%`) : undefined;
+    const found = await this.advertRepository.findBy(where);
+    return found;
   }
 
   async addPictureToAdvert(dto: AddPictureToAdvertDto, userId: number) {

@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsIn,
   IsInt,
   IsNotEmpty,
   IsNumber,
@@ -11,6 +12,8 @@ import {
   Min,
 } from 'class-validator';
 import { Advert } from 'entities/Advert';
+
+export const priceHufMax = 10000000;
 
 export class CreateAdvertDto {
   @ApiProperty()
@@ -30,7 +33,7 @@ export class CreateAdvertDto {
   @ApiProperty()
   @IsInt()
   @Min(1)
-  @Max(10000000)
+  @Max(priceHufMax)
   priceHuf: number;
 
   @ApiProperty()
@@ -94,7 +97,7 @@ export class ModifyAdvertDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  @Max(10000000)
+  @Max(priceHufMax)
   priceHuf: number;
 
   @ApiPropertyOptional()
@@ -119,6 +122,62 @@ export class ModifyAdvertDto {
   @IsOptional()
   @IsString()
   revision: string;
+}
+
+export class FindAdvertsDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  title: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  ownerId: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  manufacturerId: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  modelId: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  revision: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  stateId: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  locationId: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(priceHufMax)
+  priceHufMin: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(priceHufMax)
+  priceHufMax: number;
 }
 
 export class AddPictureToAdvertDto {

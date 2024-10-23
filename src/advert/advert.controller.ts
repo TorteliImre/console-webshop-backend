@@ -13,6 +13,7 @@ import {
 import {
   AddPictureToAdvertDto,
   CreateAdvertDto as AdvertDto,
+  FindAdvertsDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
 } from './advert.do';
@@ -47,6 +48,12 @@ export class AdvertController {
   @UseGuards(JwtAuthGuard)
   async modifyAdvert(@Body() dto: ModifyAdvertDto, @Request() req) {
     await this.advertsService.modifyAdvert(dto, req.user.id);
+  }
+
+  @Get()
+  @ApiOperation({ tags: ['adverts'] })
+  async findAdverts(@Query() dto: FindAdvertsDto) {
+    return await this.advertsService.findAdverts(dto);
   }
 
   @Get('/pictures/:id')
