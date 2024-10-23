@@ -49,6 +49,12 @@ export class AdvertController {
     await this.advertsService.modifyAdvert(dto, req.user.id);
   }
 
+  @Get('/pictures/:id')
+  @ApiOperation({ tags: ['adverts'] })
+  async getAdvertPicture(@Param('id') id: number) {
+    return await this.advertsService.findPictureById(id);
+  }
+
   @Post('pictures/create')
   @ApiOperation({ tags: ['adverts'] })
   @ApiBearerAuth()
@@ -57,12 +63,6 @@ export class AdvertController {
     return {
       id: await this.advertsService.addPictureToAdvert(dto, req.user.id),
     };
-  }
-
-  @Get('/pictures/:id')
-  @ApiOperation({ tags: ['adverts'] })
-  async getAdvertPicture(@Param('id') id: number) {
-    return await this.advertsService.findPictureById(id);
   }
 
   @Patch('/pictures/modify')
