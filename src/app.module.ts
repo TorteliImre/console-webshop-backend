@@ -11,6 +11,7 @@ import { FiltersService } from './filters/filters.service';
 import { AdvertModule } from './advert/advert.module';
 import { AppLoggerMiddleware } from './logger/logger';
 import { DataSourceModule } from './datasource/datasource.module';
+import { BookmarkModule } from './bookmark/bookmark.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DataSourceModule } from './datasource/datasource.module';
     AuthModule,
     FiltersModule,
     AdvertModule,
+    BookmarkModule,
   ],
   controllers: [AppController],
   providers: [AppService],
