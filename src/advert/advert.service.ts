@@ -3,7 +3,6 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import {
   AddPictureToAdvertDto,
@@ -43,7 +42,7 @@ export class AdvertService {
       throw new NotFoundException('No such advertisement id');
     }
     if (found.ownerId != userId) {
-      throw new UnauthorizedException(
+      throw new ForbiddenException(
         'Cannot modify advertisement of another user',
       );
     }
@@ -75,7 +74,7 @@ export class AdvertService {
       throw new NotFoundException('No such advertisement');
     }
     if (advertOwner != userId) {
-      throw new UnauthorizedException(
+      throw new ForbiddenException(
         'Cannot modify advertisement of another user',
       );
     }
