@@ -26,7 +26,10 @@ export class AdvertController {
   constructor(private readonly advertsService: AdvertService) {}
 
   @Get(':id')
-  @ApiOperation({ tags: ['adverts'] })
+  @ApiOperation({
+    summary: 'Get details of a specific advertisement',
+    tags: ['adverts'],
+  })
   @ApiOkResponse({ type: AdvertDto })
   async getAdvert(@Param('id') id: number) {
     const found = await this.advertsService.findById(id);
@@ -35,7 +38,7 @@ export class AdvertController {
   }
 
   @Post()
-  @ApiOperation({ tags: ['adverts'] })
+  @ApiOperation({ summary: 'Create a new advertisement', tags: ['adverts'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async createAdvert(@Body() dto: AdvertDto, @Request() req) {
@@ -43,7 +46,10 @@ export class AdvertController {
   }
 
   @Patch()
-  @ApiOperation({ tags: ['adverts'] })
+  @ApiOperation({
+    summary: 'Modify an existing advertisemenet',
+    tags: ['adverts'],
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyAdvert(@Body() dto: ModifyAdvertDto, @Request() req) {
@@ -51,19 +57,28 @@ export class AdvertController {
   }
 
   @Get()
-  @ApiOperation({ tags: ['adverts'] })
+  @ApiOperation({
+    summary: 'Find advertisements with filters',
+    tags: ['adverts'],
+  })
   async findAdverts(@Query() dto: FindAdvertsDto) {
     return await this.advertsService.findAdverts(dto);
   }
 
   @Get('/pictures/:id')
-  @ApiOperation({ tags: ['advert pictures'] })
+  @ApiOperation({
+    summary: 'Get pictures of an advertisement',
+    tags: ['advert pictures'],
+  })
   async getAdvertPicture(@Param('id') id: number) {
     return await this.advertsService.findPictureById(id);
   }
 
   @Post('pictures')
-  @ApiOperation({ tags: ['advert pictures'] })
+  @ApiOperation({
+    summary: 'Add a new picture to an advertisement',
+    tags: ['advert pictures'],
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addPictureToAdvert(@Body() dto: AddPictureToAdvertDto, @Request() req) {
@@ -73,7 +88,10 @@ export class AdvertController {
   }
 
   @Patch('/pictures')
-  @ApiOperation({ tags: ['advert pictures'] })
+  @ApiOperation({
+    summary: 'Modify an existing advertisement picture',
+    tags: ['advert pictures'],
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyAdvertPicture(

@@ -17,7 +17,10 @@ export class BookmarkController {
   constructor(private readonly bookmarkService: BookmarkService) {}
 
   @Get()
-  @ApiOperation({ tags: ['bookmarks'] })
+  @ApiOperation({
+    summary: 'Get bookmarks of logged in user',
+    tags: ['bookmarks'],
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async getOwnBookmarks(@Request() req) {
@@ -25,7 +28,7 @@ export class BookmarkController {
   }
 
   @Post()
-  @ApiOperation({ tags: ['bookmarks'] })
+  @ApiOperation({ summary: 'Create a new bookmark', tags: ['bookmarks'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addBookmark(@Body() dto: AddBookmarkDto, @Request() req) {
@@ -33,7 +36,7 @@ export class BookmarkController {
   }
 
   @Delete()
-  @ApiOperation({ tags: ['bookmarks'] })
+  @ApiOperation({ summary: 'Delete a bookmark', tags: ['bookmarks'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async removeBookmark(@Body() dto: RemoveBookmarkDto, @Request() req) {

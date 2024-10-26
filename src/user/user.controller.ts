@@ -26,20 +26,26 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get(':id')
-  @ApiOperation({ tags: ['users'] })
+  @ApiOperation({
+    summary: 'Get details of a specific user',
+    tags: ['users'],
+  })
   @ApiOkResponse({ type: GetUserDto })
   async getUser(@Param('id') id: number) {
     return await this.userService.findById(id);
   }
 
   @Post('create')
-  @ApiOperation({ tags: ['users'] })
+  @ApiOperation({ summary: 'Register a new user account', tags: ['users'] })
   async createUser(@Body() dto: CreateUserDto) {
     return { id: await this.userService.create(dto) };
   }
 
   @Post('setBio')
-  @ApiOperation({ tags: ['users'] })
+  @ApiOperation({
+    summary: "Set the logged in account's bio",
+    tags: ['users'],
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async setUserBio(@Body() dto: SetUserBioDto, @Request() req) {
@@ -47,7 +53,10 @@ export class UserController {
   }
 
   @Post('setPicture')
-  @ApiOperation({ tags: ['users'] })
+  @ApiOperation({
+    summary: "Set the logged in account' picture",
+    tags: ['users'],
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async setUserPicture(@Body() dto: SetUserPicDto, @Request() req) {
@@ -55,7 +64,10 @@ export class UserController {
   }
 
   @Post('setPassword')
-  @ApiOperation({ tags: ['users'] })
+  @ApiOperation({
+    summary: "Set the logged in account's password",
+    tags: ['users'],
+  })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async setUserPassword(@Body() dto: SetUserPassDto, @Request() req) {
