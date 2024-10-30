@@ -202,7 +202,6 @@ class TestAdvert(LoggedInTestBase):
                 "locationId": 1171,
                 "priceHuf": 15000,
                 "stateId": 4,
-                "manufacturerId": 3,
                 "modelId": 16,
             },
         ).json()
@@ -225,7 +224,6 @@ class TestAdvert(LoggedInTestBase):
             "locationId": 1171,
             "priceHuf": 15000,
             "stateId": 4,
-            "manufacturerId": 3,
             "modelId": 16,
             "ownerId": 1,
             "revision": "",
@@ -262,7 +260,6 @@ class TestAdvert(LoggedInTestBase):
             "locationId": 1171,
             "priceHuf": 12345,
             "stateId": 4,
-            "manufacturerId": 3,
             "modelId": 16,
             "revision": "",
             "viewCount": 0,

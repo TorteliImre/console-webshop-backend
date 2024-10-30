@@ -8,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Location } from './Location';
-import { Manufacturers } from './Manufacturers';
 import { Models } from './Models';
 import { ProductStates } from './ProductStates';
 import { User } from './User';
@@ -18,7 +17,6 @@ import { Comments } from './Comments';
 import { CartItem } from './CartItem';
 
 @Index('advert_location_FK', ['locationId'], {})
-@Index('advert_manufacturers_FK', ['manufacturerId'], {})
 @Index('advert_models_FK', ['modelId'], {})
 @Index('advert_product_states_FK', ['stateId'], {})
 @Index('advert_user_FK', ['ownerId'], {})
@@ -45,9 +43,6 @@ export class Advert {
   @Column('int', { name: 'state_id' })
   stateId: number;
 
-  @Column('int', { name: 'manufacturer_id' })
-  manufacturerId: number;
-
   @Column('int', { name: 'model_id' })
   modelId: number;
 
@@ -66,13 +61,6 @@ export class Advert {
   })
   @JoinColumn([{ name: 'location_id', referencedColumnName: 'id' }])
   locationId2: Location;
-
-  @ManyToOne(() => Manufacturers, (manufacturers) => manufacturers.adverts, {
-    onDelete: 'RESTRICT',
-    onUpdate: 'RESTRICT',
-  })
-  @JoinColumn([{ name: 'manufacturer_id', referencedColumnName: 'id' }])
-  manufacturer: Manufacturers;
 
   @ManyToOne(() => Models, (models) => models.adverts, {
     onDelete: 'RESTRICT',

@@ -44,11 +44,6 @@ export class CreateAdvertDto {
   @ApiProperty()
   @IsInt()
   @Min(1)
-  manufacturerId: number;
-
-  @ApiProperty()
-  @IsInt()
-  @Min(1)
   modelId: number;
 
   @ApiPropertyOptional()
@@ -63,7 +58,6 @@ export class CreateAdvertDto {
     result.locationId = this.locationId;
     result.priceHuf = this.priceHuf;
     result.stateId = this.stateId;
-    result.manufacturerId = this.manufacturerId;
     result.modelId = this.modelId;
     result.revision = this.revision ?? '';
     return result;
@@ -110,12 +104,6 @@ export class ModifyAdvertDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  manufacturerId: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  @Min(1)
   modelId: number;
 
   @ApiPropertyOptional()
@@ -135,12 +123,6 @@ export class FindAdvertsDto {
   @IsInt()
   @Min(1)
   ownerId: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  manufacturerId: number;
 
   @ApiPropertyOptional()
   @IsOptional()
