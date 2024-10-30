@@ -6,16 +6,16 @@ import { readFileSync } from 'fs';
 */
 export class SeedStatic1729359464030 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (this.isTableEmpty(queryRunner, 'location')) {
+    if (await this.isTableEmpty(queryRunner, 'location')) {
       await this.importLocations(queryRunner);
     }
-    if (this.isTableEmpty(queryRunner, 'product_states')) {
+    if (await this.isTableEmpty(queryRunner, 'product_states')) {
       await this.importStates(queryRunner);
     }
-    if (this.isTableEmpty(queryRunner, 'manufacturers')) {
+    if (await this.isTableEmpty(queryRunner, 'manufacturers')) {
       await this.importManufacturers(queryRunner);
     }
-    if (this.isTableEmpty(queryRunner, 'models')) {
+    if (await this.isTableEmpty(queryRunner, 'models')) {
       await this.importModels(queryRunner);
     }
   }
