@@ -40,6 +40,12 @@ export class GetModelsForManufacturerDto {
   manufacturerId: number;
 }
 
+export class GetManufacturerForModelDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  modelId: number;
+}
+
 export class ModelDto {
   @ApiProperty()
   id: number;

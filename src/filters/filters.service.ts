@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { GetFiltersResultDto } from './filters.dto';
 import { ILike, Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { Location } from 'entities/Location';
 import { Manufacturers } from 'entities/Manufacturers';
 import { ProductStates } from 'entities/ProductStates';
 import { Models } from 'entities/Models';
+import { assert } from 'console';
 
 @Injectable()
 export class FiltersService {
@@ -43,5 +44,17 @@ export class FiltersService {
     return this.modelsRepository.find({
       where: { manufacturerId: manufacturerId },
     });
+  }
+
+  async getManufacturerOfModel(modelId: number): Promise<Manufacturers> {
+    const found = await this.modelsRepository.findOne({
+      where: { id: modelId },
+      relations: { manufacturer: true },
+    });
+    if (found == null) {
+      throw new NotFoundException('No such model id');
+    }
+    assert(found.manufacturer);
+    return found.manufacturer;
   }
 }

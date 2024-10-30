@@ -4,8 +4,10 @@ import { Location } from 'entities/Location';
 import {
   FindLocationsDto,
   GetFiltersResultDto,
+  GetManufacturerForModelDto,
   GetModelsForManufacturerDto,
   LocationDto,
+  ManufacturerDto,
   ModelDto,
 } from './filters.dto';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
@@ -45,5 +47,15 @@ export class FiltersController {
     return await this.filtersService.getModelsForManufacturer(
       dto.manufacturerId,
     );
+  }
+
+  @Get('manufacturerOfModel')
+  @ApiOperation({
+    summary: 'Get which manufacturer produces a model',
+    tags: ['filters'],
+  })
+  @ApiOkResponse({ type: ManufacturerDto })
+  async getManufacturerOfModel(@Query() dto: GetManufacturerForModelDto) {
+    return await this.filtersService.getManufacturerOfModel(dto.modelId);
   }
 }
