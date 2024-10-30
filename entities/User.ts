@@ -9,6 +9,7 @@ import { Advert } from './Advert';
 import { Bookmarks } from './Bookmarks';
 import { Comments } from './Comments';
 import { GetUserDto } from 'src/user/user.dto';
+import { CartItem } from './CartItem';
 
 @Index('user_name_unique', ['name'], { unique: true })
 @Entity('user', { schema: 'console-webshop' })
@@ -39,6 +40,9 @@ export class User {
 
   @OneToMany(() => Comments, (comments) => comments.user)
   comments: Comments[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.user)
+  cartItems: Bookmarks[];
 
   constructor(name: string, email: string, passwordHash: string) {
     this.name = name;

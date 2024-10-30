@@ -10,6 +10,7 @@ import { ProductStates } from 'entities/ProductStates';
 import { AdvertPics } from 'entities/AdvertPics';
 import { Bookmarks } from 'entities/Bookmarks';
 import { Comments } from 'entities/Comments';
+import { CartItem } from 'entities/CartItem';
 import { SeedStatic1729359464030 } from 'migration/1729359464030-SeedStatic';
 
 const isTestingDb = true;
@@ -42,6 +43,7 @@ const isTestingDb = true;
               AdvertPics,
               Bookmarks,
               Comments,
+              CartItem,
             ],
             synchronize: true,
             logging: true,

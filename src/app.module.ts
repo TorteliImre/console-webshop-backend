@@ -12,6 +12,7 @@ import { AdvertModule } from './advert/advert.module';
 import { AppLoggerMiddleware } from './logger/logger';
 import { DataSourceModule } from './datasource/datasource.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { BookmarkModule } from './bookmark/bookmark.module';
     FiltersModule,
     AdvertModule,
     BookmarkModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],

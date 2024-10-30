@@ -15,6 +15,7 @@ import { User } from './User';
 import { AdvertPics } from './AdvertPics';
 import { Bookmarks } from './Bookmarks';
 import { Comments } from './Comments';
+import { CartItem } from './CartItem';
 
 @Index('advert_location_FK', ['locationId'], {})
 @Index('advert_manufacturers_FK', ['manufacturerId'], {})
@@ -102,4 +103,7 @@ export class Advert {
 
   @OneToMany(() => Comments, (comments) => comments.advert)
   comments: Comments[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.advert)
+  cartItems: Bookmarks[];
 }
