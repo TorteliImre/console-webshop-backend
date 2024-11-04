@@ -87,12 +87,14 @@ export class AdvertService {
     return result.identifiers[0].id;
   }
 
-  async findPictureById(id: number) {
-    const found = await this.advertPicsRepository.findOneBy({ id });
-    if (!found) throw new BadRequestException('No such advert picture');
-
-    const toReturn = { ...found } as any;
-    toReturn.data = found.data.toString('base64');
+  async findPicturesOfAdvert(id: number) {
+    const found = (await this.advertPicsRepository.findBy({ advertId: id }));
+    let toReturn = [];
+    for (let original of found) {
+      let transformed = { ...original } as any;
+      transformed.data = original.data.toString("base64");
+      toReturn.push(transformed);
+    }
     return toReturn;
   }
 

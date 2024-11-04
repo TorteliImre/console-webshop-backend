@@ -65,13 +65,13 @@ export class AdvertController {
     return await this.advertsService.findAdverts(dto);
   }
 
-  @Get('/pictures/:id')
+  @Get(':id/pictures/')
   @ApiOperation({
     summary: 'Get pictures of an advertisement',
     tags: ['advert pictures'],
   })
-  async getAdvertPicture(@Param('id') id: number) {
-    return await this.advertsService.findPictureById(id);
+  async findPicturesOfAdvert(@Param('id') id: number) {
+    return await this.advertsService.findPicturesOfAdvert(id);
   }
 
   @Post('pictures')
