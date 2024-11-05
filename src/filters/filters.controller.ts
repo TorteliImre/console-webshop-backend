@@ -15,9 +15,9 @@ import { Models } from 'entities/Models';
 
 @Controller('filters')
 export class FiltersController {
-  constructor(private readonly filtersService: FiltersService) {}
+  constructor(private readonly filtersService: FiltersService) { }
 
-  @Get('getBasicFilters')
+  @Get('basic')
   @ApiOperation({
     summary: 'Get list of manufacturers and product states',
     tags: ['filters'],
@@ -27,7 +27,7 @@ export class FiltersController {
     return await this.filtersService.getBasicFilters();
   }
 
-  @Get('findLocations')
+  @Get('locations')
   @ApiOperation({
     summary: 'Find locations by name and ZIP code',
     tags: ['filters'],
@@ -37,7 +37,7 @@ export class FiltersController {
     return await this.filtersService.findLocations(dto.query);
   }
 
-  @Get('getModelsForManufacturer')
+  @Get('modelsForManufacturer')
   @ApiOperation({
     summary: 'Get models produced by a manufacturer',
     tags: ['filters'],
