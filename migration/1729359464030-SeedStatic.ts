@@ -35,7 +35,7 @@ export class SeedStatic1729359464030 implements MigrationInterface {
       .toString()
       .split('\n')
       .filter((e) => e.length > 1)
-      .map((e) => e.split(';'));
+      .map((e) => e.trimEnd().split(';'));
     return data;
   }
 
