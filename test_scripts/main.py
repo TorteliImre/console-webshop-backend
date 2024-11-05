@@ -289,14 +289,16 @@ class TestAdvert(LoggedInTestBase):
             "TestAdvert::test_add_picture",
         ]
     )
-    def test_get_picture(self):
+    def test_get_pictures(self):
         resp = requests.get(
-            BASE_URL + "/adverts/pictures/1",
+            BASE_URL + "/adverts/1/pictures",
         ).json()
-        assert resp == {
-            "id": 1,
-            "advertId": 1,
-            "data": "dGVzdCBwaWN0dXJl",
-            "description": "This is the description of the picture.",
-            "isPriority": 0,
-        }
+        assert resp == [
+            {
+                "id": 1,
+                "data": "dGVzdCBwaWN0dXJl",
+                "description": "This is the description of the picture.",
+                "advertId": 1,
+                "isPriority": 0,
+            }
+        ]
