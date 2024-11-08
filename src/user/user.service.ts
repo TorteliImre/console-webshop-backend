@@ -9,6 +9,7 @@ import {
   SetUserPicDto,
 } from './user.dto';
 import * as bcrypt from 'bcrypt';
+import sharp from 'sharp';
 
 @Injectable()
 export class UserService {
@@ -39,9 +40,20 @@ export class UserService {
   }
 
   async setUserPicture(picture: string, id: number): Promise<void> {
-    await this.userRepository.update(id, {
-      picture: Buffer.from(picture, 'base64'),
-    });
+    let decoded = Buffer.from(picture, 'base64');
+
+    // Check and resize image
+    try {
+      let img = sharp(decoded);
+      await img.stats();
+      decoded = await img
+        .resize({ fit: 'cover', width: 256, height: 256 })
+        .toBuffer();
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
+
+    await this.userRepository.update(id, { picture: decoded });
   }
 
   async setUserPassword(password: string, id: number): Promise<void> {
