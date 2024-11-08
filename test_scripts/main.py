@@ -164,17 +164,17 @@ class TestUser(LoggedInTestBase):
     )
     def test_set_picture(self):
         resp = requests.post(
-            BASE_URL + "/user/setBio",
+            BASE_URL + "/user/setPicture",
             headers={"Authorization": "Bearer " + self.token1},
-            data={"bio": "This is the bio of user1."},
+            data={"picture": open("data/picture.txt", "r").read()},
         ).content
         resp = requests.get(BASE_URL + "/user/1").json()
         assert resp == {
             "id": 1,
             "name": "user1",
             "email": "user1@mail.com",
-            "bio": "This is the bio of user1.",
-            "picture": "",
+            "bio": "",
+            "picture": open("data/picture-resized.txt", "r").read(),
         }
         resp = requests.get(BASE_URL + "/user/2").json()
         assert resp == {
