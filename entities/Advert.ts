@@ -60,7 +60,7 @@ export class Advert {
     onUpdate: 'RESTRICT',
   })
   @JoinColumn([{ name: 'location_id', referencedColumnName: 'id' }])
-  locationId2: Location;
+  location: Location;
 
   @ManyToOne(() => Models, (models) => models.adverts, {
     onDelete: 'RESTRICT',
