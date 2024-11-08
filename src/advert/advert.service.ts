@@ -17,6 +17,7 @@ import { Advert } from 'entities/Advert';
 import { Between, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { AdvertPics } from 'entities/AdvertPics';
 import assert from 'assert';
+import sharp from 'sharp';
 
 @Injectable()
 export class AdvertService {
@@ -83,16 +84,33 @@ export class AdvertService {
     toInsert.advertId = dto.advertId;
     toInsert.data = Buffer.from(dto.data, 'base64');
     toInsert.description = dto.description;
+
+    // Check and resize image
+    try {
+      let img = sharp(toInsert.data);
+      await img.stats();
+      toInsert.data = await img
+        .resize({
+          width: 1920,
+          height: 1080,
+          fit: 'inside',
+          withoutEnlargement: false,
+        })
+        .toBuffer();
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
+
     const result = await this.advertPicsRepository.insert(toInsert);
     return result.identifiers[0].id;
   }
 
   async findPicturesOfAdvert(id: number) {
-    const found = (await this.advertPicsRepository.findBy({ advertId: id }));
+    const found = await this.advertPicsRepository.findBy({ advertId: id });
     let toReturn = [];
     for (let original of found) {
       let transformed = { ...original } as any;
-      transformed.data = original.data.toString("base64");
+      transformed.data = original.data.toString('base64');
       toReturn.push(transformed);
     }
     return toReturn;

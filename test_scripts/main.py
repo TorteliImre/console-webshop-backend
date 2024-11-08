@@ -278,7 +278,7 @@ class TestAdvert(LoggedInTestBase):
             headers={"Authorization": "Bearer " + self.token1},
             data={
                 "advertId": 1,
-                "data": "dGVzdCBwaWN0dXJl",
+                "data": open("data/picture.txt", "r").read(),
                 "description": "This is the description of the picture.",
             },
         ).json()
@@ -296,7 +296,7 @@ class TestAdvert(LoggedInTestBase):
         assert resp == [
             {
                 "id": 1,
-                "data": "dGVzdCBwaWN0dXJl",
+                "data": open("data/picture-resized-advert.txt", "r").read(),
                 "description": "This is the description of the picture.",
                 "advertId": 1,
                 "isPriority": 0,
