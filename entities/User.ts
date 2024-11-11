@@ -32,6 +32,9 @@ export class User {
   @Column('text', { name: 'password_hash' })
   passwordHash: string;
 
+  @Column('date', { name: 'reg_date' })
+  regDate: string;
+
   @OneToMany(() => Advert, (advert) => advert.owner)
   adverts: Advert[];
 
@@ -44,10 +47,16 @@ export class User {
   @OneToMany(() => CartItem, (cartItem) => cartItem.user)
   cartItems: Bookmarks[];
 
-  constructor(name: string, email: string, passwordHash: string) {
+  constructor(
+    name: string,
+    email: string,
+    passwordHash: string,
+    regDate: string,
+  ) {
     this.name = name;
     this.email = email;
     this.passwordHash = passwordHash;
+    this.regDate = regDate;
   }
 
   toGetUserDto(): GetUserDto {
@@ -57,6 +66,7 @@ export class User {
     result.email = this.email;
     result.bio = this.bio;
     result.picture = this.picture.toString('base64');
+    result.regDate = this.regDate;
     return result;
   }
 }

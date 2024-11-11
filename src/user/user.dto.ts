@@ -30,6 +30,9 @@ export class GetUserDto {
 
   @ApiProperty({ required: false })
   picture: string;
+
+  @ApiProperty()
+  regDate: string;
 }
 
 export class SetUserBioDto {

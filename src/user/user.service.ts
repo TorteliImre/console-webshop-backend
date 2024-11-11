@@ -20,7 +20,7 @@ export class UserService {
 
   async create(dto: CreateUserDto): Promise<number> {
     let passHash = await UserService._hashPass(dto.password);
-    let toInsert = new User(dto.name, dto.email, passHash);
+    let toInsert = new User(dto.name, dto.email, passHash, '2024-11-11'); // TODO
     let result = await this.userRepository.insert(toInsert);
     return result.identifiers[0].id;
   }
