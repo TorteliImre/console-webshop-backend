@@ -126,26 +126,15 @@ export class FindAdvertsDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsInt()
-  @Min(1)
-  modelId: number;
+  @IsInt({ each: true })
+  @Min(1, { each: true })
+  modelIds: number[];
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsString()
-  revision: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  stateId: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  locationId: number;
+  @IsInt({ each: true })
+  @Min(1, { each: true })
+  stateIds: number[];
 
   @ApiPropertyOptional()
   @IsOptional()

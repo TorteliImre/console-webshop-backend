@@ -61,7 +61,7 @@ export class AdvertController {
     summary: 'Find advertisements with filters',
     tags: ['adverts'],
   })
-  async findAdverts(@Query() dto: FindAdvertsDto) {
+  async findAdverts(@Body() dto: FindAdvertsDto) {
     return await this.advertsService.findAdverts(dto);
   }
 

@@ -14,7 +14,7 @@ import {
 } from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
-import { Between, FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { Between, FindOptionsWhere, ILike, In, Repository } from 'typeorm';
 import { AdvertPics } from 'entities/AdvertPics';
 import assert from 'assert';
 import sharp from 'sharp';
@@ -51,15 +51,16 @@ export class AdvertService {
   }
 
   async findAdverts(dto: FindAdvertsDto) {
-    let where = { ...dto } as FindOptionsWhere<Advert>;
+    let where: FindOptionsWhere<Advert>;
+    where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
+    where.ownerId = dto.ownerId ?? undefined;
+    where.modelId = dto.modelIds ? In(dto.modelIds) : undefined;
+    where.stateId = dto.stateIds ? In(dto.stateIds) : undefined;
     where.priceHuf =
       dto.priceHufMin || dto.priceHufMax
         ? Between(dto.priceHufMin ?? 0, dto.priceHufMax ?? priceHufMax)
         : undefined;
-    (where as any).priceHufMin = undefined;
-    (where as any).priceHufMax = undefined;
-    where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
-    where.revision = dto.revision ? ILike(`%${dto.revision}%`) : undefined;
+
     const found = await this.advertRepository.findBy(where);
     return found;
   }
