@@ -25,6 +25,18 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get()
+  @ApiOperation({
+    summary: 'Get details of the logged in user',
+    tags: ['users'],
+  })
+  @ApiOkResponse({ type: GetUserDto })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async getOwnInfo(@Request() req) {
+    return await this.userService.findById(req.user.id);
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Get details of a specific user',
