@@ -313,3 +313,32 @@ class TestAdvert(LoggedInTestBase):
                 "isPriority": 0,
             }
         ]
+    
+    @pytest.mark.dependency(
+        depends=[
+            "TestAdvert::test_add_picture",
+            "TestAdvert::test_get_pictures",
+        ]
+    )
+    def test_modify_picture_description(self):
+        resp = requests.patch(
+            BASE_URL + "/adverts/pictures",
+            headers={"Authorization": "Bearer " + self.token1},
+            data={
+                "id": 1,
+                "description": "This is the NEW description of the picture.",
+            },
+        )
+
+        resp = requests.get(
+            BASE_URL + "/adverts/1/pictures",
+        ).json()
+        assert resp == [
+            {
+                "id": 1,
+                "data": open("data/picture-resized-advert.txt", "r").read(),
+                "description": "This is the NEW description of the picture.",
+                "advertId": 1,
+                "isPriority": 0,
+            }
+        ]

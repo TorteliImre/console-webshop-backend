@@ -16,7 +16,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
 import { Between, FindOptionsWhere, ILike, In, Repository } from 'typeorm';
 import { AdvertPics } from 'entities/AdvertPics';
-import assert from 'assert';
 import sharp from 'sharp';
 
 @Injectable()
@@ -118,21 +117,25 @@ export class AdvertService {
   }
 
   async modifyAdvertPicure(dto: ModifyAdvertPictureDto, userId: number) {
-    const pic = await this.advertPicsRepository.findOneBy({ id: dto.id });
+    let pic = await this.advertPicsRepository.findOneBy({ id: dto.id });
     if (pic == null) {
       throw new NotFoundException('No such advertisement picture id');
     }
 
     const advert = await this.advertRepository.findOneBy({ id: pic.advertId });
-    assert(advert != null);
+    if (advert == null) {
+      throw new Error("BUG: pic.advertId should NEVER point to a non-existent row");
+    }
+
     if (advert.ownerId != userId) {
       throw new ForbiddenException(
         'Cannot modify advertisement of another user',
       );
     }
 
-    const toUpdate = { ...dto } as any;
-    toUpdate.data = Buffer.from(dto.data, 'base64');
-    this.advertPicsRepository.update(dto.id, toUpdate);
+    pic.data = dto.data == null ? pic.data : Buffer.from(dto.data, 'base64');
+    pic.description = dto.description ?? pic.description;
+
+    this.advertPicsRepository.update(dto.id, pic);
   }
 }
