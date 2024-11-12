@@ -11,6 +11,10 @@ import {
 import * as bcrypt from 'bcrypt';
 import sharp from 'sharp';
 
+function getIsoDate(): string {
+  return new Date().toISOString().split('T')[0];
+}
+
 @Injectable()
 export class UserService {
   constructor(
@@ -20,7 +24,7 @@ export class UserService {
 
   async create(dto: CreateUserDto): Promise<number> {
     let passHash = await UserService._hashPass(dto.password);
-    let toInsert = new User(dto.name, dto.email, passHash, '2024-11-11'); // TODO
+    let toInsert = new User(dto.name, dto.email, passHash, getIsoDate());
     let result = await this.userRepository.insert(toInsert);
     return result.identifiers[0].id;
   }

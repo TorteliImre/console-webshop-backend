@@ -1,10 +1,13 @@
 # pylint: disable=missing-timeout,line-too-long,missing-final-newline,missing-module-docstring,missing-function-docstring,missing-class-docstring,invalid-name
 
+import datetime
 import pytest
 import requests
 
 BASE_URL = "http://localhost:3000/api"
 
+def getIsoDate() -> str:
+    return datetime.datetime.now().strftime("%Y-%m-%d")
 
 class TestUserBasic:
     @pytest.mark.dependency()
@@ -48,6 +51,7 @@ class TestUserBasic:
             "email": "user1@mail.com",
             "bio": "",
             "picture": "",
+            "regDate": getIsoDate()
         }
 
         resp = requests.get(BASE_URL + "/user/2").json()
@@ -57,6 +61,7 @@ class TestUserBasic:
             "email": "user2@mail.com",
             "bio": "",
             "picture": "",
+            "regDate": getIsoDate()
         }
 
         resp = requests.get(BASE_URL + "/user/3").json()
@@ -66,6 +71,7 @@ class TestUserBasic:
             "email": "user3@mail.com",
             "bio": "",
             "picture": "",
+            "regDate": getIsoDate()
         }
 
     @pytest.mark.dependency(depends=["TestUserBasic::test_create"])
@@ -131,6 +137,7 @@ class TestUser(LoggedInTestBase):
             "email": "user1@mail.com",
             "bio": "This is the bio of user1.",
             "picture": "",
+            "regDate": getIsoDate()
         }
         resp = requests.get(BASE_URL + "/user/2").json()
         assert resp == {
@@ -139,6 +146,7 @@ class TestUser(LoggedInTestBase):
             "email": "user2@mail.com",
             "bio": "",
             "picture": "",
+            "regDate": getIsoDate()
         }
 
         resp = requests.post(
@@ -153,6 +161,7 @@ class TestUser(LoggedInTestBase):
             "email": "user1@mail.com",
             "bio": "",
             "picture": "",
+            "regDate": getIsoDate()
         }
 
     @pytest.mark.dependency(
@@ -175,6 +184,7 @@ class TestUser(LoggedInTestBase):
             "email": "user1@mail.com",
             "bio": "",
             "picture": open("data/picture-resized.txt", "r").read(),
+            "regDate": getIsoDate()
         }
         resp = requests.get(BASE_URL + "/user/2").json()
         assert resp == {
@@ -183,6 +193,7 @@ class TestUser(LoggedInTestBase):
             "email": "user2@mail.com",
             "bio": "",
             "picture": "",
+            "regDate": getIsoDate()
         }
 
 
