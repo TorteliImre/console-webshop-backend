@@ -115,6 +115,17 @@ export class ModifyAdvertDto {
   revision: string;
 }
 
+export enum AdvertsSortBy {
+  Title = 'title',
+  Owner = 'ownerId',
+  PriceHuf = 'priceHuf',
+}
+
+export enum AdvertsSortOrder {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}
+
 export class FindAdvertsDto {
   @ApiPropertyOptional()
   @IsOptional()
@@ -156,6 +167,18 @@ export class FindAdvertsDto {
   @Min(1)
   @Max(priceHufMax)
   priceHufMax: number;
+
+  @ApiPropertyOptional({ enum: AdvertsSortBy })
+  @IsOptional()
+  @IsString()
+  @IsEnum(AdvertsSortBy)
+  sortBy: string;
+
+  @ApiPropertyOptional({ enum: AdvertsSortOrder })
+  @IsOptional()
+  @IsString()
+  @IsEnum(AdvertsSortOrder)
+  sortOrder: string;
 }
 
 export class AddPictureToAdvertDto {
