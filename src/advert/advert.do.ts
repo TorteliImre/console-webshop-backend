@@ -1,5 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsArray,
+  IsEnum,
   IsIn,
   IsInt,
   IsNotEmpty,
@@ -12,6 +14,7 @@ import {
   Min,
 } from 'class-validator';
 import { Advert } from 'entities/Advert';
+import { TransformNumberArray } from '../common';
 
 export const priceHufMax = 10000000;
 
@@ -124,15 +127,19 @@ export class FindAdvertsDto {
   @Min(1)
   ownerId: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: [Number] })
   @IsOptional()
+  @IsArray()
   @IsInt({ each: true })
+  @TransformNumberArray()
   @Min(1, { each: true })
   modelIds: number[];
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: [Number] })
   @IsOptional()
+  @IsArray()
   @IsInt({ each: true })
+  @TransformNumberArray()
   @Min(1, { each: true })
   stateIds: number[];
 
