@@ -14,6 +14,7 @@ import {
   AddPictureToAdvertDto,
   CreateAdvertDto as AdvertDto,
   FindAdvertsDto,
+  GetAdvertPictureDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
 } from './advert.do';
@@ -24,6 +25,15 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('adverts')
 export class AdvertController {
   constructor(private readonly advertsService: AdvertService) {}
+
+  @Get()
+  @ApiOperation({
+    summary: 'Find advertisements with filters',
+    tags: ['adverts'],
+  })
+  async findAdverts(@Query() dto: FindAdvertsDto) {
+    return await this.advertsService.findAdverts(dto);
+  }
 
   @Get(':id')
   @ApiOperation({
@@ -45,49 +55,52 @@ export class AdvertController {
     return { id: await this.advertsService.createAdvert(dto, req.user.id) };
   }
 
-  @Patch()
+  @Patch(':id')
   @ApiOperation({
     summary: 'Modify an existing advertisemenet',
     tags: ['adverts'],
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async modifyAdvert(@Body() dto: ModifyAdvertDto, @Request() req) {
-    await this.advertsService.modifyAdvert(dto, req.user.id);
+  async modifyAdvert(
+    @Param('id') id: number,
+    @Body() dto: ModifyAdvertDto,
+    @Request() req,
+  ) {
+    await this.advertsService.modifyAdvert(id, dto, req.user.id);
   }
 
-  @Get()
-  @ApiOperation({
-    summary: 'Find advertisements with filters',
-    tags: ['adverts'],
-  })
-  async findAdverts(@Query() dto: FindAdvertsDto) {
-    return await this.advertsService.findAdverts(dto);
-  }
-
-  @Get(':id/pictures/')
+  @Get(':advertId/pictures')
   @ApiOperation({
     summary: 'Get pictures of an advertisement',
     tags: ['advert pictures'],
   })
-  async findPicturesOfAdvert(@Param('id') id: number) {
+  async findPicturesOfAdvert(@Param('advertId') id: number) {
     return await this.advertsService.findPicturesOfAdvert(id);
   }
 
-  @Post('pictures')
+  @Post(':advertId/pictures')
   @ApiOperation({
     summary: 'Add a new picture to an advertisement',
     tags: ['advert pictures'],
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async addPictureToAdvert(@Body() dto: AddPictureToAdvertDto, @Request() req) {
+  async addPictureToAdvert(
+    @Param('advertId') advertId: number,
+    @Body() dto: AddPictureToAdvertDto,
+    @Request() req,
+  ) {
     return {
-      id: await this.advertsService.addPictureToAdvert(dto, req.user.id),
+      id: await this.advertsService.addPictureToAdvert(
+        advertId,
+        dto,
+        req.user.id,
+      ),
     };
   }
 
-  @Patch('/pictures')
+  @Patch(':advertId/pictures')
   @ApiOperation({
     summary: 'Modify an existing advertisement picture',
     tags: ['advert pictures'],
@@ -95,9 +108,10 @@ export class AdvertController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyAdvertPicture(
+    @Param('advertId') advertId: number,
     @Body() dto: ModifyAdvertPictureDto,
     @Request() req,
   ) {
-    await this.advertsService.modifyAdvertPicure(dto, req.user.id);
+    await this.advertsService.modifyAdvertPicture(advertId, dto, req.user.id);
   }
 }

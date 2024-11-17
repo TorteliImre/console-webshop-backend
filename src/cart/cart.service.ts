@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartItem } from 'entities/CartItem';
 import { Repository } from 'typeorm';
-import { AddCartItemDto, RemoveCartItemDto } from './cart.dto';
+import { AddCartItemDto } from './cart.dto';
 
 @Injectable()
 export class CartService {
@@ -23,10 +23,8 @@ export class CartService {
     ).identifiers[0].id;
   }
 
-  async removeCartItem(dto: RemoveCartItemDto, userId: number) {
-    const found = await this.cartItemRepository.findOneBy({
-      id: dto.cartItemId,
-    });
+  async removeCartItem(id: number, userId: number) {
+    const found = await this.cartItemRepository.findOneBy({ id });
     if (found == null) {
       throw new NotFoundException('No such cart item id');
     }

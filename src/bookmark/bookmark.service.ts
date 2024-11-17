@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Bookmark } from 'entities/Bookmark';
 import { Repository } from 'typeorm';
-import { AddBookmarkDto, RemoveBookmarkDto } from './bookmark.dto';
+import { AddBookmarkDto } from './bookmark.dto';
 
 @Injectable()
 export class BookmarkService {
@@ -23,10 +23,8 @@ export class BookmarkService {
     ).identifiers[0].id;
   }
 
-  async removeBookmark(dto: RemoveBookmarkDto, userId: number) {
-    const found = await this.bookmarkRepository.findOneBy({
-      id: dto.bookmarkId,
-    });
+  async removeBookmark(id: number, userId: number) {
+    const found = await this.bookmarkRepository.findOneBy({ id });
     if (found == null) {
       throw new NotFoundException('No such bookmark id');
     }

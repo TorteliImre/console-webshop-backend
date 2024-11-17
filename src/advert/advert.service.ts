@@ -43,8 +43,8 @@ export class AdvertService {
     return result.identifiers[0].id;
   }
 
-  async modifyAdvert(dto: ModifyAdvertDto, userId: number) {
-    let found = await this.advertRepository.findOneBy({ id: dto.id });
+  async modifyAdvert(id: number, dto: ModifyAdvertDto, userId: number) {
+    let found = await this.advertRepository.findOneBy({ id });
     if (found == null) {
       throw new NotFoundException('No such advertisement id');
     }
@@ -53,7 +53,7 @@ export class AdvertService {
         'Cannot modify advertisement of another user',
       );
     }
-    await this.advertRepository.update(dto.id, dto);
+    await this.advertRepository.update(id, dto);
   }
 
   async findAdverts(dto: FindAdvertsDto) {
@@ -74,10 +74,14 @@ export class AdvertService {
     return found;
   }
 
-  async addPictureToAdvert(dto: AddPictureToAdvertDto, userId: number) {
+  async addPictureToAdvert(
+    advertId: number,
+    dto: AddPictureToAdvertDto,
+    userId: number,
+  ) {
     const advertOwner: number | null = (
       await this.advertRepository.findOne({
-        where: { id: dto.advertId },
+        where: { id: advertId },
         select: { ownerId: true },
       })
     )?.ownerId;
@@ -91,7 +95,7 @@ export class AdvertService {
     }
 
     const toInsert = new AdvertPic();
-    toInsert.advertId = dto.advertId;
+    toInsert.advertId = advertId;
     toInsert.data = Buffer.from(dto.data, 'base64');
     toInsert.description = dto.description;
 
@@ -126,10 +130,17 @@ export class AdvertService {
     return toReturn;
   }
 
-  async modifyAdvertPicure(dto: ModifyAdvertPictureDto, userId: number) {
-    let pic = await this.advertPicsRepository.findOneBy({ id: dto.id });
+  async modifyAdvertPicture(
+    advertId: number,
+    dto: ModifyAdvertPictureDto,
+    userId: number,
+  ) {
+    let pic = await this.advertPicsRepository.findOneBy({
+      id: dto.id,
+      advertId: advertId,
+    });
     if (pic == null) {
-      throw new NotFoundException('No such advertisement picture id');
+      throw new NotFoundException('No such advertisement picture');
     }
 
     const advert = await this.advertRepository.findOneBy({ id: pic.advertId });

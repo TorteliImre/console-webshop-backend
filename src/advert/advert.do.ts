@@ -68,11 +68,6 @@ export class CreateAdvertDto {
 }
 
 export class ModifyAdvertDto {
-  @ApiProperty()
-  @IsInt()
-  @Min(1)
-  id: number;
-
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
@@ -182,10 +177,6 @@ export class FindAdvertsDto {
 }
 
 export class AddPictureToAdvertDto {
-  @ApiProperty()
-  @IsInt()
-  advertId: number;
-
   @ApiProperty()
   @IsNotEmpty()
   data: string;

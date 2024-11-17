@@ -3,13 +3,14 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { AddCartItemDto, RemoveCartItemDto } from './cart.dto';
+import { AddCartItemDto } from './cart.dto';
 import { CartService } from './cart.service';
 
 @Controller('cart')
@@ -35,11 +36,11 @@ export class CartController {
     return { id: await this.cartService.addCartItem(dto, req.user.id) };
   }
 
-  @Delete()
+  @Delete(':id')
   @ApiOperation({ summary: 'Remove an item from the cart', tags: ['cart'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async removeItemFromCart(@Body() dto: RemoveCartItemDto, @Request() req) {
-    await this.cartService.removeCartItem(dto, req.user.id);
+  async removeItemFromCart(@Param('id') id: number, @Request() req) {
+    await this.cartService.removeCartItem(id, req.user.id);
   }
 }

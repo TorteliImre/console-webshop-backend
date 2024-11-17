@@ -249,10 +249,9 @@ class TestAdvert(LoggedInTestBase):
     )
     def test_modify(self):
         resp = requests.patch(
-            BASE_URL + "/adverts",
+            BASE_URL + "/adverts/1",
             headers={"Authorization": "Bearer " + self.token1},
             data={
-                "id": 1,
                 "description": "This is the NEW description.",
                 "priceHuf": 12345,
                 "ignoreThis": 123,
@@ -285,10 +284,9 @@ class TestAdvert(LoggedInTestBase):
     )
     def test_add_picture(self):
         resp = requests.post(
-            BASE_URL + "/adverts/pictures",
+            BASE_URL + "/adverts/1/pictures",
             headers={"Authorization": "Bearer " + self.token1},
             data={
-                "advertId": 1,
                 "data": open("data/picture.txt", "r").read(),
                 "description": "This is the description of the picture.",
             },
@@ -322,13 +320,15 @@ class TestAdvert(LoggedInTestBase):
     )
     def test_modify_picture_description(self):
         resp = requests.patch(
-            BASE_URL + "/adverts/pictures",
+            BASE_URL + "/adverts/1/pictures",
             headers={"Authorization": "Bearer " + self.token1},
             data={
                 "id": 1,
                 "description": "This is the NEW description of the picture.",
             },
         )
+        assert resp.content == b''
+        assert resp.status_code == 200
 
         resp = requests.get(
             BASE_URL + "/adverts/1/pictures",

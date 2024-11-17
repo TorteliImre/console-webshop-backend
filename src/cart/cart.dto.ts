@@ -7,10 +7,3 @@ export class AddCartItemDto {
   @Min(1)
   advertId: number;
 }
-
-export class RemoveCartItemDto {
-  @ApiProperty()
-  @IsInt()
-  @Min(1)
-  cartItemId: number;
-}

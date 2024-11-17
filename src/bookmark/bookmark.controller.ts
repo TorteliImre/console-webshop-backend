@@ -3,13 +3,14 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { AddBookmarkDto, RemoveBookmarkDto } from './bookmark.dto';
+import { AddBookmarkDto } from './bookmark.dto';
 import { BookmarkService } from './bookmark.service';
 
 @Controller('bookmarks')
@@ -35,11 +36,11 @@ export class BookmarkController {
     return { id: await this.bookmarkService.addBookmark(dto, req.user.id) };
   }
 
-  @Delete()
+  @Delete(':id')
   @ApiOperation({ summary: 'Delete a bookmark', tags: ['bookmarks'] })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async removeBookmark(@Body() dto: RemoveBookmarkDto, @Request() req) {
-    await this.bookmarkService.removeBookmark(dto, req.user.id);
+  async removeBookmark(@Param('id') id: number, @Request() req) {
+    await this.bookmarkService.removeBookmark(id, req.user.id);
   }
 }
