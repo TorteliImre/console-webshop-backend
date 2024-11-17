@@ -4,12 +4,12 @@ import { Global, Module } from '@nestjs/common';
 import { User } from 'entities/User';
 import { Advert } from 'entities/Advert';
 import { Location } from 'entities/Location';
-import { Manufacturers } from 'entities/Manufacturers';
-import { Models } from 'entities/Models';
-import { ProductStates } from 'entities/ProductStates';
-import { AdvertPics } from 'entities/AdvertPics';
-import { Bookmarks } from 'entities/Bookmarks';
-import { Comments } from 'entities/Comments';
+import { Manufacturer } from 'entities/Manufacturer';
+import { Model } from 'entities/Model';
+import { ProductState } from 'entities/ProductState';
+import { AdvertPic } from 'entities/AdvertPic';
+import { Bookmark } from 'entities/Bookmark';
+import { Comment } from 'entities/Comment';
 import { CartItem } from 'entities/CartItem';
 import { SeedStatic1729359464030 } from 'migration/1729359464030-SeedStatic';
 
@@ -37,12 +37,12 @@ const isTestingDb = true;
               User,
               Advert,
               Location,
-              Manufacturers,
-              Models,
-              ProductStates,
-              AdvertPics,
-              Bookmarks,
-              Comments,
+              Manufacturer,
+              Model,
+              ProductState,
+              AdvertPic,
+              Bookmark,
+              Comment,
               CartItem,
             ],
             synchronize: true,

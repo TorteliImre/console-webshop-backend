@@ -4,14 +4,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Bookmarks } from 'entities/Bookmarks';
+import { Bookmark } from 'entities/Bookmark';
 import { Repository } from 'typeorm';
 import { AddBookmarkDto, RemoveBookmarkDto } from './bookmark.dto';
 
 @Injectable()
 export class BookmarkService {
-  @InjectRepository(Bookmarks)
-  private bookmarkRepository: Repository<Bookmarks>;
+  @InjectRepository(Bookmark)
+  private bookmarkRepository: Repository<Bookmark>;
 
   async getBookmarksOfUser(userId: number) {
     return await this.bookmarkRepository.findOneBy({ userId });

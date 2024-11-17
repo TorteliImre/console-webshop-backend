@@ -3,9 +3,9 @@ import { GetFiltersResultDto } from './filters.dto';
 import { ILike, Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Location } from 'entities/Location';
-import { Manufacturers } from 'entities/Manufacturers';
-import { ProductStates } from 'entities/ProductStates';
-import { Models } from 'entities/Models';
+import { Manufacturer } from 'entities/Manufacturer';
+import { ProductState } from 'entities/ProductState';
+import { Model } from 'entities/Model';
 import { assert } from 'console';
 
 @Injectable()
@@ -13,12 +13,12 @@ export class FiltersService {
   constructor(
     @InjectRepository(Location)
     private locationRepository: Repository<Location>,
-    @InjectRepository(Manufacturers)
-    private manufacturersRepository: Repository<Manufacturers>,
-    @InjectRepository(Models)
-    private modelsRepository: Repository<Models>,
-    @InjectRepository(ProductStates)
-    private statesRepository: Repository<Manufacturers>,
+    @InjectRepository(Manufacturer)
+    private manufacturersRepository: Repository<Manufacturer>,
+    @InjectRepository(Model)
+    private modelsRepository: Repository<Model>,
+    @InjectRepository(ProductState)
+    private statesRepository: Repository<Manufacturer>,
   ) {}
 
   async getBasicFilters(): Promise<GetFiltersResultDto> {
@@ -40,13 +40,13 @@ export class FiltersService {
     });
   }
 
-  async getModelsForManufacturer(manufacturerId: number): Promise<Models[]> {
+  async getModelsForManufacturer(manufacturerId: number): Promise<Model[]> {
     return this.modelsRepository.find({
       where: { manufacturerId: manufacturerId },
     });
   }
 
-  async getManufacturerOfModel(modelId: number): Promise<Manufacturers> {
+  async getManufacturerOfModel(modelId: number): Promise<Manufacturer> {
     const found = await this.modelsRepository.findOne({
       where: { id: modelId },
       relations: { manufacturer: true },

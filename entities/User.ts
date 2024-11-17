@@ -6,13 +6,13 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Advert } from './Advert';
-import { Bookmarks } from './Bookmarks';
-import { Comments } from './Comments';
+import { Bookmark } from './Bookmark';
+import { Comment } from './Comment';
 import { GetUserDto } from 'src/user/user.dto';
 import { CartItem } from './CartItem';
 
-@Index('user_name_unique', ['name'], { unique: true })
-@Entity('user', { schema: 'console-webshop' })
+@Index('users_name_unique', ['name'], { unique: true })
+@Entity('users', { schema: 'console-webshop' })
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
@@ -38,14 +38,14 @@ export class User {
   @OneToMany(() => Advert, (advert) => advert.owner)
   adverts: Advert[];
 
-  @OneToMany(() => Bookmarks, (bookmarks) => bookmarks.user)
-  bookmarks: Bookmarks[];
+  @OneToMany(() => Bookmark, (bookmarks) => bookmarks.user)
+  bookmarks: Bookmark[];
 
-  @OneToMany(() => Comments, (comments) => comments.user)
-  comments: Comments[];
+  @OneToMany(() => Comment, (comments) => comments.user)
+  comments: Comment[];
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.user)
-  cartItems: Bookmarks[];
+  cartItems: Bookmark[];
 
   constructor(
     name: string,

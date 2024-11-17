@@ -9,10 +9,10 @@ import {
 import { Advert } from './Advert';
 import { User } from './User';
 
-@Index('cart_items_adverts_FK', ['advertId'], {})
-@Index('cart_items_users_FK', ['userId'], {})
-@Entity('cart_items', { schema: 'console-webshop' })
-export class CartItem {
+@Index('bookmarks_adverts_FK', ['advertId'], {})
+@Index('bookmarks_users_FK', ['userId'], {})
+@Entity('bookmarks', { schema: 'console-webshop' })
+export class Bookmark {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
@@ -22,14 +22,14 @@ export class CartItem {
   @Column('int', { name: 'advert_id' })
   advertId: number;
 
-  @ManyToOne(() => Advert, (advert) => advert.cartItems, {
+  @ManyToOne(() => Advert, (advert) => advert.bookmarks, {
     onDelete: 'CASCADE',
     onUpdate: 'RESTRICT',
   })
   @JoinColumn([{ name: 'advert_id', referencedColumnName: 'id' }])
   advert: Advert;
 
-  @ManyToOne(() => User, (user) => user.cartItems, {
+  @ManyToOne(() => User, (user) => user.bookmarks, {
     onDelete: 'CASCADE',
     onUpdate: 'RESTRICT',
   })

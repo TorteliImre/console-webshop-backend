@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsNotEmpty, IsObject } from 'class-validator';
-import { Manufacturers } from 'entities/Manufacturers';
-import { ProductStates } from 'entities/ProductStates';
+import { Manufacturer } from 'entities/Manufacturer';
+import { ProductState } from 'entities/ProductState';
 import { isTypedArray } from 'util/types';
 
 export class ManufacturerDto {

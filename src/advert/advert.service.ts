@@ -22,15 +22,15 @@ import {
   In,
   Repository,
 } from 'typeorm';
-import { AdvertPics } from 'entities/AdvertPics';
+import { AdvertPic } from 'entities/AdvertPic';
 import sharp from 'sharp';
 
 @Injectable()
 export class AdvertService {
   @InjectRepository(Advert)
   private advertRepository: Repository<Advert>;
-  @InjectRepository(AdvertPics)
-  private advertPicsRepository: Repository<AdvertPics>;
+  @InjectRepository(AdvertPic)
+  private advertPicsRepository: Repository<AdvertPic>;
 
   async findById(id: number) {
     return await this.advertRepository.findOneBy({ id });
@@ -90,7 +90,7 @@ export class AdvertService {
       );
     }
 
-    const toInsert = new AdvertPics();
+    const toInsert = new AdvertPic();
     toInsert.advertId = dto.advertId;
     toInsert.data = Buffer.from(dto.data, 'base64');
     toInsert.description = dto.description;
@@ -134,7 +134,9 @@ export class AdvertService {
 
     const advert = await this.advertRepository.findOneBy({ id: pic.advertId });
     if (advert == null) {
-      throw new Error("BUG: pic.advertId should NEVER point to a non-existent row");
+      throw new Error(
+        'BUG: pic.advertId should NEVER point to a non-existent row',
+      );
     }
 
     if (advert.ownerId != userId) {

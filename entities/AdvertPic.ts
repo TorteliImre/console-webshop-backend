@@ -8,9 +8,9 @@ import {
 } from 'typeorm';
 import { Advert } from './Advert';
 
-@Index('advert_pics_advert_FK', ['advertId'], {})
+@Index('advert_pics_adverts_FK', ['advertId'], {})
 @Entity('advert_pics', { schema: 'console-webshop' })
-export class AdvertPics {
+export class AdvertPic {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 

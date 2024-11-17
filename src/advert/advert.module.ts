@@ -3,10 +3,10 @@ import { AdvertService } from './advert.service';
 import { AdvertController } from './advert.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
-import { AdvertPics } from 'entities/AdvertPics';
+import { AdvertPic } from 'entities/AdvertPic';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Advert, AdvertPics])],
+  imports: [TypeOrmModule.forFeature([Advert, AdvertPic])],
   providers: [AdvertService],
   controllers: [AdvertController],
 })

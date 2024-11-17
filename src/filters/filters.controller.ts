@@ -11,11 +11,11 @@ import {
   ModelDto,
 } from './filters.dto';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { Models } from 'entities/Models';
+import { Model } from 'entities/Model';
 
 @Controller('filters')
 export class FiltersController {
-  constructor(private readonly filtersService: FiltersService) { }
+  constructor(private readonly filtersService: FiltersService) {}
 
   @Get('basic')
   @ApiOperation({

@@ -6,7 +6,7 @@ import { readFileSync } from 'fs';
 */
 export class SeedStatic1729359464030 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    if (await this.isTableEmpty(queryRunner, 'location')) {
+    if (await this.isTableEmpty(queryRunner, 'locations')) {
       await this.importLocations(queryRunner);
     }
     if (await this.isTableEmpty(queryRunner, 'product_states')) {
@@ -44,7 +44,7 @@ export class SeedStatic1729359464030 implements MigrationInterface {
     await queryRunner.startTransaction();
     for (const line of data) {
       await queryRunner.query(
-        'INSERT INTO location (id, zip, name) VALUES (?, ?, ?)',
+        'INSERT INTO locations (id, zip, name) VALUES (?, ?, ?)',
         [parseInt(line[0]), parseInt(line[1]), line[2]],
       );
     }

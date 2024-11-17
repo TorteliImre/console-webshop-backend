@@ -8,19 +8,19 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Location } from './Location';
-import { Models } from './Models';
-import { ProductStates } from './ProductStates';
+import { Model } from './Model';
+import { ProductState } from './ProductState';
 import { User } from './User';
-import { AdvertPics } from './AdvertPics';
-import { Bookmarks } from './Bookmarks';
-import { Comments } from './Comments';
+import { AdvertPic } from './AdvertPic';
+import { Bookmark } from './Bookmark';
+import { Comment } from './Comment';
 import { CartItem } from './CartItem';
 
-@Index('advert_location_FK', ['locationId'], {})
-@Index('advert_models_FK', ['modelId'], {})
-@Index('advert_product_states_FK', ['stateId'], {})
-@Index('advert_user_FK', ['ownerId'], {})
-@Entity('advert', { schema: 'console-webshop' })
+@Index('adverts_locations_FK', ['locationId'], {})
+@Index('adverts_models_FK', ['modelId'], {})
+@Index('adverts_products_states_FK', ['stateId'], {})
+@Index('adverts_users_FK', ['ownerId'], {})
+@Entity('adverts', { schema: 'console-webshop' })
 export class Advert {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
@@ -62,19 +62,19 @@ export class Advert {
   @JoinColumn([{ name: 'location_id', referencedColumnName: 'id' }])
   location: Location;
 
-  @ManyToOne(() => Models, (models) => models.adverts, {
+  @ManyToOne(() => Model, (models) => models.adverts, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
   @JoinColumn([{ name: 'model_id', referencedColumnName: 'id' }])
-  model: Models;
+  model: Model;
 
-  @ManyToOne(() => ProductStates, (productStates) => productStates.adverts, {
+  @ManyToOne(() => ProductState, (productStates) => productStates.adverts, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
   @JoinColumn([{ name: 'state_id', referencedColumnName: 'id' }])
-  state: ProductStates;
+  state: ProductState;
 
   @ManyToOne(() => User, (user) => user.adverts, {
     onDelete: 'SET NULL',
@@ -83,15 +83,15 @@ export class Advert {
   @JoinColumn([{ name: 'owner_id', referencedColumnName: 'id' }])
   owner: User;
 
-  @OneToMany(() => AdvertPics, (advertPics) => advertPics.advert)
-  advertPics: AdvertPics[];
+  @OneToMany(() => AdvertPic, (advertPics) => advertPics.advert)
+  advertPics: AdvertPic[];
 
-  @OneToMany(() => Bookmarks, (bookmarks) => bookmarks.advert)
-  bookmarks: Bookmarks[];
+  @OneToMany(() => Bookmark, (bookmarks) => bookmarks.advert)
+  bookmarks: Bookmark[];
 
-  @OneToMany(() => Comments, (comments) => comments.advert)
-  comments: Comments[];
+  @OneToMany(() => Comment, (comments) => comments.advert)
+  comments: Comment[];
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.advert)
-  cartItems: Bookmarks[];
+  cartItems: Bookmark[];
 }
