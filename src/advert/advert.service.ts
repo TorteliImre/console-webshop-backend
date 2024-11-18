@@ -24,6 +24,7 @@ import {
 } from 'typeorm';
 import { AdvertPic } from 'entities/AdvertPic';
 import sharp from 'sharp';
+import { Comment } from 'entities/Comment';
 
 @Injectable()
 export class AdvertService {
@@ -31,6 +32,8 @@ export class AdvertService {
   private advertRepository: Repository<Advert>;
   @InjectRepository(AdvertPic)
   private advertPicsRepository: Repository<AdvertPic>;
+  @InjectRepository(Comment)
+  private advertCommentsRepository: Repository<Comment>;
 
   async findById(id: number) {
     return await this.advertRepository.findOneBy({ id });
@@ -160,5 +163,10 @@ export class AdvertService {
     pic.description = dto.description ?? pic.description;
 
     this.advertPicsRepository.update(dto.id, pic);
+  }
+
+  async findCommentsOfAdvert(id: number) {
+    const found = await this.advertCommentsRepository.findBy({ advertId: id });
+    return found;
   }
 }

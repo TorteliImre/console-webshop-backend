@@ -114,4 +114,13 @@ export class AdvertController {
   ) {
     await this.advertsService.modifyAdvertPicture(advertId, dto, req.user.id);
   }
+
+  @Get(':advertId/comments')
+  @ApiOperation({
+    summary: 'Get comments of an advertisement',
+    tags: ['advert comments'],
+  })
+  async findCommentsOfAdvert(@Param('advertId') id: number) {
+    return await this.advertsService.findCommentsOfAdvert(id);
+  }
 }
