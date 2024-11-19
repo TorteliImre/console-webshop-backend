@@ -49,7 +49,7 @@ export class UserController {
     return await this.userService.findById(id);
   }
 
-  @Post('create')
+  @Post()
   @ApiOperation({ summary: 'Register a new user account', tags: ['users'] })
   async createUser(@Body() dto: CreateUserDto) {
     return { id: await this.userService.create(dto) };
