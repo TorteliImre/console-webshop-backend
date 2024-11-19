@@ -11,6 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
+  AddCommentToAdvertDto,
   AddPictureToAdvertDto,
   CreateAdvertDto as AdvertDto,
   FindAdvertsDto,
@@ -122,5 +123,38 @@ export class AdvertController {
   })
   async findCommentsOfAdvert(@Param('advertId') id: number) {
     return await this.advertsService.findCommentsOfAdvert(id);
+  }
+
+  @Post(':advertId/comments')
+  @ApiOperation({
+    summary: 'Add a new comment to an advertisement',
+    tags: ['advert comments'],
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async addCommentToAdvert(
+    @Param('advertId') advertId: number,
+    @Body() dto: AddCommentToAdvertDto,
+    @Request() req,
+  ) {
+    return {
+      id: await this.advertsService.addCommentToAdvert(
+        advertId,
+        dto,
+        req.user.id,
+      ),
+    };
+  }
+
+  @Get(':advertId/comments/:commentId/replies')
+  @ApiOperation({
+    summary: 'Get direct replies to a comment',
+    tags: ['advert comments'],
+  })
+  async findRepliesToComment(
+    @Param('advertId') advertId: number,
+    @Param('commentId') commentId: number,
+  ) {
+    return await this.advertsService.findRepliesToComment(advertId, commentId);
   }
 }

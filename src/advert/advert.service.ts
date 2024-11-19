@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
+  AddCommentToAdvertDto,
   AddPictureToAdvertDto,
   CreateAdvertDto,
   FindAdvertsDto,
@@ -168,5 +169,35 @@ export class AdvertService {
   async findCommentsOfAdvert(id: number) {
     const found = await this.advertCommentsRepository.findBy({ advertId: id });
     return found;
+  }
+
+  async addCommentToAdvert(
+    advertId: number,
+    dto: AddCommentToAdvertDto,
+    userId: number,
+  ) {
+    const toInsert = new Comment();
+    toInsert.userId = userId;
+    toInsert.advertId = advertId;
+    toInsert.text = dto.text;
+
+    const result = await this.advertCommentsRepository.insert(toInsert);
+    return result.identifiers[0].id;
+  }
+
+  async findRepliesToComment(advertId: number, commentId: number) {
+    const found = await this.advertCommentsRepository.findOne({
+      where: {
+        advertId,
+        id: commentId,
+      },
+      relations: { comments: true },
+    });
+
+    if (found == null) {
+      throw new NotFoundException('No such comment');
+    }
+
+    return found.comments;
   }
 }

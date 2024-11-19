@@ -217,3 +217,10 @@ export class ModifyAdvertPictureDto {
   @IsString()
   description: string;
 }
+
+export class AddCommentToAdvertDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  text: string;
+}
