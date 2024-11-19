@@ -13,7 +13,7 @@ class TestUserBasic:
     @pytest.mark.dependency()
     def test_create(self):
         resp = requests.post(
-            BASE_URL + "/user/create",
+            BASE_URL + "/user",
             data={
                 "name": "user1",
                 "email": "user1@mail.com",
@@ -23,7 +23,7 @@ class TestUserBasic:
         assert resp == {"id": 1}
 
         resp = requests.post(
-            BASE_URL + "/user/create",
+            BASE_URL + "/user",
             data={
                 "name": "user2",
                 "email": "user2@mail.com",
@@ -33,7 +33,7 @@ class TestUserBasic:
         assert resp == {"id": 2}
 
         resp = requests.post(
-            BASE_URL + "/user/create",
+            BASE_URL + "/user",
             data={
                 "name": "user3",
                 "email": "user3@mail.com",
