@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import {
   CreateUserDto,
   GetUserDto,
+  ModifyUserDto,
   SetUserBioDto,
   SetUserPicDto,
 } from './user.dto';
@@ -37,6 +38,12 @@ export class UserService {
     let found = await this.userRepository.findOne({ where: { id } });
     if (!found) throw new BadRequestException('No such user');
     return found.toGetUserDto();
+  }
+
+  async modifyUser(id: number, dto: ModifyUserDto) {
+    if (dto.bio) this.setUserBio(dto.bio, id);
+    if (dto.picture) this.setUserPicture(dto.picture, id);
+    if (dto.password) this.setUserPassword(dto.password, id);
   }
 
   async setUserBio(bio: string, id: number): Promise<void> {

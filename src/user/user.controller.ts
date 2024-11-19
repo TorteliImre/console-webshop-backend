@@ -9,12 +9,14 @@ import {
   UseGuards,
   Request,
   UnauthorizedException,
+  Patch,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import {
   CreateUserDto,
   GetUserDto,
+  ModifyUserDto,
   SetUserBioDto,
   SetUserPassDto,
   SetUserPicDto,
@@ -51,6 +53,17 @@ export class UserController {
   @ApiOperation({ summary: 'Register a new user account', tags: ['users'] })
   async createUser(@Body() dto: CreateUserDto) {
     return { id: await this.userService.create(dto) };
+  }
+
+  @Patch()
+  @ApiOperation({
+    summary: 'Modify details of the logged in user',
+    tags: ['users'],
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async modifyOwnInfo(@Request() req, @Body() dto: ModifyUserDto) {
+    return await this.userService.modifyUser(req.user.id, dto);
   }
 
   @Post('setBio')
