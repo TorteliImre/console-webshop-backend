@@ -1,17 +1,15 @@
-import { Body, Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { FiltersService } from './filters.service';
-import { Location } from 'entities/Location';
 import {
   FindLocationsDto,
   GetFiltersResultDto,
   GetManufacturerForModelDto,
   GetModelsForManufacturerDto,
-  LocationDto,
-  ManufacturerDto,
-  ModelDto,
+  GetLocationsResponseDto,
+  GetManufacturersResultDto,
+  GetModelResultDto,
 } from './filters.dto';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { Model } from 'entities/Model';
 
 @Controller('filters')
 export class FiltersController {
@@ -32,7 +30,7 @@ export class FiltersController {
     summary: 'Find locations by name and ZIP code',
     tags: ['filters'],
   })
-  @ApiOkResponse({ type: LocationDto, isArray: true })
+  @ApiOkResponse({ type: GetLocationsResponseDto, isArray: true })
   async findLocations(@Query() dto: FindLocationsDto) {
     return await this.filtersService.findLocations(dto.query);
   }
@@ -42,7 +40,7 @@ export class FiltersController {
     summary: 'Get models produced by a manufacturer',
     tags: ['filters'],
   })
-  @ApiOkResponse({ type: ModelDto, isArray: true })
+  @ApiOkResponse({ type: GetModelResultDto, isArray: true })
   async getModelsForManufacturer(@Query() dto: GetModelsForManufacturerDto) {
     return await this.filtersService.getModelsForManufacturer(
       dto.manufacturerId,
@@ -54,7 +52,7 @@ export class FiltersController {
     summary: 'Get which manufacturer produces a model',
     tags: ['filters'],
   })
-  @ApiOkResponse({ type: ManufacturerDto })
+  @ApiOkResponse({ type: GetManufacturersResultDto })
   async getManufacturerOfModel(@Query() dto: GetManufacturerForModelDto) {
     return await this.filtersService.getManufacturerOfModel(dto.modelId);
   }

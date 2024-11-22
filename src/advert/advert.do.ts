@@ -67,6 +67,20 @@ export class CreateAdvertDto {
   }
 }
 
+export class GetAdvertResultDto extends CreateAdvertDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiPropertyOptional()
+  ownerId: number;
+
+  @ApiProperty()
+  viewCount: number;
+
+  @ApiProperty()
+  isSold: number;
+}
+
 export class ModifyAdvertDto {
   @ApiPropertyOptional()
   @IsOptional()
@@ -187,18 +201,21 @@ export class AddPictureToAdvertDto {
   description: string;
 }
 
-export class GetAdvertPictureDto {
+export class GetAdvertPictureResultDto {
   @ApiProperty()
-  @IsInt()
+  id: number;
+
+  @ApiProperty()
+  data: string;
+
+  @ApiProperty()
+  description: string;
+
+  @ApiProperty()
   advertId: number;
 
   @ApiProperty()
-  @IsNotEmpty()
-  data: string;
-
-  @ApiPropertyOptional()
-  @IsString()
-  description: string;
+  isPrioriy: number;
 }
 
 export class ModifyAdvertPictureDto {
@@ -223,4 +240,21 @@ export class AddCommentToAdvertDto {
   @IsString()
   @IsNotEmpty()
   text: string;
+}
+
+export class GetAdvertCommentsResultDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiPropertyOptional()
+  userId: number;
+
+  @ApiProperty()
+  advertId: number;
+
+  @ApiProperty()
+  text: string;
+
+  @ApiPropertyOptional()
+  replyToId: number;
 }

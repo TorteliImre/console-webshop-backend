@@ -10,3 +10,8 @@ export class CredentialsDto {
   @ApiProperty()
   password: string;
 }
+
+export class AuthResponseDto {
+  @ApiProperty()
+  access_token: string;
+}

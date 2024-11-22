@@ -37,7 +37,9 @@ export class AdvertService {
   private advertCommentsRepository: Repository<Comment>;
 
   async findById(id: number) {
-    return await this.advertRepository.findOneBy({ id });
+    const found = await this.advertRepository.findOneBy({ id });
+    if (!found) throw new NotFoundException('No such advert');
+    return found;
   }
 
   async createAdvert(dto: CreateAdvertDto, userId: number) {
@@ -124,6 +126,9 @@ export class AdvertService {
   }
 
   async findPicturesOfAdvert(id: number) {
+    if (!this.advertRepository.existsBy({ id })) {
+      throw new NotFoundException('No such advertisement id');
+    }
     const found = await this.advertPicsRepository.findBy({ advertId: id });
     let toReturn = [];
     for (let original of found) {
@@ -139,6 +144,10 @@ export class AdvertService {
     dto: ModifyAdvertPictureDto,
     userId: number,
   ) {
+    if (!this.advertRepository.existsBy({ id: advertId })) {
+      throw new NotFoundException('No such advertisement id');
+    }
+
     let pic = await this.advertPicsRepository.findOneBy({
       id: dto.id,
       advertId: advertId,
@@ -167,6 +176,9 @@ export class AdvertService {
   }
 
   async findCommentsOfAdvert(id: number) {
+    if (!this.advertRepository.existsBy({ id })) {
+      throw new NotFoundException('No such advertisement id');
+    }
     const found = await this.advertCommentsRepository.findBy({ advertId: id });
     return found;
   }
@@ -176,6 +188,10 @@ export class AdvertService {
     dto: AddCommentToAdvertDto,
     userId: number,
   ) {
+    if (!this.advertRepository.existsBy({ id: advertId })) {
+      throw new NotFoundException('No such advertisement id');
+    }
+
     const toInsert = new Comment();
     toInsert.userId = userId;
     toInsert.advertId = advertId;
@@ -186,6 +202,10 @@ export class AdvertService {
   }
 
   async findRepliesToComment(advertId: number, commentId: number) {
+    if (!this.advertRepository.existsBy({ id: advertId })) {
+      throw new NotFoundException('No such advertisement id');
+    }
+
     const found = await this.advertCommentsRepository.findOne({
       where: {
         advertId,

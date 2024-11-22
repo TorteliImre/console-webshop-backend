@@ -41,7 +41,7 @@ export class ModifyUserDto {
   password: string;
 }
 
-export class GetUserDto {
+export class GetUserResponseDto {
   @ApiProperty()
   id: number;
 

@@ -4,7 +4,7 @@ import { Manufacturer } from 'entities/Manufacturer';
 import { ProductState } from 'entities/ProductState';
 import { isTypedArray } from 'util/types';
 
-export class ManufacturerDto {
+export class GetManufacturersResultDto {
   @ApiProperty()
   id: number;
 
@@ -12,7 +12,7 @@ export class ManufacturerDto {
   name: string;
 }
 
-export class ProductStateDto {
+export class GetProductStatesResultDto {
   @ApiProperty()
   id: number;
 
@@ -21,11 +21,11 @@ export class ProductStateDto {
 }
 
 export class GetFiltersResultDto {
-  @ApiProperty({ type: ManufacturerDto, isArray: true })
-  manufacturers: ManufacturerDto[];
+  @ApiProperty({ type: GetManufacturersResultDto, isArray: true })
+  manufacturers: GetManufacturersResultDto[];
 
-  @ApiProperty({ type: ProductStateDto, isArray: true })
-  states: ProductStateDto[];
+  @ApiProperty({ type: GetProductStatesResultDto, isArray: true })
+  states: GetProductStatesResultDto[];
 }
 
 export class FindLocationsDto {
@@ -46,7 +46,7 @@ export class GetManufacturerForModelDto {
   modelId: number;
 }
 
-export class ModelDto {
+export class GetModelResultDto {
   @ApiProperty()
   id: number;
 
@@ -57,7 +57,7 @@ export class ModelDto {
   manufacturerId: number;
 }
 
-export class LocationDto {
+export class GetLocationsResponseDto {
   @ApiProperty()
   id: number;
 

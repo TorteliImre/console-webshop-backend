@@ -8,7 +8,7 @@ import {
 import { Advert } from './Advert';
 import { Bookmark } from './Bookmark';
 import { Comment } from './Comment';
-import { GetUserDto } from 'src/user/user.dto';
+import { GetUserResponseDto } from 'src/user/user.dto';
 import { CartItem } from './CartItem';
 
 @Index('users_name_unique', ['name'], { unique: true })
@@ -59,8 +59,8 @@ export class User {
     this.regDate = regDate;
   }
 
-  toGetUserDto(): GetUserDto {
-    let result = new GetUserDto();
+  toGetUserDto(): GetUserResponseDto {
+    let result = new GetUserResponseDto();
     result.id = this.id;
     result.name = this.name;
     result.email = this.email;

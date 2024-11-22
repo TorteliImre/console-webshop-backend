@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -13,15 +14,25 @@ import {
 import {
   AddCommentToAdvertDto,
   AddPictureToAdvertDto,
-  CreateAdvertDto as AdvertDto,
+  CreateAdvertDto,
+  GetAdvertResultDto,
   FindAdvertsDto,
-  GetAdvertPictureDto,
+  GetAdvertPictureResultDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
+  GetAdvertCommentsResultDto,
 } from './advert.do';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 import { AdvertService } from './advert.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { HttpExceptionBody, IdResponseDto } from 'src/common';
 
 @Controller('adverts')
 export class AdvertController {
@@ -32,6 +43,7 @@ export class AdvertController {
     summary: 'Find advertisements with filters',
     tags: ['adverts'],
   })
+  @ApiOkResponse({ type: GetAdvertResultDto, isArray: true })
   async findAdverts(@Query() dto: FindAdvertsDto) {
     return await this.advertsService.findAdverts(dto);
   }
@@ -41,18 +53,19 @@ export class AdvertController {
     summary: 'Get details of a specific advertisement',
     tags: ['adverts'],
   })
-  @ApiOkResponse({ type: AdvertDto })
+  @ApiOkResponse({ type: GetAdvertResultDto })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
   async getAdvert(@Param('id') id: number) {
-    const found = await this.advertsService.findById(id);
-    if (!found) throw new BadRequestException('No such advert');
-    return found;
+    return await this.advertsService.findById(id);
   }
 
   @Post()
   @ApiOperation({ summary: 'Create a new advertisement', tags: ['adverts'] })
+  @ApiOkResponse({ type: IdResponseDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async createAdvert(@Body() dto: AdvertDto, @Request() req) {
+  async createAdvert(@Body() dto: CreateAdvertDto, @Request() req) {
     return { id: await this.advertsService.createAdvert(dto, req.user.id) };
   }
 
@@ -61,6 +74,10 @@ export class AdvertController {
     summary: 'Modify an existing advertisemenet',
     tags: ['adverts'],
   })
+  @ApiOkResponse()
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyAdvert(
@@ -76,6 +93,8 @@ export class AdvertController {
     summary: 'Get pictures of an advertisement',
     tags: ['advert pictures'],
   })
+  @ApiOkResponse({ type: GetAdvertPictureResultDto, isArray: true })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findPicturesOfAdvert(@Param('advertId') id: number) {
     return await this.advertsService.findPicturesOfAdvert(id);
   }
@@ -85,6 +104,10 @@ export class AdvertController {
     summary: 'Add a new picture to an advertisement',
     tags: ['advert pictures'],
   })
+  @ApiOkResponse({ type: IdResponseDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addPictureToAdvert(
@@ -106,6 +129,10 @@ export class AdvertController {
     summary: 'Modify an existing advertisement picture',
     tags: ['advert pictures'],
   })
+  @ApiOkResponse()
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyAdvertPicture(
@@ -121,6 +148,8 @@ export class AdvertController {
     summary: 'Get comments of an advertisement',
     tags: ['advert comments'],
   })
+  @ApiOkResponse({ type: GetAdvertCommentsResultDto })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findCommentsOfAdvert(@Param('advertId') id: number) {
     return await this.advertsService.findCommentsOfAdvert(id);
   }
@@ -130,6 +159,9 @@ export class AdvertController {
     summary: 'Add a new comment to an advertisement',
     tags: ['advert comments'],
   })
+  @ApiOkResponse({ type: IdResponseDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addCommentToAdvert(
@@ -151,6 +183,8 @@ export class AdvertController {
     summary: 'Get direct replies to a comment',
     tags: ['advert comments'],
   })
+  @ApiOkResponse({ type: GetAdvertCommentsResultDto })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findRepliesToComment(
     @Param('advertId') advertId: number,
     @Param('commentId') commentId: number,

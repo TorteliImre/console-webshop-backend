@@ -10,18 +10,28 @@ import {
   Request,
   UnauthorizedException,
   Patch,
+  BadRequestException,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import {
   CreateUserDto,
-  GetUserDto,
+  GetUserResponseDto,
   ModifyUserDto,
   SetUserBioDto,
   SetUserPassDto,
   SetUserPicDto,
 } from './user.dto';
 import { UserService } from './user.service';
+import { HttpExceptionBody, IdResponseDto } from 'src/common';
 
 @Controller('user')
 export class UserController {
@@ -32,7 +42,8 @@ export class UserController {
     summary: 'Get details of the logged in user',
     tags: ['users'],
   })
-  @ApiOkResponse({ type: GetUserDto })
+  @ApiOkResponse({ type: GetUserResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async getOwnInfo(@Request() req) {
@@ -44,13 +55,16 @@ export class UserController {
     summary: 'Get details of a specific user',
     tags: ['users'],
   })
-  @ApiOkResponse({ type: GetUserDto })
+  @ApiOkResponse({ type: GetUserResponseDto })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
   async getUser(@Param('id') id: number) {
     return await this.userService.findById(id);
   }
 
   @Post()
   @ApiOperation({ summary: 'Register a new user account', tags: ['users'] })
+  @ApiOkResponse({ type: IdResponseDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   async createUser(@Body() dto: CreateUserDto) {
     return { id: await this.userService.create(dto) };
   }
@@ -60,6 +74,8 @@ export class UserController {
     summary: 'Modify details of the logged in user',
     tags: ['users'],
   })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyOwnInfo(@Request() req, @Body() dto: ModifyUserDto) {
@@ -71,6 +87,9 @@ export class UserController {
     summary: "Set the logged in account's bio",
     tags: ['users'],
   })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async setUserBio(@Body() dto: SetUserBioDto, @Request() req) {
@@ -82,6 +101,9 @@ export class UserController {
     summary: "Set the logged in account' picture",
     tags: ['users'],
   })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async setUserPicture(@Body() dto: SetUserPicDto, @Request() req) {
@@ -93,6 +115,7 @@ export class UserController {
     summary: "Set the logged in account's password",
     tags: ['users'],
   })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async setUserPassword(@Body() dto: SetUserPassDto, @Request() req) {
