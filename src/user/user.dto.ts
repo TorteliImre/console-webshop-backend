@@ -32,7 +32,6 @@ export class ModifyUserDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(100)
   picture: string;
 
   @ApiPropertyOptional()
