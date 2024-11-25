@@ -29,6 +29,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AdvertService } from './advert.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -36,7 +37,7 @@ import { HttpExceptionBody, IdResponseDto } from 'src/common';
 
 @Controller('adverts')
 export class AdvertController {
-  constructor(private readonly advertsService: AdvertService) {}
+  constructor(private readonly advertsService: AdvertService) { }
 
   @Get()
   @ApiOperation({
@@ -62,6 +63,7 @@ export class AdvertController {
   @Post()
   @ApiOperation({ summary: 'Create a new advertisement', tags: ['adverts'] })
   @ApiOkResponse({ type: IdResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -75,6 +77,7 @@ export class AdvertController {
     tags: ['adverts'],
   })
   @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   @ApiForbiddenResponse({ type: HttpExceptionBody })
@@ -105,6 +108,7 @@ export class AdvertController {
     tags: ['advert pictures'],
   })
   @ApiOkResponse({ type: IdResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   @ApiForbiddenResponse({ type: HttpExceptionBody })
@@ -130,6 +134,7 @@ export class AdvertController {
     tags: ['advert pictures'],
   })
   @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   @ApiForbiddenResponse({ type: HttpExceptionBody })
@@ -160,6 +165,7 @@ export class AdvertController {
     tags: ['advert comments'],
   })
   @ApiOkResponse({ type: IdResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()

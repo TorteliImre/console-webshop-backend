@@ -7,3 +7,14 @@ export class AddBookmarkDto {
   @Min(1)
   advertId: number;
 }
+
+export class GetBookmarksResponseDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  userId: number;
+
+  @ApiProperty()
+  advertId: number;
+}

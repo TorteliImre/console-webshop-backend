@@ -14,7 +14,7 @@ export class BookmarkService {
   private bookmarkRepository: Repository<Bookmark>;
 
   async getBookmarksOfUser(userId: number) {
-    return await this.bookmarkRepository.findOneBy({ userId });
+    return await this.bookmarkRepository.findBy({ userId });
   }
 
   async addBookmark(dto: AddBookmarkDto, userId: number) {

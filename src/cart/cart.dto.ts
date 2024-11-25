@@ -7,3 +7,14 @@ export class AddCartItemDto {
   @Min(1)
   advertId: number;
 }
+
+export class GetCartItemsResponseDto {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty()
+  userId: number;
+
+  @ApiProperty()
+  advertId: number;
+}

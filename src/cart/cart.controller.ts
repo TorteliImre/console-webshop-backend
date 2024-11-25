@@ -8,20 +8,23 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { AddCartItemDto } from './cart.dto';
+import { AddCartItemDto, GetCartItemsResponseDto } from './cart.dto';
 import { CartService } from './cart.service';
+import { HttpExceptionBody, IdResponseDto } from 'src/common';
 
 @Controller('cart')
 export class CartController {
-  constructor(private readonly cartService: CartService) {}
+  constructor(private readonly cartService: CartService) { }
 
   @Get()
   @ApiOperation({
     summary: 'Get cart items of logged in user',
     tags: ['cart'],
   })
+  @ApiOkResponse({ type: GetCartItemsResponseDto, isArray: true })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async getOwnCartItems(@Request() req) {
@@ -30,6 +33,8 @@ export class CartController {
 
   @Post()
   @ApiOperation({ summary: 'Add an item to the cart', tags: ['cart'] })
+  @ApiOkResponse({ type: IdResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addCartItem(@Body() dto: AddCartItemDto, @Request() req) {
@@ -38,6 +43,10 @@ export class CartController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Remove an item from the cart', tags: ['cart'] })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async removeItemFromCart(@Param('id') id: number, @Request() req) {

@@ -8,20 +8,23 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { AddBookmarkDto } from './bookmark.dto';
+import { AddBookmarkDto, GetBookmarksResponseDto } from './bookmark.dto';
 import { BookmarkService } from './bookmark.service';
+import { HttpExceptionBody, IdResponseDto } from 'src/common';
 
 @Controller('bookmarks')
 export class BookmarkController {
-  constructor(private readonly bookmarkService: BookmarkService) {}
+  constructor(private readonly bookmarkService: BookmarkService) { }
 
   @Get()
   @ApiOperation({
     summary: 'Get bookmarks of logged in user',
     tags: ['bookmarks'],
   })
+  @ApiOkResponse({ type: GetBookmarksResponseDto, isArray: true })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async getOwnBookmarks(@Request() req) {
@@ -30,6 +33,8 @@ export class BookmarkController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new bookmark', tags: ['bookmarks'] })
+  @ApiOkResponse({ type: IdResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addBookmark(@Body() dto: AddBookmarkDto, @Request() req) {
@@ -38,6 +43,10 @@ export class BookmarkController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a bookmark', tags: ['bookmarks'] })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async removeBookmark(@Param('id') id: number, @Request() req) {

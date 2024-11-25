@@ -14,7 +14,7 @@ export class CartService {
   private cartItemRepository: Repository<CartItem>;
 
   async getCartItemsOfUser(userId: number) {
-    return await this.cartItemRepository.findOneBy({ userId });
+    return await this.cartItemRepository.findBy({ userId });
   }
 
   async addCartItem(dto: AddCartItemDto, userId: number) {
