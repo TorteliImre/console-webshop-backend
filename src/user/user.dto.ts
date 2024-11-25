@@ -26,7 +26,7 @@ export class ModifyUserDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(100)
+  @MaxLength(1000)
   bio: string;
 
   @ApiPropertyOptional()
