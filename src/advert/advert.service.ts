@@ -9,6 +9,7 @@ import {
   AddPictureToAdvertDto,
   CreateAdvertDto,
   FindAdvertsDto,
+  GetAdvertResultDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
   priceHufMax,
@@ -62,7 +63,7 @@ export class AdvertService {
     await this.advertRepository.update(id, dto);
   }
 
-  async findAdverts(dto: FindAdvertsDto) {
+  async findAdverts(dto: FindAdvertsDto): Promise<GetAdvertResultDto> {
     let where: FindOptionsWhere<Advert> = {};
     where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
     where.ownerId = dto.ownerId ?? undefined;
@@ -77,7 +78,12 @@ export class AdvertService {
     if (dto.sortBy) order[dto.sortBy] = dto.sortOrder ?? 'ASC';
 
     const found = await this.advertRepository.find({ where, order });
-    return found;
+    const count = await this.advertRepository.count({ where });
+
+    let output = new GetAdvertResultDto();
+    output.items = found as any;
+    output.resultCount = count;
+    return output;
   }
 
   async addPictureToAdvert(
