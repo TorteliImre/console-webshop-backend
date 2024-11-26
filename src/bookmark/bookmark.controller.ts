@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
@@ -42,6 +43,7 @@ export class BookmarkController {
   @ApiOperation({ summary: 'Create a new bookmark', tags: ['bookmarks'] })
   @ApiOkResponse({ type: IdResponseDto })
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addBookmark(@Body() dto: AddBookmarkDto, @Request() req) {
@@ -52,6 +54,7 @@ export class BookmarkController {
   @ApiOperation({ summary: 'Delete a bookmark', tags: ['bookmarks'] })
   @ApiOkResponse()
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   @ApiForbiddenResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()

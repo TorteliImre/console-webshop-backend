@@ -50,6 +50,7 @@ export class AdvertController {
     tags: ['adverts'],
   })
   @ApiOkResponse({ type: GetAdvertResultDto, isArray: true })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   async findAdverts(@Query() dto: FindAdvertsDto) {
     return await this.advertsService.findAdverts(dto);
   }
@@ -60,6 +61,7 @@ export class AdvertController {
     tags: ['adverts'],
   })
   @ApiOkResponse({ type: GetAdvertResultDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async getAdvert(@Param() id: IdParamDto) {
     return await this.advertsService.findById(id.id);
@@ -102,6 +104,7 @@ export class AdvertController {
     tags: ['advert pictures'],
   })
   @ApiOkResponse({ type: GetAdvertPictureResultDto, isArray: true })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findPicturesOfAdvert(@Param() id: IdParamDto) {
     return await this.advertsService.findPicturesOfAdvert(id.id);
@@ -163,6 +166,7 @@ export class AdvertController {
     tags: ['advert comments'],
   })
   @ApiOkResponse({ type: GetAdvertCommentsResultDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findCommentsOfAdvert(@Param() id: IdParamDto) {
     return await this.advertsService.findCommentsOfAdvert(id.id);
@@ -199,6 +203,7 @@ export class AdvertController {
     tags: ['advert comments'],
   })
   @ApiOkResponse({ type: GetAdvertCommentsResultDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findRepliesToComment(@Param() ids: IdParam2Dto) {
     return await this.advertsService.findRepliesToComment(ids.id1, ids.id2);

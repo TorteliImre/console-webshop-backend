@@ -9,7 +9,12 @@ import {
   GetManufacturersResultDto,
   GetModelResultDto,
 } from './filters.dto';
-import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
+import { HttpExceptionBody } from 'src/common';
 
 @Controller('filters')
 export class FiltersController {
@@ -31,6 +36,7 @@ export class FiltersController {
     tags: ['filters'],
   })
   @ApiOkResponse({ type: GetLocationsResponseDto, isArray: true })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   async findLocations(@Query() dto: FindLocationsDto) {
     return await this.filtersService.findLocations(dto.query);
   }
@@ -41,6 +47,7 @@ export class FiltersController {
     tags: ['filters'],
   })
   @ApiOkResponse({ type: GetModelResultDto, isArray: true })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   async getModelsForManufacturer(@Query() dto: GetModelsForManufacturerDto) {
     return await this.filtersService.getModelsForManufacturer(
       dto.manufacturerId,
@@ -53,6 +60,7 @@ export class FiltersController {
     tags: ['filters'],
   })
   @ApiOkResponse({ type: GetManufacturersResultDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   async getManufacturerOfModel(@Query() dto: GetManufacturerForModelDto) {
     return await this.filtersService.getManufacturerOfModel(dto.modelId);
   }

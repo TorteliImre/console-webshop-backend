@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
@@ -42,6 +43,7 @@ export class CartController {
   @ApiOperation({ summary: 'Add an item to the cart', tags: ['cart'] })
   @ApiOkResponse({ type: IdResponseDto })
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addCartItem(@Body() dto: AddCartItemDto, @Request() req) {
@@ -51,6 +53,7 @@ export class CartController {
   @Delete(':id')
   @ApiOperation({ summary: 'Remove an item from the cart', tags: ['cart'] })
   @ApiOkResponse()
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   @ApiForbiddenResponse({ type: HttpExceptionBody })

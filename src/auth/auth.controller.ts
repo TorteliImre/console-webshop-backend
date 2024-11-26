@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
@@ -19,6 +20,7 @@ export class AuthController {
     tags: ['authentication'],
   })
   @ApiCreatedResponse({ type: AuthResponseDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   logIn(@Body() credentials: CredentialsDto) {
     return this.authService.logIn(credentials.name, credentials.password);

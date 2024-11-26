@@ -56,6 +56,7 @@ export class UserController {
     tags: ['users'],
   })
   @ApiOkResponse({ type: GetUserResponseDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async getUser(@Param() id: IdParamDto) {
     return await this.userService.findById(id.id);
@@ -76,6 +77,7 @@ export class UserController {
   })
   @ApiOkResponse()
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyOwnInfo(@Request() req, @Body() dto: ModifyUserDto) {
@@ -115,6 +117,8 @@ export class UserController {
     summary: "Set the logged in account's password",
     tags: ['users'],
   })
+  @ApiOkResponse()
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
