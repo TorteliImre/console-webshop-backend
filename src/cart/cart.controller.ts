@@ -8,15 +8,22 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AddCartItemDto, GetCartItemsResponseDto } from './cart.dto';
 import { CartService } from './cart.service';
-import { HttpExceptionBody, IdResponseDto } from 'src/common';
+import { HttpExceptionBody, IdParamDto, IdResponseDto } from 'src/common';
 
 @Controller('cart')
 export class CartController {
-  constructor(private readonly cartService: CartService) { }
+  constructor(private readonly cartService: CartService) {}
 
   @Get()
   @ApiOperation({
@@ -49,7 +56,7 @@ export class CartController {
   @ApiForbiddenResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async removeItemFromCart(@Param('id') id: number, @Request() req) {
-    await this.cartService.removeCartItem(id, req.user.id);
+  async removeItemFromCart(@Param() id: IdParamDto, @Request() req) {
+    await this.cartService.removeCartItem(id.id, req.user.id);
   }
 }

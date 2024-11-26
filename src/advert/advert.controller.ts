@@ -33,11 +33,16 @@ import {
 } from '@nestjs/swagger';
 import { AdvertService } from './advert.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { HttpExceptionBody, IdResponseDto } from 'src/common';
+import {
+  HttpExceptionBody,
+  IdParam2Dto,
+  IdParamDto,
+  IdResponseDto,
+} from 'src/common';
 
 @Controller('adverts')
 export class AdvertController {
-  constructor(private readonly advertsService: AdvertService) { }
+  constructor(private readonly advertsService: AdvertService) {}
 
   @Get()
   @ApiOperation({
@@ -56,8 +61,8 @@ export class AdvertController {
   })
   @ApiOkResponse({ type: GetAdvertResultDto })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
-  async getAdvert(@Param('id') id: number) {
-    return await this.advertsService.findById(id);
+  async getAdvert(@Param() id: IdParamDto) {
+    return await this.advertsService.findById(id.id);
   }
 
   @Post()
@@ -84,25 +89,25 @@ export class AdvertController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyAdvert(
-    @Param('id') id: number,
+    @Param() id: IdParamDto,
     @Body() dto: ModifyAdvertDto,
     @Request() req,
   ) {
-    await this.advertsService.modifyAdvert(id, dto, req.user.id);
+    await this.advertsService.modifyAdvert(id.id, dto, req.user.id);
   }
 
-  @Get(':advertId/pictures')
+  @Get(':id/pictures')
   @ApiOperation({
     summary: 'Get pictures of an advertisement',
     tags: ['advert pictures'],
   })
   @ApiOkResponse({ type: GetAdvertPictureResultDto, isArray: true })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
-  async findPicturesOfAdvert(@Param('advertId') id: number) {
-    return await this.advertsService.findPicturesOfAdvert(id);
+  async findPicturesOfAdvert(@Param() id: IdParamDto) {
+    return await this.advertsService.findPicturesOfAdvert(id.id);
   }
 
-  @Post(':advertId/pictures')
+  @Post(':id/pictures')
   @ApiOperation({
     summary: 'Add a new picture to an advertisement',
     tags: ['advert pictures'],
@@ -115,20 +120,20 @@ export class AdvertController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addPictureToAdvert(
-    @Param('advertId') advertId: number,
+    @Param() advertId: IdParamDto,
     @Body() dto: AddPictureToAdvertDto,
     @Request() req,
   ) {
     return {
       id: await this.advertsService.addPictureToAdvert(
-        advertId,
+        advertId.id,
         dto,
         req.user.id,
       ),
     };
   }
 
-  @Patch(':advertId/pictures')
+  @Patch(':id/pictures')
   @ApiOperation({
     summary: 'Modify an existing advertisement picture',
     tags: ['advert pictures'],
@@ -141,25 +146,29 @@ export class AdvertController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async modifyAdvertPicture(
-    @Param('advertId') advertId: number,
+    @Param() advertId: IdParamDto,
     @Body() dto: ModifyAdvertPictureDto,
     @Request() req,
   ) {
-    await this.advertsService.modifyAdvertPicture(advertId, dto, req.user.id);
+    await this.advertsService.modifyAdvertPicture(
+      advertId.id,
+      dto,
+      req.user.id,
+    );
   }
 
-  @Get(':advertId/comments')
+  @Get(':id/comments')
   @ApiOperation({
     summary: 'Get comments of an advertisement',
     tags: ['advert comments'],
   })
   @ApiOkResponse({ type: GetAdvertCommentsResultDto })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
-  async findCommentsOfAdvert(@Param('advertId') id: number) {
-    return await this.advertsService.findCommentsOfAdvert(id);
+  async findCommentsOfAdvert(@Param() id: IdParamDto) {
+    return await this.advertsService.findCommentsOfAdvert(id.id);
   }
 
-  @Post(':advertId/comments')
+  @Post(':id/comments')
   @ApiOperation({
     summary: 'Add a new comment to an advertisement',
     tags: ['advert comments'],
@@ -171,30 +180,27 @@ export class AdvertController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addCommentToAdvert(
-    @Param('advertId') advertId: number,
+    @Param() advertId: IdParamDto,
     @Body() dto: AddCommentToAdvertDto,
     @Request() req,
   ) {
     return {
       id: await this.advertsService.addCommentToAdvert(
-        advertId,
+        advertId.id,
         dto,
         req.user.id,
       ),
     };
   }
 
-  @Get(':advertId/comments/:commentId/replies')
+  @Get(':id1/comments/:id2/replies')
   @ApiOperation({
     summary: 'Get direct replies to a comment',
     tags: ['advert comments'],
   })
   @ApiOkResponse({ type: GetAdvertCommentsResultDto })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
-  async findRepliesToComment(
-    @Param('advertId') advertId: number,
-    @Param('commentId') commentId: number,
-  ) {
-    return await this.advertsService.findRepliesToComment(advertId, commentId);
+  async findRepliesToComment(@Param() ids: IdParam2Dto) {
+    return await this.advertsService.findRepliesToComment(ids.id1, ids.id2);
   }
 }

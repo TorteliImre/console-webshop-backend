@@ -31,7 +31,7 @@ import {
   SetUserPicDto,
 } from './user.dto';
 import { UserService } from './user.service';
-import { HttpExceptionBody, IdResponseDto } from 'src/common';
+import { HttpExceptionBody, IdParamDto, IdResponseDto } from 'src/common';
 
 @Controller('user')
 export class UserController {
@@ -57,8 +57,8 @@ export class UserController {
   })
   @ApiOkResponse({ type: GetUserResponseDto })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
-  async getUser(@Param('id') id: number) {
-    return await this.userService.findById(id);
+  async getUser(@Param() id: IdParamDto) {
+    return await this.userService.findById(id.id);
   }
 
   @Post()

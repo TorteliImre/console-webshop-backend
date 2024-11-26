@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
+import { IsInt, Min } from 'class-validator';
 
 /**
  * Parses a string or an string array to a number array.
@@ -28,4 +29,23 @@ export class HttpExceptionBody {
 export class IdResponseDto {
   @ApiProperty()
   id: number;
+}
+
+export class IdParamDto {
+  @ApiProperty()
+  @IsInt()
+  @Min(1)
+  id: number;
+}
+
+export class IdParam2Dto {
+  @ApiProperty()
+  @IsInt()
+  @Min(1)
+  id1: number;
+
+  @ApiProperty()
+  @IsInt()
+  @Min(1)
+  id2: number;
 }
