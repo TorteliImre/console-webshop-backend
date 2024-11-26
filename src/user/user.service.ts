@@ -45,9 +45,11 @@ export class UserService {
   }
 
   async modifyUser(id: number, dto: ModifyUserDto) {
-    if (dto.bio) this.setUserBio(dto.bio, id);
-    if (dto.picture) this.setUserPicture(dto.picture, id);
-    if (dto.password) this.setUserPassword(dto.password, id);
+    if (dto.bio != null && dto.bio != undefined) this.setUserBio(dto.bio, id);
+    if (dto.picture != null && dto.picture != undefined)
+      this.setUserPicture(dto.picture, id);
+    if (dto.password != null && dto.password != undefined)
+      this.setUserPassword(dto.password, id);
   }
 
   async setUserBio(bio: string, id: number): Promise<void> {
