@@ -243,6 +243,13 @@ export class ModifyAdvertPictureDto {
   description: string;
 }
 
+export class SetPrimaryPictureDto {
+  @ApiProperty()
+  @IsInt()
+  @Min(1)
+  picId: number;
+}
+
 export class AddCommentToAdvertDto {
   @ApiProperty()
   @IsString()

@@ -181,6 +181,44 @@ export class AdvertService {
     this.advertPicsRepository.update(dto.id, pic);
   }
 
+  async setPrimaryPicture(advertId: number, picId: number, userId: number) {
+    if (!this.advertRepository.existsBy({ id: advertId })) {
+      throw new NotFoundException('No such advertisement id');
+    }
+
+    let primaryPic = await this.advertPicsRepository.findOneBy({
+      id: picId,
+      advertId: advertId,
+    });
+    if (primaryPic == null) {
+      throw new NotFoundException('No such advertisement picture');
+    }
+
+    const advert = await this.advertRepository.findOneBy({
+      id: primaryPic.advertId,
+    });
+    if (advert == null) {
+      throw new Error(
+        'BUG: pic.advertId should NEVER point to a non-existent row',
+      );
+    }
+
+    if (advert.ownerId != userId) {
+      throw new ForbiddenException(
+        'Cannot modify advertisement of another user',
+      );
+    }
+
+    let images = await this.advertPicsRepository.findBy({ advertId });
+    for (let img of images) {
+      img.isPriority = false;
+      await this.advertPicsRepository.save(img);
+    }
+
+    primaryPic.isPriority = true;
+    await this.advertPicsRepository.save(primaryPic);
+  }
+
   async findCommentsOfAdvert(id: number) {
     if (!this.advertRepository.existsBy({ id })) {
       throw new NotFoundException('No such advertisement id');

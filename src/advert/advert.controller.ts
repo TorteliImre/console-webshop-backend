@@ -21,6 +21,7 @@ import {
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
   GetAdvertCommentsResultDto,
+  SetPrimaryPictureDto,
 } from './advert.do';
 import {
   ApiBadRequestResponse,
@@ -156,6 +157,30 @@ export class AdvertController {
     await this.advertsService.modifyAdvertPicture(
       advertId.id,
       dto,
+      req.user.id,
+    );
+  }
+
+  @Post(':id/primaryPicture')
+  @ApiOperation({
+    summary: 'Set which picture is the primary one',
+    tags: ['advert pictures'],
+  })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async setActivePic(
+    @Param() advertId: IdParamDto,
+    @Body() dto: SetPrimaryPictureDto,
+    @Request() req,
+  ) {
+    await this.advertsService.setPrimaryPicture(
+      advertId.id,
+      dto.picId,
       req.user.id,
     );
   }
