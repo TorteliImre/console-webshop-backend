@@ -14,7 +14,7 @@ import {
   Min,
 } from 'class-validator';
 import { Advert } from 'entities/Advert';
-import { TransformNumberArray } from '../common';
+import { PaginatedDto, TransformNumberArray } from '../common';
 
 export const priceHufMax = 10000000;
 
@@ -143,7 +143,7 @@ export enum AdvertsSortOrder {
   Desc = 'DESC',
 }
 
-export class FindAdvertsDto {
+export class FindAdvertsDto extends PaginatedDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()

@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsInt, Min } from 'class-validator';
+import { IsInt, IsOptional, Max, Min } from 'class-validator';
 
 /**
  * Parses a string or an string array to a number array.
@@ -48,4 +48,19 @@ export class IdParam2Dto {
   @IsInt()
   @Min(1)
   id2: number;
+}
+
+export class PaginatedDto {
+  @ApiPropertyOptional({ default: 0 })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  skip: number = 0;
+
+  @ApiPropertyOptional({ default: 50, maximum: 100 })
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  count: number = 50;
 }

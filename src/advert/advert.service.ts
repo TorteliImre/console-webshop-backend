@@ -77,12 +77,17 @@ export class AdvertService {
     let order: FindOptionsOrder<Advert> = {};
     if (dto.sortBy) order[dto.sortBy] = dto.sortOrder ?? 'ASC';
 
-    const found = await this.advertRepository.find({ where, order });
-    const count = await this.advertRepository.count({ where });
+    const found = await this.advertRepository.find({
+      where,
+      order,
+      skip: dto.skip,
+      take: dto.count,
+    });
+    const resultCount = await this.advertRepository.count({ where });
 
     let output = new GetAdvertResultDto();
     output.items = found as any;
-    output.resultCount = count;
+    output.resultCount = resultCount;
     return output;
   }
 
