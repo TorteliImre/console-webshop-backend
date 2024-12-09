@@ -136,16 +136,20 @@ export class AdvertService {
     return result.identifiers[0].id;
   }
 
+  encodePicture(pic: AdvertPic): AdvertPic {
+    let transformed = { ...pic } as any;
+    transformed.data = pic.data.toString('base64');
+    return transformed;
+  }
+
   async findPicturesOfAdvert(id: number) {
     if (!this.advertRepository.existsBy({ id })) {
       throw new NotFoundException('No such advertisement id');
     }
     const found = await this.advertPicsRepository.findBy({ advertId: id });
     let toReturn = [];
-    for (let original of found) {
-      let transformed = { ...original } as any;
-      transformed.data = original.data.toString('base64');
-      toReturn.push(transformed);
+    for (let f of found) {
+      toReturn.push(this.encodePicture(f));
     }
     return toReturn;
   }
@@ -222,6 +226,17 @@ export class AdvertService {
 
     primaryPic.isPriority = true;
     await this.advertPicsRepository.save(primaryPic);
+  }
+
+  async getPrimaryPictureOfAdvert(id: number) {
+    if (!this.advertRepository.existsBy({ id })) {
+      throw new NotFoundException('No such advertisement id');
+    }
+    let found = await this.advertPicsRepository.findOneBy({ advertId: id, isPriority: true });
+    if (found == null) {
+      found = await this.advertPicsRepository.findOneBy({ advertId: id });
+    }
+    return found == null ? null : this.encodePicture(found);
   }
 
   async findCommentsOfAdvert(id: number) {

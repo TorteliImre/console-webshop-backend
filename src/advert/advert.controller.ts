@@ -43,7 +43,7 @@ import {
 
 @Controller('adverts')
 export class AdvertController {
-  constructor(private readonly advertsService: AdvertService) {}
+  constructor(private readonly advertsService: AdvertService) { }
 
   @Get()
   @ApiOperation({
@@ -161,7 +161,7 @@ export class AdvertController {
     );
   }
 
-  @Post(':id/primaryPicture')
+  @Post(':id/primaryPictureId')
   @ApiOperation({
     summary: 'Set which picture is the primary one',
     tags: ['advert pictures'],
@@ -183,6 +183,18 @@ export class AdvertController {
       dto.picId,
       req.user.id,
     );
+  }
+
+  @Get(':id/primaryPicture')
+  @ApiOperation({
+    summary: 'Get primary picture of an advertisement',
+    tags: ['advert pictures'],
+  })
+  @ApiOkResponse({ type: GetAdvertPictureResultDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  async getPrimaryPictureOfAdvert(@Param() id: IdParamDto) {
+    return await this.advertsService.getPrimaryPictureOfAdvert(id.id);
   }
 
   @Get(':id/comments')
