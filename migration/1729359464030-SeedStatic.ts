@@ -44,8 +44,8 @@ export class SeedStatic1729359464030 implements MigrationInterface {
     await queryRunner.startTransaction();
     for (const line of data) {
       await queryRunner.query(
-        'INSERT INTO locations (id, zip, name) VALUES (?, ?, ?)',
-        [parseInt(line[0]), parseInt(line[1]), line[2]],
+        'INSERT INTO locations (id, name, county, zip, latitude, longitude) VALUES (NULL, ?, ?, ?, ?, ?)',
+        [line[0], line[1], parseInt(line[2]), parseFloat(line[3]), parseFloat(line[4])],
       );
     }
     await queryRunner.commitTransaction();
@@ -87,5 +87,5 @@ export class SeedStatic1729359464030 implements MigrationInterface {
     await queryRunner.commitTransaction();
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> { }
 }

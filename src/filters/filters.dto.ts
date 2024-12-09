@@ -62,8 +62,17 @@ export class GetLocationsResponseDto {
   id: number;
 
   @ApiProperty()
+  name: string;
+
+  @ApiProperty()
+  county: string;
+
+  @ApiProperty()
   zip: number;
 
   @ApiProperty()
-  name: string;
+  latitude: number;
+
+  @ApiProperty()
+  longitude: number;
 }
