@@ -185,6 +185,18 @@ export class FindAdvertsDto extends PaginatedDto {
   @Max(priceHufMax)
   priceHufMax: number;
 
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  locationId: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  locationMaxDistance: number;
+
   @ApiPropertyOptional({ enum: AdvertsSortBy })
   @IsOptional()
   @IsString()

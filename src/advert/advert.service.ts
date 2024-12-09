@@ -27,6 +27,7 @@ import {
 import { AdvertPic } from 'entities/AdvertPic';
 import sharp from 'sharp';
 import { Comment } from 'entities/Comment';
+import { Location } from 'entities/Location';
 
 @Injectable()
 export class AdvertService {
@@ -36,6 +37,8 @@ export class AdvertService {
   private advertPicsRepository: Repository<AdvertPic>;
   @InjectRepository(Comment)
   private advertCommentsRepository: Repository<Comment>;
+  @InjectRepository(Location)
+  private locationRepository: Repository<Location>;
 
   async findById(id: number) {
     const found = await this.advertRepository.findOneBy({ id });
@@ -63,6 +66,28 @@ export class AdvertService {
     await this.advertRepository.update(id, dto);
   }
 
+  async _findLocationsInArea(lat: number, long: number, maxDist: number) {
+    const results = await this.locationRepository
+      .createQueryBuilder()
+      .addSelect('id')
+      .addSelect('name')
+      .addSelect(
+        `
+            3959 * acos (
+              cos ( radians(${lat}) )
+              * cos( radians( latitude ) )
+              * cos( radians( longitude ) - radians(${long}) )
+              + sin ( radians(${lat}) )
+              * sin( radians( latitude ) )
+            )
+          `,
+        'distance',
+      )
+      .having('distance < :maxDist', { maxDist })
+      .getRawMany();
+    return results;
+  }
+
   async findAdverts(dto: FindAdvertsDto): Promise<GetAdvertResultDto> {
     let where: FindOptionsWhere<Advert> = {};
     where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
@@ -73,6 +98,21 @@ export class AdvertService {
       dto.priceHufMin || dto.priceHufMax
         ? Between(dto.priceHufMin ?? 0, dto.priceHufMax ?? priceHufMax)
         : undefined;
+    if (dto.locationId != null && dto.locationMaxDistance != null) {
+      const location = await this.locationRepository.findOne({
+        where: {
+          id: dto.locationId,
+        },
+        select: ['latitude', 'longitude'],
+      });
+      const possibleLocationIds = await this._findLocationsInArea(
+        location.latitude,
+        location.longitude,
+        dto.locationMaxDistance,
+      );
+
+      where.locationId = In(possibleLocationIds);
+    }
 
     let order: FindOptionsOrder<Advert> = {};
     if (dto.sortBy) order[dto.sortBy] = dto.sortOrder ?? 'ASC';
@@ -232,7 +272,10 @@ export class AdvertService {
     if (!this.advertRepository.existsBy({ id })) {
       throw new NotFoundException('No such advertisement id');
     }
-    let found = await this.advertPicsRepository.findOneBy({ advertId: id, isPriority: true });
+    let found = await this.advertPicsRepository.findOneBy({
+      advertId: id,
+      isPriority: true,
+    });
     if (found == null) {
       found = await this.advertPicsRepository.findOneBy({ advertId: id });
     }
