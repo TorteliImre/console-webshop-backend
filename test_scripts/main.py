@@ -3,11 +3,21 @@
 import datetime
 import pytest
 import requests
+import base64
 
 BASE_URL = "http://localhost:3000/api"
 
 def getIsoDate() -> str:
     return datetime.datetime.now().strftime("%Y-%m-%d")
+
+def loadImageB64(path: str) -> str:
+    with open(path, "rb") as f:
+        result = base64.b64encode(f.read()).decode()
+    return result
+
+IMAGE_DATA = loadImageB64("data/picture.jpg")
+IMAGE_PFP_DATA = loadImageB64("data/picture-pfp.jpg")
+IMAGE_AD_DATA = loadImageB64("data/picture-ad.jpg")
 
 class TestUserBasic:
     @pytest.mark.dependency()
@@ -175,7 +185,7 @@ class TestUser(LoggedInTestBase):
         resp = requests.post(
             BASE_URL + "/user/setPicture",
             headers={"Authorization": "Bearer " + self.token1},
-            data={"picture": open("data/picture.txt", "r").read()},
+            data={"picture": IMAGE_DATA},
         ).content
         resp = requests.get(BASE_URL + "/user/1").json()
         assert resp == {
@@ -183,7 +193,7 @@ class TestUser(LoggedInTestBase):
             "name": "user1",
             "email": "user1@mail.com",
             "bio": "",
-            "picture": open("data/picture-resized.txt", "r").read(),
+            "picture": IMAGE_PFP_DATA,
             "regDate": getIsoDate()
         }
         resp = requests.get(BASE_URL + "/user/2").json()
@@ -287,7 +297,7 @@ class TestAdvert(LoggedInTestBase):
             BASE_URL + "/adverts/1/pictures",
             headers={"Authorization": "Bearer " + self.token1},
             data={
-                "data": open("data/picture.txt", "r").read(),
+                "data": IMAGE_DATA,
                 "description": "This is the description of the picture.",
             },
         ).json()
@@ -305,7 +315,7 @@ class TestAdvert(LoggedInTestBase):
         assert resp == [
             {
                 "id": 1,
-                "data": open("data/picture-resized-advert.txt", "r").read(),
+                "data": IMAGE_AD_DATA,
                 "description": "This is the description of the picture.",
                 "advertId": 1,
                 "isPriority": 0,
@@ -336,7 +346,7 @@ class TestAdvert(LoggedInTestBase):
         assert resp == [
             {
                 "id": 1,
-                "data": open("data/picture-resized-advert.txt", "r").read(),
+                "data": IMAGE_AD_DATA,
                 "description": "This is the NEW description of the picture.",
                 "advertId": 1,
                 "isPriority": 0,
