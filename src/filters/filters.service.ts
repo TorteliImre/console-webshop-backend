@@ -19,7 +19,7 @@ export class FiltersService {
     private modelsRepository: Repository<Model>,
     @InjectRepository(ProductState)
     private statesRepository: Repository<Manufacturer>,
-  ) {}
+  ) { }
 
   async getBasicFilters(): Promise<GetFiltersResultDto> {
     let result = new GetFiltersResultDto();
@@ -38,6 +38,14 @@ export class FiltersService {
       take: 100,
       order: { name: 'ASC' },
     });
+  }
+
+  async findLocationById(id: number): Promise<Location> {
+    const result = await this.locationRepository.findOneBy({ id });
+    if (result == null) {
+      throw new NotFoundException('No such location ID');
+    }
+    return result;
   }
 
   async getModelsForManufacturer(manufacturerId: number): Promise<Model[]> {

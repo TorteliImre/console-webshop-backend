@@ -11,14 +11,15 @@ import {
 } from './filters.dto';
 import {
   ApiBadRequestResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { HttpExceptionBody } from 'src/common';
+import { HttpExceptionBody, IdParamDto } from 'src/common';
 
 @Controller('filters')
 export class FiltersController {
-  constructor(private readonly filtersService: FiltersService) {}
+  constructor(private readonly filtersService: FiltersService) { }
 
   @Get('basic')
   @ApiOperation({
@@ -39,6 +40,18 @@ export class FiltersController {
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   async findLocations(@Query() dto: FindLocationsDto) {
     return await this.filtersService.findLocations(dto.query);
+  }
+
+  @Get('locations/:id')
+  @ApiOperation({
+    summary: 'Get location info from ID',
+    tags: ['filters'],
+  })
+  @ApiOkResponse({ type: GetLocationsResponseDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  async findLocationById(@Param() id: IdParamDto) {
+    return await this.filtersService.findLocationById(id.id);
   }
 
   @Get('modelsForManufacturer')
