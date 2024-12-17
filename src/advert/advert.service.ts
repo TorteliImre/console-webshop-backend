@@ -9,7 +9,7 @@ import {
   AddPictureToAdvertDto,
   CreateAdvertDto,
   FindAdvertsDto,
-  GetAdvertResultDto,
+  FindAdvertsResultDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
   priceHufMax,
@@ -88,7 +88,7 @@ export class AdvertService {
     return results;
   }
 
-  async findAdverts(dto: FindAdvertsDto): Promise<GetAdvertResultDto> {
+  async findAdverts(dto: FindAdvertsDto): Promise<FindAdvertsResultDto> {
     let where: FindOptionsWhere<Advert> = {};
     where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
     where.ownerId = dto.ownerId ?? undefined;
@@ -125,7 +125,7 @@ export class AdvertService {
     });
     const resultCount = await this.advertRepository.count({ where });
 
-    let output = new GetAdvertResultDto();
+    let output = new FindAdvertsResultDto();
     output.items = found as any;
     output.resultCount = resultCount;
     return output;

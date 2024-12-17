@@ -81,7 +81,7 @@ export class GetAdvertResultItemDto extends CreateAdvertDto {
   isSold: number;
 }
 
-export class GetAdvertResultDto {
+export class FindAdvertsResultDto {
   @ApiProperty({ type: [GetAdvertResultItemDto] })
   items: GetAdvertResultItemDto[];
 

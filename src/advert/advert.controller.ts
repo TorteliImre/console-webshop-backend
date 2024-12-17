@@ -15,7 +15,7 @@ import {
   AddCommentToAdvertDto,
   AddPictureToAdvertDto,
   CreateAdvertDto,
-  GetAdvertResultDto,
+  FindAdvertsResultDto,
   FindAdvertsDto,
   GetAdvertPictureResultDto,
   ModifyAdvertDto,
@@ -43,14 +43,14 @@ import {
 
 @Controller('adverts')
 export class AdvertController {
-  constructor(private readonly advertsService: AdvertService) { }
+  constructor(private readonly advertsService: AdvertService) {}
 
   @Get()
   @ApiOperation({
     summary: 'Find advertisements with filters',
     tags: ['adverts'],
   })
-  @ApiOkResponse({ type: GetAdvertResultDto, isArray: true })
+  @ApiOkResponse({ type: FindAdvertsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   async findAdverts(@Query() dto: FindAdvertsDto) {
     return await this.advertsService.findAdverts(dto);
@@ -61,7 +61,7 @@ export class AdvertController {
     summary: 'Get details of a specific advertisement',
     tags: ['adverts'],
   })
-  @ApiOkResponse({ type: GetAdvertResultDto })
+  @ApiOkResponse({ type: FindAdvertsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async getAdvert(@Param() id: IdParamDto) {
