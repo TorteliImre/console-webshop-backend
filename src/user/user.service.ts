@@ -5,9 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { User } from 'entities/User';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   CreateUserDto,
+  FindUsersDto,
+  FindUsersResponseDto,
   GetUserResponseDto,
   ModifyUserDto,
   SetUserBioDto,
@@ -42,6 +44,25 @@ export class UserService {
     let found = await this.userRepository.findOne({ where: { id } });
     if (!found) throw new NotFoundException('No such user');
     return found.toGetUserDto();
+  }
+
+  async find(dto: FindUsersDto): Promise<FindUsersResponseDto> {
+    let where: FindOptionsWhere<User> = {};
+    where.name = dto.name ? ILike(`%${dto.name}%`) : undefined;
+
+    const found = (
+      await this.userRepository.find({
+        where,
+        skip: dto.skip,
+        take: dto.count,
+      })
+    ).map((x) => x.toGetUserDto());
+    const resultCount = await this.userRepository.count({ where });
+
+    let output = new FindUsersResponseDto();
+    output.items = found as any;
+    output.resultCount = resultCount;
+    return output;
   }
 
   async modifyUser(id: number, dto: ModifyUserDto) {

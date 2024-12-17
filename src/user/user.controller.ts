@@ -11,6 +11,7 @@ import {
   UnauthorizedException,
   Patch,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -24,6 +25,8 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import {
   CreateUserDto,
+  FindUsersDto,
+  FindUsersResponseDto,
   GetUserResponseDto,
   ModifyUserDto,
   SetUserBioDto,
@@ -37,6 +40,7 @@ import { HttpExceptionBody, IdParamDto, IdResponseDto } from 'src/common';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // TODO: Rename to "/self"
   @Get()
   @ApiOperation({
     summary: 'Get details of the logged in user',
@@ -48,6 +52,18 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   async getOwnInfo(@Request() req) {
     return await this.userService.findById(req.user.id);
+  }
+
+  // TODO: Rename to ""
+  @Get('/find')
+  @ApiOperation({
+    summary: 'Find users',
+    tags: ['users'],
+  })
+  @ApiOkResponse({ type: FindUsersResponseDto })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  async findUsers(@Query() dto: FindUsersDto) {
+    return await this.userService.find(dto);
   }
 
   @Get(':id')

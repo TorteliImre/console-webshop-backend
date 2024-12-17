@@ -7,6 +7,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { PaginatedDto } from 'src/common';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -41,6 +42,14 @@ export class ModifyUserDto {
   password: string;
 }
 
+export class FindUsersDto extends PaginatedDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  name: string;
+}
+
 export class GetUserResponseDto {
   @ApiProperty()
   id: number;
@@ -59,6 +68,14 @@ export class GetUserResponseDto {
 
   @ApiProperty()
   regDate: string;
+}
+
+export class FindUsersResponseDto {
+  @ApiProperty({ type: [GetUserResponseDto] })
+  items: GetUserResponseDto[];
+
+  @ApiProperty()
+  resultCount: number;
 }
 
 export class SetUserBioDto {
