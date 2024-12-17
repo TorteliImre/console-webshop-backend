@@ -30,6 +30,9 @@ export class UserService {
   ) {}
 
   async create(dto: CreateUserDto): Promise<number> {
+    if (await this.userRepository.existsBy({ name: dto.name })) {
+      throw new BadRequestException('Username is taken');
+    }
     let passHash = await UserService._hashPass(dto.password);
     let toInsert = new User(dto.name, dto.email, passHash, getIsoDate());
     let result = await this.userRepository.insert(toInsert);
