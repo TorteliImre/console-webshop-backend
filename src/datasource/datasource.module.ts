@@ -12,8 +12,10 @@ import { Bookmark } from 'entities/Bookmark';
 import { Comment } from 'entities/Comment';
 import { CartItem } from 'entities/CartItem';
 import { SeedStatic1729359464030 } from 'migration/1729359464030-SeedStatic';
+import { SeedSample1734438508319 } from 'migration/1734438508319-SeedSample';
 
-const isTestingDb = true;
+const isTestingDb = false;
+const loadSampleData = true;
 
 @Global()
 @Module({
@@ -48,7 +50,7 @@ const isTestingDb = true;
             synchronize: true,
             logging: true,
             dropSchema: isTestingDb,
-            migrations: [SeedStatic1729359464030],
+            migrations: loadSampleData ? [SeedStatic1729359464030, SeedSample1734438508319] : [SeedStatic1729359464030],
           });
           await dataSource.initialize();
           await dataSource.runMigrations();
@@ -62,4 +64,4 @@ const isTestingDb = true;
   ],
   exports: [DataSource],
 })
-export class DataSourceModule {}
+export class DataSourceModule { }
