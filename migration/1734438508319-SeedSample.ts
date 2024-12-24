@@ -9,6 +9,16 @@ export class SeedSample1734438508319 implements MigrationInterface {
     if (await this.isTableEmpty(queryRunner, 'users')) {
       await this.importUsers(queryRunner);
     }
+    if (await this.isTableEmpty(queryRunner, 'adverts')) {
+      await this.importAdverts(queryRunner);
+    }
+    if (await this.isTableEmpty(queryRunner, 'advert_pics')) {
+      await this.importAdvertPics(queryRunner);
+    }
+  }
+
+  private handleEmptyStr(str: String) {
+    return str == '""' ? '' : str;
   }
 
   private async importUsers(queryRunner: QueryRunner): Promise<void> {
@@ -27,6 +37,52 @@ export class SeedSample1734438508319 implements MigrationInterface {
           Buffer.from(line[4], 'base64'),
           line[5],
           line[6].replaceAll('"', ''),
+        ],
+      );
+    }
+    await queryRunner.commitTransaction();
+  }
+
+  private async importAdverts(queryRunner: QueryRunner): Promise<void> {
+    const data = this.loadCsv('2_adverts.csv');
+    await queryRunner.startTransaction();
+    for (const line of data) {
+      console.log(line);
+      await queryRunner.query(
+        'INSERT INTO adverts (id, title, owner_id, description, location_id, price_huf, state_id, model_id, revision, view_count, is_sold) ' +
+          'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [
+          parseInt(line[0]),
+          this.handleEmptyStr(line[1]),
+          parseInt(line[2]),
+          this.handleEmptyStr(line[3]),
+          parseInt(line[4]),
+          parseInt(line[5]),
+          parseInt(line[6]),
+          parseInt(line[7]),
+          this.handleEmptyStr(line[8]),
+          parseInt(line[9]),
+          parseInt(line[10]),
+        ],
+      );
+    }
+    await queryRunner.commitTransaction();
+  }
+
+  private async importAdvertPics(queryRunner: QueryRunner): Promise<void> {
+    const data = this.loadCsv('3_advert_pics.csv');
+    await queryRunner.startTransaction();
+    for (const line of data) {
+      console.log(line);
+      await queryRunner.query(
+        'INSERT INTO advert_pics (id, data, description, advert_id, is_priority) ' +
+          'VALUES (?, ?, ?, ?, ?)',
+        [
+          parseInt(line[0]),
+          Buffer.from(line[1], 'base64'),
+          this.handleEmptyStr(line[2]),
+          parseInt(line[3]),
+          parseInt(line[4]),
         ],
       );
     }
