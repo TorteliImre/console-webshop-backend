@@ -28,6 +28,7 @@ import { AdvertPic } from 'entities/AdvertPic';
 import sharp from 'sharp';
 import { Comment } from 'entities/Comment';
 import { Location } from 'entities/Location';
+import { Model } from '../../entities/Model';
 
 @Injectable()
 export class AdvertService {
@@ -39,6 +40,8 @@ export class AdvertService {
   private advertCommentsRepository: Repository<Comment>;
   @InjectRepository(Location)
   private locationRepository: Repository<Location>;
+  @InjectRepository(Model)
+  private modelRepository: Repository<Model>;
 
   async findById(id: number) {
     const found = await this.advertRepository.findOneBy({ id });
@@ -92,7 +95,6 @@ export class AdvertService {
     let where: FindOptionsWhere<Advert> = {};
     where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
     where.ownerId = dto.ownerId ?? undefined;
-    where.modelId = dto.modelIds ? In(dto.modelIds) : undefined;
     where.stateId = dto.stateIds ? In(dto.stateIds) : undefined;
     where.priceHuf =
       dto.priceHufMin || dto.priceHufMax
@@ -110,9 +112,23 @@ export class AdvertService {
         location.longitude,
         dto.locationMaxDistance,
       );
-
       where.locationId = In(possibleLocationIds);
     }
+
+    let possibleModelIds = dto.modelIds ?? [];
+    if (dto.manufacturerIds)
+      possibleModelIds = possibleModelIds.concat(
+        (
+          await this.modelRepository.find({
+            where: {
+              manufacturerId: In(dto.manufacturerIds),
+            },
+            select: ['id'],
+          })
+        ).map((x) => x.id),
+      );
+    where.modelId =
+      possibleModelIds.length == 0 ? undefined : In(possibleModelIds);
 
     let order: FindOptionsOrder<Advert> = {};
     if (dto.sortBy) order[dto.sortBy] = dto.sortOrder ?? 'ASC';

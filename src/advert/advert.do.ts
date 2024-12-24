@@ -169,6 +169,14 @@ export class FindAdvertsDto extends PaginatedDto {
   @IsInt({ each: true })
   @TransformNumberArray()
   @Min(1, { each: true })
+  manufacturerIds: number[];
+
+  @ApiPropertyOptional({ type: [Number] })
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  @TransformNumberArray()
+  @Min(1, { each: true })
   stateIds: number[];
 
   @ApiPropertyOptional()
