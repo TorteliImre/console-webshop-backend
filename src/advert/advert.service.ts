@@ -91,6 +91,17 @@ export class AdvertService {
     return results;
   }
 
+  async _findModelIdsOfManufacturer(manufacturerId: number) {
+    return (
+      await this.modelRepository.find({
+        where: {
+          manufacturerId: manufacturerId,
+        },
+        select: ['id'],
+      })
+    ).map((x) => x.id);
+  }
+
   async findAdverts(dto: FindAdvertsDto): Promise<FindAdvertsResultDto> {
     let where: FindOptionsWhere<Advert> = {};
     where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
@@ -115,20 +126,29 @@ export class AdvertService {
       where.locationId = In(possibleLocationIds);
     }
 
-    let possibleModelIds = dto.modelIds ?? [];
-    if (dto.manufacturerIds)
-      possibleModelIds = possibleModelIds.concat(
-        (
-          await this.modelRepository.find({
-            where: {
-              manufacturerId: In(dto.manufacturerIds),
-            },
-            select: ['id'],
-          })
-        ).map((x) => x.id),
-      );
-    where.modelId =
-      possibleModelIds.length == 0 ? undefined : In(possibleModelIds);
+    {
+      let possibleModelIds: Number[] = [];
+
+      const passedModels = await this.modelRepository.findBy({
+        id: In(dto.modelIds),
+      });
+      for (const manufactId of dto.manufacturerIds) {
+        const passedModelsForManufact = passedModels.filter(
+          (x) => x.manufacturerId == manufactId,
+        );
+        if (passedModelsForManufact.length == 0) {
+          possibleModelIds = possibleModelIds.concat(
+            await this._findModelIdsOfManufacturer(manufactId),
+          );
+        } else {
+          possibleModelIds = possibleModelIds.concat(
+            passedModelsForManufact.map((x) => x.id),
+          );
+        }
+      }
+
+      where.modelId = In(possibleModelIds);
+    }
 
     let order: FindOptionsOrder<Advert> = {};
     if (dto.sortBy) order[dto.sortBy] = dto.sortOrder ?? 'ASC';
