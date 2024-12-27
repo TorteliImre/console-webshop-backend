@@ -129,10 +129,10 @@ export class AdvertService {
     {
       let possibleModelIds: Number[] = [];
 
-      const passedModels = await this.modelRepository.findBy({
-        id: In(dto.modelIds),
+      let passedModels = await this.modelRepository.findBy({
+        id: In(dto.modelIds ?? []),
       });
-      for (const manufactId of dto.manufacturerIds) {
+      for (const manufactId of dto.manufacturerIds ?? []) {
         const passedModelsForManufact = passedModels.filter(
           (x) => x.manufacturerId == manufactId,
         );
@@ -147,7 +147,7 @@ export class AdvertService {
         }
       }
 
-      where.modelId = In(possibleModelIds);
+      if (possibleModelIds.length != 0) where.modelId = In(possibleModelIds);
     }
 
     let order: FindOptionsOrder<Advert> = {};
