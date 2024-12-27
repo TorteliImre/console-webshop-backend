@@ -136,6 +136,9 @@ export class AdvertService {
         const passedModelsForManufact = passedModels.filter(
           (x) => x.manufacturerId == manufactId,
         );
+        passedModels = passedModels.filter(
+          (x) => !passedModelsForManufact.includes(x),
+        );
         if (passedModelsForManufact.length == 0) {
           possibleModelIds = possibleModelIds.concat(
             await this._findModelIdsOfManufacturer(manufactId),
@@ -145,6 +148,9 @@ export class AdvertService {
             passedModelsForManufact.map((x) => x.id),
           );
         }
+      }
+      for (const model of passedModels) {
+        possibleModelIds.push(model.id);
       }
 
       if (possibleModelIds.length != 0) where.modelId = In(possibleModelIds);
