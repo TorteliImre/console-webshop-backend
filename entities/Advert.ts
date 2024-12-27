@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -24,6 +25,9 @@ import { CartItem } from './CartItem';
 export class Advert {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
+
+  @CreateDateColumn()
+  createdTime: Date;
 
   @Column('varchar', { name: 'title', length: 100 })
   title: string;

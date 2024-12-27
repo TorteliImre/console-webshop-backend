@@ -71,6 +71,9 @@ export class GetAdvertResultItemDto extends CreateAdvertDto {
   @ApiProperty()
   id: number;
 
+  @ApiProperty()
+  createdTime: Date;
+
   @ApiPropertyOptional()
   ownerId: number;
 
