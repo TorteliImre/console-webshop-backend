@@ -22,6 +22,7 @@ import {
   ModifyAdvertPictureDto,
   GetAdvertCommentsResultDto,
   SetPrimaryPictureDto,
+  GetAdvertResultItemDto,
 } from './advert.do';
 import {
   ApiBadRequestResponse,
@@ -61,7 +62,7 @@ export class AdvertController {
     summary: 'Get details of a specific advertisement',
     tags: ['adverts'],
   })
-  @ApiOkResponse({ type: FindAdvertsResultDto })
+  @ApiOkResponse({ type: GetAdvertResultItemDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async getAdvert(@Param() id: IdParamDto) {
