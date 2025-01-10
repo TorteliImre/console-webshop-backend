@@ -15,10 +15,17 @@ export class SeedSample1734438508319 implements MigrationInterface {
     if (await this.isTableEmpty(queryRunner, 'advert_pics')) {
       await this.importAdvertPics(queryRunner);
     }
+    if (await this.isTableEmpty(queryRunner, 'comments')) {
+      await this.importComments(queryRunner);
+    }
   }
 
   private handleEmptyStr(str: String) {
     return str == '""' ? '' : str;
+  }
+
+  private handleNan(val: number) {
+    return isNaN(val) ? null : val;
   }
 
   private async importUsers(queryRunner: QueryRunner): Promise<void> {
@@ -83,6 +90,26 @@ export class SeedSample1734438508319 implements MigrationInterface {
           this.handleEmptyStr(line[2]),
           parseInt(line[3]),
           parseInt(line[4]),
+        ],
+      );
+    }
+    await queryRunner.commitTransaction();
+  }
+
+  private async importComments(queryRunner: QueryRunner): Promise<void> {
+    const data = this.loadCsv('4_comments.csv');
+    await queryRunner.startTransaction();
+    for (const line of data) {
+      console.log(line);
+      await queryRunner.query(
+        'INSERT INTO comments (id, user_id, advert_id, text, reply_to_id) ' +
+          'VALUES (?, ?, ?, ?, ?)',
+        [
+          parseInt(line[0]),
+          parseInt(line[1]),
+          parseInt(line[2]),
+          this.handleEmptyStr(line[3]),
+          this.handleNan(parseInt(line[4])),
         ],
       );
     }
