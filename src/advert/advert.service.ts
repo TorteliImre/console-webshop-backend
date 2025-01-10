@@ -29,6 +29,7 @@ import sharp from 'sharp';
 import { Comment } from 'entities/Comment';
 import { Location } from 'entities/Location';
 import { Model } from '../../entities/Model';
+import { PaginatedDto } from 'src/common';
 
 @Injectable()
 export class AdvertService {
@@ -324,11 +325,15 @@ export class AdvertService {
     return found == null ? null : this.encodePicture(found);
   }
 
-  async findCommentsOfAdvert(id: number) {
+  async findCommentsOfAdvert(id: number, dto: PaginatedDto) {
     if (!this.advertRepository.existsBy({ id })) {
       throw new NotFoundException('No such advertisement id');
     }
-    const found = await this.advertCommentsRepository.findBy({ advertId: id });
+    const found = await this.advertCommentsRepository.find({
+      where: { advertId: id },
+      skip: dto.skip,
+      take: dto.count,
+    });
     return found;
   }
 

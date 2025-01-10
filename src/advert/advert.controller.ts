@@ -40,6 +40,7 @@ import {
   IdParam2Dto,
   IdParamDto,
   IdResponseDto,
+  PaginatedDto,
 } from 'src/common';
 
 @Controller('adverts')
@@ -206,8 +207,11 @@ export class AdvertController {
   @ApiOkResponse({ type: GetAdvertCommentsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
-  async findCommentsOfAdvert(@Param() id: IdParamDto) {
-    return await this.advertsService.findCommentsOfAdvert(id.id);
+  async findCommentsOfAdvert(
+    @Param() id: IdParamDto,
+    @Query() dto: PaginatedDto,
+  ) {
+    return await this.advertsService.findCommentsOfAdvert(id.id, dto);
   }
 
   @Post(':id/comments')
