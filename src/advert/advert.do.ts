@@ -295,4 +295,7 @@ export class GetAdvertCommentsResultDto {
 
   @ApiPropertyOptional()
   replyToId: number;
+
+  @ApiProperty()
+  createdTime: Date;
 }

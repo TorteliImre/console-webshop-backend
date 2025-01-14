@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -29,6 +30,9 @@ export class Comment {
 
   @Column('int', { name: 'reply_to_id', nullable: true })
   replyToId: number | null;
+
+  @CreateDateColumn({name: 'created_time'})
+  createdTime: Date;
 
   @ManyToOne(() => Advert, (advert) => advert.comments, {
     onDelete: 'CASCADE',
