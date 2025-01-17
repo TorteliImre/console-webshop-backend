@@ -67,7 +67,7 @@ export class AdvertController {
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async getAdvert(@Param() id: IdParamDto) {
-    return await this.advertsService.findById(id.id);
+    return await this.advertsService.findByIdAndIncreaseViewCount(id.id);
   }
 
   @Post()

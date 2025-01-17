@@ -50,6 +50,13 @@ export class AdvertService {
     return found;
   }
 
+  async findByIdAndIncreaseViewCount(id: number) {
+    const found = await this.findById(id);
+    this.advertRepository.update(id, { viewCount: () => 'viewCount + 1' });
+    ++found.viewCount;
+    return found;
+  }
+
   async createAdvert(dto: CreateAdvertDto, userId: number) {
     let toInsert = dto.toEntity();
     toInsert.ownerId = userId;
