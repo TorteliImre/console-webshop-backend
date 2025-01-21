@@ -4,6 +4,7 @@ import datetime
 import pytest
 import requests
 import base64
+from unittest.mock import ANY
 
 BASE_URL = "http://localhost:3000/api"
 
@@ -29,8 +30,9 @@ class TestUserBasic:
                 "email": "user1@mail.com",
                 "password": "pass123",
             },
-        ).json()
-        assert resp == {"id": 1}
+        )
+        assert resp.json() == {"id": 1}
+        assert resp.status_code == 201
 
         resp = requests.post(
             BASE_URL + "/user",
@@ -39,8 +41,9 @@ class TestUserBasic:
                 "email": "user2@mail.com",
                 "password": "pass123",
             },
-        ).json()
-        assert resp == {"id": 2}
+        )
+        assert resp.json() == {"id": 2}
+        assert resp.status_code == 201
 
         resp = requests.post(
             BASE_URL + "/user",
@@ -49,13 +52,14 @@ class TestUserBasic:
                 "email": "user3@mail.com",
                 "password": "pass123",
             },
-        ).json()
-        assert resp == {"id": 3}
+        )
+        assert resp.json() == {"id": 3}
+        assert resp.status_code == 201
 
     @pytest.mark.dependency(depends=["TestUserBasic::test_create"])
     def test_get(self):
-        resp = requests.get(BASE_URL + "/user/1").json()
-        assert resp == {
+        resp = requests.get(BASE_URL + "/user/1")
+        assert resp.json() == {
             "id": 1,
             "name": "user1",
             "email": "user1@mail.com",
@@ -64,8 +68,8 @@ class TestUserBasic:
             "regDate": getIsoDate()
         }
 
-        resp = requests.get(BASE_URL + "/user/2").json()
-        assert resp == {
+        resp = requests.get(BASE_URL + "/user/2")
+        assert resp.json() == {
             "id": 2,
             "name": "user2",
             "email": "user2@mail.com",
@@ -74,8 +78,8 @@ class TestUserBasic:
             "regDate": getIsoDate()
         }
 
-        resp = requests.get(BASE_URL + "/user/3").json()
-        assert resp == {
+        resp = requests.get(BASE_URL + "/user/3")
+        assert resp.json() == {
             "id": 3,
             "name": "user3",
             "email": "user3@mail.com",
@@ -248,7 +252,8 @@ class TestAdvert(LoggedInTestBase):
             "modelId": 16,
             "ownerId": 1,
             "revision": "",
-            "viewCount": 0,
+            "viewCount": 1,
+            "createdTime": ANY,
         }
 
     @pytest.mark.dependency(
@@ -282,8 +287,9 @@ class TestAdvert(LoggedInTestBase):
             "stateId": 4,
             "modelId": 16,
             "revision": "",
-            "viewCount": 0,
+            "viewCount": 2,
             "isSold": 0,
+            "createdTime": ANY,
         }
 
     @pytest.mark.dependency(
