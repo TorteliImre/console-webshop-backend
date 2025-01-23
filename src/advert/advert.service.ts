@@ -98,7 +98,7 @@ export class AdvertService {
           `,
           'distance',
         )
-        .having('distance < :maxDist', { maxDist })
+        .having('distance <= :maxDist', { maxDist })
         .getRawMany()) as Array<Location>
     ).map((x) => x.id);
     return results;
