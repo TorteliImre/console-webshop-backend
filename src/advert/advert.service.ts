@@ -77,13 +77,17 @@ export class AdvertService {
     await this.advertRepository.update(id, dto);
   }
 
-  async _findLocationsInArea(lat: number, long: number, maxDist: number) {
-    const results = await this.locationRepository
-      .createQueryBuilder()
-      .addSelect('id')
-      .addSelect('name')
-      .addSelect(
-        `
+  async _findLocationIdsInArea(
+    lat: number,
+    long: number,
+    maxDist: number,
+  ): Promise<Array<number>> {
+    const results = (
+      (await this.locationRepository
+        .createQueryBuilder()
+        .addSelect('id')
+        .addSelect(
+          `
             3959 * acos (
               cos ( radians(${lat}) )
               * cos( radians( latitude ) )
@@ -92,10 +96,11 @@ export class AdvertService {
               * sin( radians( latitude ) )
             )
           `,
-        'distance',
-      )
-      .having('distance < :maxDist', { maxDist })
-      .getRawMany();
+          'distance',
+        )
+        .having('distance < :maxDist', { maxDist })
+        .getRawMany()) as Array<Location>
+    ).map((x) => x.id);
     return results;
   }
 
@@ -126,7 +131,7 @@ export class AdvertService {
         },
         select: ['latitude', 'longitude'],
       });
-      const possibleLocationIds = await this._findLocationsInArea(
+      const possibleLocationIds = await this._findLocationIdsInArea(
         location.latitude,
         location.longitude,
         dto.locationMaxDistance,
