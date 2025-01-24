@@ -62,7 +62,6 @@ class TestUserBasic:
         assert resp.json() == {
             "id": 1,
             "name": "user1",
-            "email": "user1@mail.com",
             "bio": "",
             "picture": "",
             "regDate": getIsoDate()
@@ -73,7 +72,6 @@ class TestUserBasic:
         assert resp.json() == {
             "id": 2,
             "name": "user2",
-            "email": "user2@mail.com",
             "bio": "",
             "picture": "",
             "regDate": getIsoDate()
@@ -84,7 +82,6 @@ class TestUserBasic:
         assert resp.json() == {
             "id": 3,
             "name": "user3",
-            "email": "user3@mail.com",
             "bio": "",
             "picture": "",
             "regDate": getIsoDate()
@@ -160,7 +157,6 @@ class TestUser(LoggedInTestBase):
         assert resp.json() == {
             "id": 1,
             "name": "user1",
-            "email": "user1@mail.com",
             "bio": "This is the bio of user1.",
             "picture": "",
             "regDate": getIsoDate()
@@ -171,7 +167,6 @@ class TestUser(LoggedInTestBase):
         assert resp.json() == {
             "id": 2,
             "name": "user2",
-            "email": "user2@mail.com",
             "bio": "",
             "picture": "",
             "regDate": getIsoDate()
@@ -190,7 +185,6 @@ class TestUser(LoggedInTestBase):
         assert resp.json() == {
             "id": 1,
             "name": "user1",
-            "email": "user1@mail.com",
             "bio": "",
             "picture": "",
             "regDate": getIsoDate()
@@ -217,7 +211,6 @@ class TestUser(LoggedInTestBase):
         assert resp.json() == {
             "id": 1,
             "name": "user1",
-            "email": "user1@mail.com",
             "bio": "",
             "picture": IMAGE_PFP_DATA,
             "regDate": getIsoDate()
@@ -228,7 +221,6 @@ class TestUser(LoggedInTestBase):
         assert resp.json() == {
             "id": 2,
             "name": "user2",
-            "email": "user2@mail.com",
             "bio": "",
             "picture": "",
             "regDate": getIsoDate()

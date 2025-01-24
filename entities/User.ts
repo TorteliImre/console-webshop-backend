@@ -63,7 +63,6 @@ export class User {
     let result = new GetUserResponseDto();
     result.id = this.id;
     result.name = this.name;
-    result.email = this.email;
     result.bio = this.bio;
     result.picture = this.picture.toString('base64');
     result.regDate = this.regDate;

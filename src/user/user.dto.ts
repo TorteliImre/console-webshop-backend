@@ -57,9 +57,6 @@ export class GetUserResponseDto {
   @ApiProperty()
   name: string;
 
-  @ApiProperty()
-  email: string;
-
   @ApiProperty({ required: false })
   bio: string;
 
