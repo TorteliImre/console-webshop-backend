@@ -67,6 +67,7 @@ class TestUserBasic:
             "picture": "",
             "regDate": getIsoDate()
         }
+        assert resp.status_code == 200
 
         resp = requests.get(BASE_URL + "/user/2")
         assert resp.json() == {
@@ -77,6 +78,7 @@ class TestUserBasic:
             "picture": "",
             "regDate": getIsoDate()
         }
+        assert resp.status_code == 200
 
         resp = requests.get(BASE_URL + "/user/3")
         assert resp.json() == {
@@ -87,47 +89,54 @@ class TestUserBasic:
             "picture": "",
             "regDate": getIsoDate()
         }
+        assert resp.status_code == 200
 
     @pytest.mark.dependency(depends=["TestUserBasic::test_create"])
     def test_log_in(self):
         resp = requests.post(
             BASE_URL + "/auth/login", data={"name": "user1", "password": "pass123"}
-        ).json()
-        assert list(resp.keys()) == ["access_token"]
-        self.token1 = resp["access_token"]
+        )
+        assert resp.json() == {"access_token": ANY}
+        assert resp.status_code == 201
+        self.token1 = resp.json()["access_token"]
 
         resp = requests.post(
             BASE_URL + "/auth/login", data={"name": "user2", "password": "pass123"}
-        ).json()
-        assert list(resp.keys()) == ["access_token"]
-        self.token2 = resp["access_token"]
+        )
+        assert resp.json() == {"access_token": ANY}
+        assert resp.status_code == 201
+        self.token2 = resp.json()["access_token"]
 
         resp = requests.post(
             BASE_URL + "/auth/login", data={"name": "user3", "password": "pass123"}
-        ).json()
-        assert list(resp.keys()) == ["access_token"]
-        self.token3 = resp["access_token"]
+        )
+        assert resp.json() == {"access_token": ANY}
+        assert resp.status_code == 201
+        self.token3 = resp.json()["access_token"]
 
 
 class LoggedInTestBase:
     def setup_method(self, method):
         resp = requests.post(
             BASE_URL + "/auth/login", data={"name": "user1", "password": "pass123"}
-        ).json()
-        assert list(resp.keys()) == ["access_token"]
-        self.token1 = resp["access_token"]
+        )
+        assert resp.json() == {"access_token": ANY}
+        assert resp.status_code == 201
+        self.token1 = resp.json()["access_token"]
 
         resp = requests.post(
             BASE_URL + "/auth/login", data={"name": "user2", "password": "pass123"}
-        ).json()
-        assert list(resp.keys()) == ["access_token"]
-        self.token2 = resp["access_token"]
+        )
+        assert resp.json() == {"access_token": ANY}
+        assert resp.status_code == 201
+        self.token2 = resp.json()["access_token"]
 
         resp = requests.post(
             BASE_URL + "/auth/login", data={"name": "user3", "password": "pass123"}
-        ).json()
-        assert list(resp.keys()) == ["access_token"]
-        self.token3 = resp["access_token"]
+        )
+        assert resp.json() == {"access_token": ANY}
+        assert resp.status_code == 201
+        self.token3 = resp.json()["access_token"]
 
 
 class TestUser(LoggedInTestBase):
@@ -143,9 +152,12 @@ class TestUser(LoggedInTestBase):
             BASE_URL + "/user/setBio",
             headers={"Authorization": "Bearer " + self.token1},
             data={"bio": "This is the bio of user1."},
-        ).content
-        resp = requests.get(BASE_URL + "/user/1").json()
-        assert resp == {
+        )
+        assert resp.content == b""
+        assert resp.status_code == 201
+
+        resp = requests.get(BASE_URL + "/user/1")
+        assert resp.json() == {
             "id": 1,
             "name": "user1",
             "email": "user1@mail.com",
@@ -153,8 +165,10 @@ class TestUser(LoggedInTestBase):
             "picture": "",
             "regDate": getIsoDate()
         }
-        resp = requests.get(BASE_URL + "/user/2").json()
-        assert resp == {
+        assert resp.status_code == 200
+
+        resp = requests.get(BASE_URL + "/user/2")
+        assert resp.json() == {
             "id": 2,
             "name": "user2",
             "email": "user2@mail.com",
@@ -162,14 +176,18 @@ class TestUser(LoggedInTestBase):
             "picture": "",
             "regDate": getIsoDate()
         }
+        assert resp.status_code == 200
 
         resp = requests.post(
             BASE_URL + "/user/setBio",
             headers={"Authorization": "Bearer " + self.token1},
             data={"bio": ""},
-        ).content
-        resp = requests.get(BASE_URL + "/user/1").json()
-        assert resp == {
+        )
+        assert resp.content == b""
+        assert resp.status_code == 201
+
+        resp = requests.get(BASE_URL + "/user/1")
+        assert resp.json() == {
             "id": 1,
             "name": "user1",
             "email": "user1@mail.com",
@@ -177,6 +195,7 @@ class TestUser(LoggedInTestBase):
             "picture": "",
             "regDate": getIsoDate()
         }
+        assert resp.status_code == 200
 
     @pytest.mark.dependency(
         depends=[
@@ -190,9 +209,12 @@ class TestUser(LoggedInTestBase):
             BASE_URL + "/user/setPicture",
             headers={"Authorization": "Bearer " + self.token1},
             data={"picture": IMAGE_DATA},
-        ).content
-        resp = requests.get(BASE_URL + "/user/1").json()
-        assert resp == {
+        )
+        assert resp.content == b""
+        assert resp.status_code == 201
+
+        resp = requests.get(BASE_URL + "/user/1")
+        assert resp.json() == {
             "id": 1,
             "name": "user1",
             "email": "user1@mail.com",
@@ -200,8 +222,10 @@ class TestUser(LoggedInTestBase):
             "picture": IMAGE_PFP_DATA,
             "regDate": getIsoDate()
         }
-        resp = requests.get(BASE_URL + "/user/2").json()
-        assert resp == {
+        assert resp.status_code == 200
+
+        resp = requests.get(BASE_URL + "/user/2")
+        assert resp.json() == {
             "id": 2,
             "name": "user2",
             "email": "user2@mail.com",
@@ -209,6 +233,7 @@ class TestUser(LoggedInTestBase):
             "picture": "",
             "regDate": getIsoDate()
         }
+        assert resp.status_code == 200
 
 
 class TestAdvert(LoggedInTestBase):
@@ -229,8 +254,9 @@ class TestAdvert(LoggedInTestBase):
                 "stateId": 4,
                 "modelId": 16,
             },
-        ).json()
-        assert resp == {"id": 1}
+        )
+        assert resp.json() == {"id": 1}
+        assert resp.status_code == 201
 
     @pytest.mark.dependency(
         [
@@ -240,8 +266,8 @@ class TestAdvert(LoggedInTestBase):
     def test_get(self):
         resp = requests.get(
             BASE_URL + "/adverts/1",
-        ).json()
-        assert resp == {
+        )
+        assert resp.json() == {
             "id": 1,
             "isSold": 0,
             "title": "Test advertisement",
@@ -255,6 +281,7 @@ class TestAdvert(LoggedInTestBase):
             "viewCount": 1,
             "createdTime": ANY,
         }
+        assert resp.status_code == 200
 
     @pytest.mark.dependency(
         depends=[
@@ -273,11 +300,13 @@ class TestAdvert(LoggedInTestBase):
                 "ownerId": 6,  # Should be ignored
             },
         )
+        assert resp.content == b""
+        assert resp.status_code == 200
 
         resp = requests.get(
             BASE_URL + "/adverts/1",
-        ).json()
-        assert resp == {
+        )
+        assert resp.json() == {
             "id": 1,
             "title": "Test advertisement",
             "ownerId": 1,
@@ -291,6 +320,7 @@ class TestAdvert(LoggedInTestBase):
             "isSold": 0,
             "createdTime": ANY,
         }
+        assert resp.status_code == 200
 
     @pytest.mark.dependency(
         depends=[
@@ -306,8 +336,9 @@ class TestAdvert(LoggedInTestBase):
                 "data": IMAGE_DATA,
                 "description": "This is the description of the picture.",
             },
-        ).json()
-        assert resp == {"id": 1}
+        )
+        assert resp.json() == {"id": 1}
+        assert resp.status_code == 201
 
     @pytest.mark.dependency(
         depends=[
@@ -317,8 +348,8 @@ class TestAdvert(LoggedInTestBase):
     def test_get_pictures(self):
         resp = requests.get(
             BASE_URL + "/adverts/1/pictures",
-        ).json()
-        assert resp == [
+        )
+        assert resp.json() == [
             {
                 "id": 1,
                 "data": IMAGE_AD_DATA,
@@ -327,7 +358,8 @@ class TestAdvert(LoggedInTestBase):
                 "isPriority": 0,
             }
         ]
-    
+        assert resp.status_code == 200
+
     @pytest.mark.dependency(
         depends=[
             "TestAdvert::test_add_picture",
@@ -348,8 +380,8 @@ class TestAdvert(LoggedInTestBase):
 
         resp = requests.get(
             BASE_URL + "/adverts/1/pictures",
-        ).json()
-        assert resp == [
+        )
+        assert resp.json() == [
             {
                 "id": 1,
                 "data": IMAGE_AD_DATA,
@@ -358,3 +390,4 @@ class TestAdvert(LoggedInTestBase):
                 "isPriority": 0,
             }
         ]
+        assert resp.status_code == 200
