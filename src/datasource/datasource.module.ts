@@ -13,6 +13,7 @@ import { Comment } from 'entities/Comment';
 import { CartItem } from 'entities/CartItem';
 import { SeedStatic1729359464030 } from 'migration/1729359464030-SeedStatic';
 import { SeedSample1734438508319 } from 'migration/1734438508319-SeedSample';
+import { ConfigService } from '@nestjs/config';
 
 const isTestingDb = false;
 const loadSampleData = true;
@@ -23,15 +24,15 @@ const loadSampleData = true;
   providers: [
     {
       provide: DataSource,
-      inject: [],
-      useFactory: async () => {
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
         try {
           const dataSource = new DataSource({
             type: 'mysql',
-            host: 'localhost',
-            port: 3306,
-            username: 'root',
-            password: '',
+            host: configService.get<string>('DATABASE_HOST', 'localhost'),
+            port: configService.get<number>('DATABASE_PORT', 3306),
+            username: configService.get<string>('DATABASE_USER', 'root'),
+            password: configService.get<string>('DATABASE_PASSWORD', ''),
             database: isTestingDb
               ? 'console-webshop-testing'
               : 'console-webshop',
@@ -50,7 +51,9 @@ const loadSampleData = true;
             synchronize: true,
             logging: true,
             dropSchema: isTestingDb,
-            migrations: loadSampleData ? [SeedStatic1729359464030, SeedSample1734438508319] : [SeedStatic1729359464030],
+            migrations: loadSampleData
+              ? [SeedStatic1729359464030, SeedSample1734438508319]
+              : [SeedStatic1729359464030],
           });
           await dataSource.initialize();
           await dataSource.runMigrations();
@@ -64,4 +67,4 @@ const loadSampleData = true;
   ],
   exports: [DataSource],
 })
-export class DataSourceModule { }
+export class DataSourceModule {}

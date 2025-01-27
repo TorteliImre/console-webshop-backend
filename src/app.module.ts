@@ -13,9 +13,11 @@ import { AppLoggerMiddleware } from './logger/logger';
 import { DataSourceModule } from './datasource/datasource.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { CartModule } from './cart/cart.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     DataSourceModule,
     UserModule,
     AuthModule,
