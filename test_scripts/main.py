@@ -145,13 +145,13 @@ class TestUser(LoggedInTestBase):
         ]
     )
     def test_set_bio(self):
-        resp = requests.post(
-            BASE_URL + "/user/setBio",
+        resp = requests.patch(
+            BASE_URL + "/user",
             headers={"Authorization": "Bearer " + self.token1},
             data={"bio": "This is the bio of user1."},
         )
         assert resp.content == b""
-        assert resp.status_code == 201
+        assert resp.status_code == 200
 
         resp = requests.get(BASE_URL + "/user/1")
         assert resp.json() == {
@@ -173,13 +173,13 @@ class TestUser(LoggedInTestBase):
         }
         assert resp.status_code == 200
 
-        resp = requests.post(
-            BASE_URL + "/user/setBio",
+        resp = requests.patch(
+            BASE_URL + "/user",
             headers={"Authorization": "Bearer " + self.token1},
             data={"bio": ""},
         )
         assert resp.content == b""
-        assert resp.status_code == 201
+        assert resp.status_code == 200
 
         resp = requests.get(BASE_URL + "/user/1")
         assert resp.json() == {
@@ -199,15 +199,16 @@ class TestUser(LoggedInTestBase):
         ]
     )
     def test_set_picture(self):
-        resp = requests.post(
-            BASE_URL + "/user/setPicture",
+        resp = requests.patch(
+            BASE_URL + "/user",
             headers={"Authorization": "Bearer " + self.token1},
             data={"picture": IMAGE_DATA},
         )
         assert resp.content == b""
-        assert resp.status_code == 201
+        assert resp.status_code == 200
 
         resp = requests.get(BASE_URL + "/user/1")
+        print(resp.json())
         assert resp.json() == {
             "id": 1,
             "name": "user1",
