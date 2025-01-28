@@ -199,16 +199,15 @@ class TestUser(LoggedInTestBase):
         ]
     )
     def test_set_picture(self):
-        resp = requests.patch(
-            BASE_URL + "/user",
+        resp = requests.post(
+            BASE_URL + "/user/setPicture",
             headers={"Authorization": "Bearer " + self.token1},
             data={"picture": IMAGE_DATA},
         )
         assert resp.content == b""
-        assert resp.status_code == 200
+        assert resp.status_code == 201
 
         resp = requests.get(BASE_URL + "/user/1")
-        print(resp.json())
         assert resp.json() == {
             "id": 1,
             "name": "user1",
