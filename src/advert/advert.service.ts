@@ -238,7 +238,7 @@ export class AdvertService {
   }
 
   async findPicturesOfAdvert(id: number) {
-    if (!this.advertRepository.existsBy({ id })) {
+    if (!await this.advertRepository.existsBy({ id })) {
       throw new NotFoundException('No such advertisement id');
     }
     const found = await this.advertPicsRepository.findBy({ advertId: id });
@@ -254,7 +254,7 @@ export class AdvertService {
     dto: ModifyAdvertPictureDto,
     userId: number,
   ) {
-    if (!this.advertRepository.existsBy({ id: advertId })) {
+    if (!await this.advertRepository.existsBy({ id: advertId })) {
       throw new NotFoundException('No such advertisement id');
     }
 
@@ -286,7 +286,7 @@ export class AdvertService {
   }
 
   async setPrimaryPicture(advertId: number, picId: number, userId: number) {
-    if (!this.advertRepository.existsBy({ id: advertId })) {
+    if (!await this.advertRepository.existsBy({ id: advertId })) {
       throw new NotFoundException('No such advertisement id');
     }
 
@@ -324,7 +324,7 @@ export class AdvertService {
   }
 
   async getPrimaryPictureOfAdvert(id: number) {
-    if (!this.advertRepository.existsBy({ id })) {
+    if (!await this.advertRepository.existsBy({ id })) {
       throw new NotFoundException('No such advertisement id');
     }
     let found = await this.advertPicsRepository.findOneBy({
@@ -338,7 +338,7 @@ export class AdvertService {
   }
 
   async findCommentsOfAdvert(id: number, dto: PaginatedDto) {
-    if (!this.advertRepository.existsBy({ id })) {
+    if (!await this.advertRepository.existsBy({ id })) {
       throw new NotFoundException('No such advertisement id');
     }
     const found = await this.advertCommentsRepository.find({
@@ -354,7 +354,7 @@ export class AdvertService {
     dto: AddCommentToAdvertDto,
     userId: number,
   ) {
-    if (!this.advertRepository.existsBy({ id: advertId })) {
+    if (!await this.advertRepository.existsBy({ id: advertId })) {
       throw new NotFoundException('No such advertisement id');
     }
 
@@ -368,7 +368,7 @@ export class AdvertService {
   }
 
   async findRepliesToComment(advertId: number, commentId: number) {
-    if (!this.advertRepository.existsBy({ id: advertId })) {
+    if (!await this.advertRepository.existsBy({ id: advertId })) {
       throw new NotFoundException('No such advertisement id');
     }
 
