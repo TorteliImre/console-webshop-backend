@@ -1,0 +1,32 @@
+[X] GET     /api/user
+[X] PATCH   /api/user
+[ ] POST    /api/user
+[X] GET     /api/user/:id
+[ ] GET     /api/user/find
+[-] POST    /api/user/setBio
+[-] POST    /api/user/setPassword
+[-] POST    /api/user/setPicture
+[ ] GET     /api/adverts
+[X] POST    /api/adverts
+[X] GET     /api/adverts/:id
+[X] PATCH   /api/adverts/:id
+[ ] GET     /api/adverts/:id/comments
+[ ] POST    /api/adverts/:id/comments
+[X] GET     /api/adverts/:id/pictures
+[X] PATCH   /api/adverts/:id/pictures
+[X] POST    /api/adverts/:id/pictures
+[ ] GET     /api/adverts/:id/primaryPicture
+[ ] POST    /api/adverts/:id/primaryPictureId
+[ ] GET     /api/adverts/:id1/comments/:id2/replies
+[X] POST    /api/auth/login
+[ ] GET     /api/bookmarks
+[ ] POST    /api/bookmarks
+[ ] DELETE  /api/bookmarks/:id
+[ ] GET     /api/cart
+[ ] POST    /api/cart
+[ ] DELETE  /api/cart/:id
+[ ] GET     /api/filters/basic
+[ ] GET     /api/filters/locations
+[ ] GET     /api/filters/locations/:id
+[ ] GET     /api/filters/manufacturerOfModel
+[ ] GET     /api/filters/modelsForManufacturer
