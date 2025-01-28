@@ -1,8 +1,8 @@
 [X] GET     /api/user
 [X] PATCH   /api/user
-[ ] POST    /api/user
+[X] POST    /api/user
 [X] GET     /api/user/:id
-[ ] GET     /api/user/find
+[X] GET     /api/user/find
 [-] POST    /api/user/setBio
 [-] POST    /api/user/setPassword
 [X] POST    /api/user/setPicture

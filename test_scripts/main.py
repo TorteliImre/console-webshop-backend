@@ -227,6 +227,40 @@ class TestUser(LoggedInTestBase):
         }
         assert resp.status_code == 200
 
+    @pytest.mark.dependency(
+        depends=[
+            "TestUserBasic::test_create",
+        ]
+    )
+    def test_find_users(self):
+        resp = requests.get(
+            BASE_URL + "/user/find",
+            data={
+                "skip": 1,
+                "name": "user",
+            },
+        )
+        assert resp.json() == {
+            "items": [
+                {
+                    "id": 2,
+                    "name": "user2",
+                    "bio": "",
+                    "picture": "",
+                    "regDate": getIsoDate(),
+                },
+                {
+                    "id": 3,
+                    "name": "user3",
+                    "bio": "",
+                    "picture": "",
+                    "regDate": getIsoDate(),
+                }
+            ],
+            "resultCount": 3
+        }
+        assert resp.status_code == 200
+
 
 class TestAdvert(LoggedInTestBase):
     @pytest.mark.dependency(
