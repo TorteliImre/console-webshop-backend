@@ -8,17 +8,21 @@ from unittest.mock import ANY
 
 BASE_URL = "http://localhost:3000/api"
 
+
 def getIsoDate() -> str:
     return datetime.datetime.now().strftime("%Y-%m-%d")
+
 
 def loadImageB64(path: str) -> str:
     with open(path, "rb") as f:
         result = base64.b64encode(f.read()).decode()
     return result
 
+
 IMAGE_DATA = loadImageB64("data/picture.jpg")
 IMAGE_PFP_DATA = loadImageB64("data/picture-pfp.jpg")
 IMAGE_AD_DATA = loadImageB64("data/picture-ad.jpg")
+
 
 class TestUserBasic:
     @pytest.mark.dependency()
@@ -64,7 +68,7 @@ class TestUserBasic:
             "name": "user1",
             "bio": "",
             "picture": "",
-            "regDate": getIsoDate()
+            "regDate": getIsoDate(),
         }
         assert resp.status_code == 200
 
@@ -74,7 +78,7 @@ class TestUserBasic:
             "name": "user2",
             "bio": "",
             "picture": "",
-            "regDate": getIsoDate()
+            "regDate": getIsoDate(),
         }
         assert resp.status_code == 200
 
@@ -84,7 +88,7 @@ class TestUserBasic:
             "name": "user3",
             "bio": "",
             "picture": "",
-            "regDate": getIsoDate()
+            "regDate": getIsoDate(),
         }
         assert resp.status_code == 200
 
@@ -159,7 +163,7 @@ class TestUser(LoggedInTestBase):
             "name": "user1",
             "bio": "This is the bio of user1.",
             "picture": "",
-            "regDate": getIsoDate()
+            "regDate": getIsoDate(),
         }
         assert resp.status_code == 200
 
@@ -169,25 +173,25 @@ class TestUser(LoggedInTestBase):
             "name": "user2",
             "bio": "",
             "picture": "",
-            "regDate": getIsoDate()
+            "regDate": getIsoDate(),
         }
         assert resp.status_code == 200
 
         resp = requests.patch(
             BASE_URL + "/user",
-            headers={"Authorization": "Bearer " + self.token1},
+            headers={"Authorization": "Bearer " + self.token2},
             data={"bio": ""},
         )
         assert resp.content == b""
         assert resp.status_code == 200
 
-        resp = requests.get(BASE_URL + "/user/1")
+        resp = requests.get(BASE_URL + "/user/2")
         assert resp.json() == {
-            "id": 1,
-            "name": "user1",
+            "id": 2,
+            "name": "user2",
             "bio": "",
             "picture": "",
-            "regDate": getIsoDate()
+            "regDate": getIsoDate(),
         }
         assert resp.status_code == 200
 
@@ -211,9 +215,9 @@ class TestUser(LoggedInTestBase):
         assert resp.json() == {
             "id": 1,
             "name": "user1",
-            "bio": "",
+            "bio": "This is the bio of user1.",
             "picture": IMAGE_PFP_DATA,
-            "regDate": getIsoDate()
+            "regDate": getIsoDate(),
         }
         assert resp.status_code == 200
 
@@ -223,7 +227,7 @@ class TestUser(LoggedInTestBase):
             "name": "user2",
             "bio": "",
             "picture": "",
-            "regDate": getIsoDate()
+            "regDate": getIsoDate(),
         }
         assert resp.status_code == 200
 
@@ -235,13 +239,21 @@ class TestUser(LoggedInTestBase):
     def test_find_users(self):
         resp = requests.get(
             BASE_URL + "/user/find",
-            data={
-                "skip": 1,
+            params={
                 "name": "user",
+                "count": 2,
             },
         )
+        print(f"Got: {resp.json()}")
         assert resp.json() == {
             "items": [
+                {
+                    "id": 1,
+                    "name": "user1",
+                    "bio": "This is the bio of user1.",
+                    "picture": IMAGE_PFP_DATA,
+                    "regDate": getIsoDate(),
+                },
                 {
                     "id": 2,
                     "name": "user2",
@@ -249,15 +261,8 @@ class TestUser(LoggedInTestBase):
                     "picture": "",
                     "regDate": getIsoDate(),
                 },
-                {
-                    "id": 3,
-                    "name": "user3",
-                    "bio": "",
-                    "picture": "",
-                    "regDate": getIsoDate(),
-                }
             ],
-            "resultCount": 3
+            "resultCount": 3,
         }
         assert resp.status_code == 200
 
@@ -401,7 +406,7 @@ class TestAdvert(LoggedInTestBase):
                 "description": "This is the NEW description of the picture.",
             },
         )
-        assert resp.content == b''
+        assert resp.content == b""
         assert resp.status_code == 200
 
         resp = requests.get(
