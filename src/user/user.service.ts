@@ -74,6 +74,8 @@ export class UserService {
       this.setUserPicture(dto.picture, id);
     if (dto.password != null && dto.password != undefined)
       this.setUserPassword(dto.password, id);
+    if (dto.email != null && dto.email != undefined)
+      this.setUserEmail(dto.email, id);
   }
 
   async setUserBio(bio: string, id: number): Promise<void> {
@@ -100,6 +102,10 @@ export class UserService {
   async setUserPassword(password: string, id: number): Promise<void> {
     let passwordHash = await UserService._hashPass(password);
     await this.userRepository.update(id, { passwordHash });
+  }
+
+  async setUserEmail(email: string, id: number): Promise<void> {
+    await this.userRepository.update(id, { email });
   }
 
   async _getPassHashFromName(name: string): Promise<string | null> {

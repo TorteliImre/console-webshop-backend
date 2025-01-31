@@ -40,6 +40,11 @@ export class ModifyUserDto {
   @IsString()
   @MaxLength(100)
   password: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsEmail()
+  email: string;
 }
 
 export class FindUsersDto extends PaginatedDto {
