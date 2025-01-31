@@ -10,6 +10,7 @@ import {
   CreateUserDto,
   FindUsersDto,
   FindUsersResponseDto,
+  GetOwnUserResponseDto,
   GetUserResponseDto,
   ModifyUserDto,
   SetUserBioDto,
@@ -47,6 +48,14 @@ export class UserService {
     let found = await this.userRepository.findOne({ where: { id } });
     if (!found) throw new NotFoundException('No such user');
     return found.toGetUserDto();
+  }
+
+  async findSelfById(id: number): Promise<GetOwnUserResponseDto> {
+    let found = await this.userRepository.findOne({ where: { id } });
+    if (!found) throw new NotFoundException('No such user');
+    let converted = found.toGetUserDto() as any as GetOwnUserResponseDto;
+    converted.email = found.email;
+    return converted;
   }
 
   async find(dto: FindUsersDto): Promise<FindUsersResponseDto> {

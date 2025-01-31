@@ -27,6 +27,7 @@ import {
   CreateUserDto,
   FindUsersDto,
   FindUsersResponseDto,
+  GetOwnUserResponseDto,
   GetUserResponseDto,
   ModifyUserDto,
   SetUserBioDto,
@@ -46,12 +47,12 @@ export class UserController {
     summary: 'Get details of the logged in user',
     tags: ['users'],
   })
-  @ApiOkResponse({ type: GetUserResponseDto })
+  @ApiOkResponse({ type: GetOwnUserResponseDto })
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async getOwnInfo(@Request() req) {
-    return await this.userService.findById(req.user.id);
+    return await this.userService.findSelfById(req.user.id);
   }
 
   // TODO: Rename to ""

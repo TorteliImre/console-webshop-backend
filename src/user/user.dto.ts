@@ -72,6 +72,11 @@ export class GetUserResponseDto {
   regDate: string;
 }
 
+export class GetOwnUserResponseDto extends GetUserResponseDto{
+  @ApiProperty()
+  email: string;
+}
+
 export class FindUsersResponseDto {
   @ApiProperty({ type: [GetUserResponseDto] })
   items: GetUserResponseDto[];
