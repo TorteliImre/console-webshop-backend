@@ -289,6 +289,21 @@ class TestAdvert(LoggedInTestBase):
         assert resp.json() == {"id": 1}
         assert resp.status_code == 201
 
+        resp = requests.post(
+            BASE_URL + "/adverts",
+            headers={"Authorization": "Bearer " + self.token2},
+            data={
+                "title": "Eladó PS3",
+                "description": "Jó állapotú Sony PlayStation 3",
+                "locationId": 1492,
+                "priceHuf": 20000,
+                "stateId": 3,
+                "modelId": 11,
+            },
+        )
+        assert resp.json() == {"id": 2}
+        assert resp.status_code == 201
+
     @pytest.mark.dependency(
         [
             "TestAdvert::test_create",
@@ -311,6 +326,58 @@ class TestAdvert(LoggedInTestBase):
             "revision": "",
             "viewCount": 1,
             "createdTime": ANY,
+        }
+        assert resp.status_code == 200
+
+    @pytest.mark.dependency(
+        depends=[
+            "TestAdvert::test_create",
+        ]
+    )
+    def test_find(self):
+        resp = requests.get(
+            BASE_URL + "/adverts",
+            params={
+                "skip": 0,
+                "count": 50,
+                "priceHufMin": 10000,
+                "priceHufMax": 30000,
+                "sortBy": "priceHuf",
+                "sortOrder": "DESC",
+            },
+        )
+        assert resp.json() == {
+            "items": [
+                {
+                    "id": 2,
+                    "createdTime": ANY,
+                    "title": "Eladó PS3",
+                    "ownerId": 2,
+                    "description": "Jó állapotú Sony PlayStation 3",
+                    "locationId": 1492,
+                    "priceHuf": 20000,
+                    "stateId": 3,
+                    "modelId": 11,
+                    "revision": "",
+                    "viewCount": 0,
+                    "isSold": 0,
+                },
+                {
+                    "id": 1,
+                    "createdTime": ANY,
+                    "title": "Test advertisement",
+                    "ownerId": 1,
+                    "description": "This is the description of the test advertisement.",
+                    "locationId": 1171,
+                    "priceHuf": 15000,
+                    "stateId": 4,
+                    "modelId": 16,
+                    "revision": "",
+                    "viewCount": 1,
+                    "isSold": 0,
+                },
+            ],
+            "resultCount": 2,
         }
         assert resp.status_code == 200
 
