@@ -6,7 +6,7 @@
 [-] POST    /api/user/setBio
 [-] POST    /api/user/setPassword
 [X] POST    /api/user/setPicture
-[ ] GET     /api/adverts
+[X] GET     /api/adverts
 [X] POST    /api/adverts
 [X] GET     /api/adverts/:id
 [X] PATCH   /api/adverts/:id
