@@ -26,7 +26,7 @@ export class Advert {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({name: 'created_time'})
   createdTime: Date;
 
   @Column('varchar', { name: 'title', length: 100 })
