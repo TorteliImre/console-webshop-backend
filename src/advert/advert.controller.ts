@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -161,6 +162,24 @@ export class AdvertController {
       dto,
       req.user.id,
     );
+  }
+
+  @Delete(":id1/pictures/:id2")
+  @ApiOperation({
+    summary: "Delete an advertisement picture", tags: ["advert pictures"],
+  })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async deleteAdvertPicture(
+    @Param() id: IdParam2Dto,
+    @Request() req,
+  ) {
+    await this.advertsService.deleteAdvertPicture(id.id1, id.id2, req.user.id);
   }
 
   @Post(':id/primaryPictureId')

@@ -293,6 +293,35 @@ export class AdvertService {
     this.advertPicsRepository.update(dto.id, pic);
   }
 
+  async deleteAdvertPicture(advertId: number, picId: number, userId: number){
+    if (!(await this.advertRepository.existsBy({ id: advertId }))) {
+      throw new NotFoundException('No such advertisement id');
+    }
+
+    const pic = await this.advertPicsRepository.findOneBy({
+      id: picId,
+      advertId: advertId,
+    });
+    if (pic == null) {
+      throw new NotFoundException('No such advertisement picture');
+    }
+
+    const advert = await this.advertRepository.findOneBy({ id: pic.advertId });
+    if (advert == null) {
+      throw new Error(
+        'BUG: pic.advertId should NEVER point to a non-existent row',
+      );
+    }
+
+    if (advert.ownerId != userId) {
+      throw new ForbiddenException(
+        'Cannot delete advertisement picture of another user',
+      );
+    }
+
+    await this.advertPicsRepository.remove(pic);
+  }
+
   async setPrimaryPicture(advertId: number, picId: number, userId: number) {
     if (!(await this.advertRepository.existsBy({ id: advertId }))) {
       throw new NotFoundException('No such advertisement id');
