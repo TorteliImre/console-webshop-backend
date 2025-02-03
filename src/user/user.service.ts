@@ -78,6 +78,10 @@ export class UserService {
   }
 
   async modifyUser(id: number, dto: ModifyUserDto) {
+    if (Object.keys(dto).length == 0) {
+      throw new BadRequestException('No parameters were passed');
+    }
+
     if (dto.bio != null && dto.bio != undefined) this.setUserBio(dto.bio, id);
     if (dto.picture != null && dto.picture != undefined)
       this.setUserPicture(dto.picture, id);
