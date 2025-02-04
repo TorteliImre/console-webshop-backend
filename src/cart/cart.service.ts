@@ -8,11 +8,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CartItem } from 'entities/CartItem';
 import { Repository } from 'typeorm';
 import { AddCartItemDto } from './cart.dto';
+import { Advert } from 'entities/Advert';
 
 @Injectable()
 export class CartService {
   @InjectRepository(CartItem)
   private cartItemRepository: Repository<CartItem>;
+  @InjectRepository(Advert)
+  private advertRepository: Repository<Advert>;
 
   async getCartItemsOfUser(userId: number) {
     return await this.cartItemRepository.find({
@@ -22,6 +25,13 @@ export class CartService {
   }
 
   async addCartItem(dto: AddCartItemDto, userId: number): Promise<void> {
+    const advert = await this.advertRepository.findOneBy({ id: dto.advertId });
+    if (advert == null) {
+      throw new BadRequestException('Attemped to add invalid advert id');
+    }
+    if (advert.ownerId == userId) {
+      throw new BadRequestException('Attemped to add own advert to cart');
+    }
     if (
       await this.cartItemRepository.existsBy({ advertId: dto.advertId, userId })
     ) {
