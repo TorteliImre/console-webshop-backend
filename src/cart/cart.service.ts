@@ -17,19 +17,22 @@ export class CartService {
     return await this.cartItemRepository.findBy({ userId });
   }
 
-  async addCartItem(dto: AddCartItemDto, userId: number) {
-    return (
-      await this.cartItemRepository.insert({ advertId: dto.advertId, userId })
-    ).identifiers[0].id;
+  async addCartItem(dto: AddCartItemDto, userId: number): Promise<void> {
+    await this.cartItemRepository.insert({ advertId: dto.advertId, userId });
   }
 
-  async removeCartItem(id: number, userId: number) {
-    const found = await this.cartItemRepository.findOneBy({ id });
+  async getCartItem(advertId: number, userId: number) {
+    const found = await this.cartItemRepository.findOneBy({ advertId, userId });
     if (found == null) {
-      throw new NotFoundException('No such cart item id');
+      throw new NotFoundException('No such advert id in cart');
     }
-    if (found.userId != userId) {
-      throw new ForbiddenException('Cannot delete cart item of another user');
+    return found;
+  }
+
+  async removeCartItem(advertId: number, userId: number) {
+    const found = await this.cartItemRepository.findOneBy({ advertId, userId });
+    if (found == null) {
+      throw new NotFoundException('No such advert id in cart');
     }
     await this.cartItemRepository.remove(found);
   }

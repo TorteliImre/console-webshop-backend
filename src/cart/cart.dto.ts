@@ -8,7 +8,7 @@ export class AddCartItemDto {
   advertId: number;
 }
 
-export class GetCartItemsResponseDto {
+export class GetCartItemResponseDto {
   @ApiProperty()
   id: number;
 

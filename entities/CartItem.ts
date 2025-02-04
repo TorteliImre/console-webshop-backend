@@ -5,12 +5,14 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { Advert } from './Advert';
 import { User } from './User';
 
 @Index('cart_items_adverts_FK', ['advertId'], {})
 @Index('cart_items_users_FK', ['userId'], {})
+@Unique(['userId', 'advertId'])
 @Entity('cart_items', { schema: 'console-webshop' })
 export class CartItem {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
