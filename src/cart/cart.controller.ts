@@ -48,18 +48,18 @@ export class CartController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async getCartItem(@Param() id: IdParamDto, @Request() req) {
-    await this.cartService.getCartItem(id.id, req.user.id);
+    return await this.cartService.getCartItem(id.id, req.user.id);
   }
 
   @Post()
   @ApiOperation({ summary: 'Add an item to the cart', tags: ['cart'] })
-  @ApiOkResponse({ type: IdResponseDto })
+  @ApiOkResponse()
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async addCartItem(@Body() dto: AddCartItemDto, @Request() req) {
-    return { id: await this.cartService.addCartItem(dto, req.user.id) };
+    await this.cartService.addCartItem(dto, req.user.id);
   }
 
   @Delete(':id')
