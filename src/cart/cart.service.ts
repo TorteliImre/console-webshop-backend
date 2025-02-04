@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -18,6 +19,11 @@ export class CartService {
   }
 
   async addCartItem(dto: AddCartItemDto, userId: number): Promise<void> {
+    if (
+      await this.cartItemRepository.existsBy({ advertId: dto.advertId, userId })
+    ) {
+      throw new BadRequestException('Advert is already in the cart');
+    }
     await this.cartItemRepository.insert({ advertId: dto.advertId, userId });
   }
 
