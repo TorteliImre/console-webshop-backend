@@ -15,8 +15,8 @@ import { SeedStatic1729359464030 } from 'migration/1729359464030-SeedStatic';
 import { SeedSample1734438508319 } from 'migration/1734438508319-SeedSample';
 import { ConfigService } from '@nestjs/config';
 
-const isTestingDb = false;
-const loadSampleData = true;
+const TESTING_DB_DEFAULT = 'true';
+const LOAD_SAMPLE_DATA_DEFAULT = 'true';
 
 @Global()
 @Module({
@@ -33,9 +33,11 @@ const loadSampleData = true;
             port: configService.get<number>('DATABASE_PORT', 3306),
             username: configService.get<string>('DATABASE_USER', 'root'),
             password: configService.get<string>('DATABASE_PASSWORD', ''),
-            database: isTestingDb
-              ? 'console-webshop-testing'
-              : 'console-webshop',
+            database:
+              configService.get<string>('TESTING_DB', TESTING_DB_DEFAULT) ==
+              'true'
+                ? 'console-webshop-testing'
+                : 'console-webshop',
             entities: [
               User,
               Advert,
@@ -50,10 +52,16 @@ const loadSampleData = true;
             ],
             synchronize: true,
             logging: true,
-            dropSchema: isTestingDb,
-            migrations: loadSampleData
-              ? [SeedStatic1729359464030, SeedSample1734438508319]
-              : [SeedStatic1729359464030],
+            dropSchema:
+              configService.get<string>('TESTING_DB', TESTING_DB_DEFAULT) ==
+              'true',
+            migrations:
+              configService.get<string>(
+                'LOAD_SAMPLE_DATA',
+                LOAD_SAMPLE_DATA_DEFAULT,
+              ) == 'true'
+                ? [SeedStatic1729359464030, SeedSample1734438508319]
+                : [SeedStatic1729359464030],
           });
           await dataSource.initialize();
           await dataSource.runMigrations();
