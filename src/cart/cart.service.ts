@@ -15,7 +15,10 @@ export class CartService {
   private cartItemRepository: Repository<CartItem>;
 
   async getCartItemsOfUser(userId: number) {
-    return await this.cartItemRepository.findBy({ userId });
+    return await this.cartItemRepository.find({
+      where: { userId },
+      select: ['userId', 'advertId'],
+    });
   }
 
   async addCartItem(dto: AddCartItemDto, userId: number): Promise<void> {
@@ -28,7 +31,10 @@ export class CartService {
   }
 
   async getCartItem(advertId: number, userId: number) {
-    const found = await this.cartItemRepository.findOneBy({ advertId, userId });
+    const found = await this.cartItemRepository.findOne({
+      where: { advertId, userId },
+      select: ['userId', 'advertId'],
+    });
     if (found == null) {
       throw new NotFoundException('No such advert id in cart');
     }

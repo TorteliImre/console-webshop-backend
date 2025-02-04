@@ -10,9 +10,6 @@ export class AddCartItemDto {
 
 export class GetCartItemResponseDto {
   @ApiProperty()
-  id: number;
-
-  @ApiProperty()
   userId: number;
 
   @ApiProperty()
