@@ -8,10 +8,7 @@ export class AddBookmarkDto {
   advertId: number;
 }
 
-export class GetBookmarksResponseDto {
-  @ApiProperty()
-  id: number;
-
+export class GetBookmarkResponseDto {
   @ApiProperty()
   userId: number;
 
