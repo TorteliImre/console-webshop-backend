@@ -22,6 +22,20 @@ async function bootstrap() {
     .setTitle('Console Webshop Backend')
     .setDescription('Console Webshop Backend')
     .setVersion('1.0')
+    .addTag('users', 'Create users, find users and modify their data.')
+    .addTag('authentication', 'Log into a user account.')
+    .addTag('filters', 'Query values that can be used to filter adverts.')
+    .addTag('adverts', 'Create, find and modify advertisements.')
+    .addTag(
+      'advert pictures',
+      'Add pictures to advertisements, modify them and set primary.',
+    )
+    .addTag(
+      'advert comments',
+      'Post comments on advertisements and reply to them.',
+    )
+    .addTag('bookmarks', 'Bookmark advertisements for later viewing.')
+    .addTag('cart', 'Put advertised items to cart to buy them.')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {
