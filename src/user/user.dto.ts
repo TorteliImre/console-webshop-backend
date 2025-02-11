@@ -12,6 +12,7 @@ import { PaginatedDto } from 'src/common';
 export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
+  @MaxLength(20)
   name: string;
 
   @ApiProperty()
@@ -51,7 +52,7 @@ export class FindUsersDto extends PaginatedDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(100)
+  @MaxLength(20)
   name: string;
 }
 
@@ -72,7 +73,7 @@ export class GetUserResponseDto {
   regDate: string;
 }
 
-export class GetOwnUserResponseDto extends GetUserResponseDto{
+export class GetOwnUserResponseDto extends GetUserResponseDto {
   @ApiProperty()
   email: string;
 }
