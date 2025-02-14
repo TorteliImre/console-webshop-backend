@@ -298,4 +298,7 @@ export class GetAdvertCommentsResultDto {
 
   @ApiProperty()
   createdTime: Date;
+
+  @ApiProperty()
+  replyCount: number;
 }

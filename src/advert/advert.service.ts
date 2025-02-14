@@ -10,6 +10,7 @@ import {
   CreateAdvertDto,
   FindAdvertsDto,
   FindAdvertsResultDto,
+  GetAdvertCommentsResultDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
   priceHufMax,
@@ -375,6 +376,17 @@ export class AdvertService {
     return found == null ? null : this.encodePicture(found);
   }
 
+  async _loadCommentReplyCounts(comments: Array<GetAdvertCommentsResultDto>) {
+    for (let comm of comments) {
+      comm.replyCount = await this.advertCommentsRepository.countBy({
+        advertId: comm.advertId,
+        replyToId: comm.id,
+      });
+    }
+
+    return comments;
+  }
+
   async findCommentsOfAdvert(
     id: number,
     dto: PaginatedDto,
@@ -383,11 +395,13 @@ export class AdvertService {
     if (!(await this.advertRepository.existsBy({ id }))) {
       throw new NotFoundException('No such advertisement id');
     }
-    const found = await this.advertCommentsRepository.find({
+
+    let found = (await this.advertCommentsRepository.find({
       where: { advertId: id, replyToId: directOnly ? IsNull() : undefined },
       skip: dto.skip,
       take: dto.count,
-    });
+    })) as any as Array<GetAdvertCommentsResultDto>;
+    found = await this._loadCommentReplyCounts(found);
     return found;
   }
 
@@ -438,6 +452,8 @@ export class AdvertService {
       throw new NotFoundException('No such comment');
     }
 
-    return found.comments;
+    let replies = found.comments as any as Array<GetAdvertCommentsResultDto>;
+    replies = await this._loadCommentReplyCounts(replies);
+    return replies;
   }
 }
