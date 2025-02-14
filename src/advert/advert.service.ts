@@ -11,6 +11,7 @@ import {
   FindAdvertsDto,
   FindAdvertsResultDto,
   GetAdvertCommentsResultDto,
+  AdvertCommentDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
   priceHufMax,
@@ -376,7 +377,7 @@ export class AdvertService {
     return found == null ? null : this.encodePicture(found);
   }
 
-  async _loadCommentReplyCounts(comments: Array<GetAdvertCommentsResultDto>) {
+  async _loadCommentReplyCounts(comments: Array<AdvertCommentDto>) {
     for (let comm of comments) {
       comm.replyCount = await this.advertCommentsRepository.countBy({
         advertId: comm.advertId,
@@ -391,7 +392,7 @@ export class AdvertService {
     id: number,
     dto: PaginatedDto,
     directOnly: boolean,
-  ) {
+  ): Promise<GetAdvertCommentsResultDto> {
     if (!(await this.advertRepository.existsBy({ id }))) {
       throw new NotFoundException('No such advertisement id');
     }
@@ -400,9 +401,18 @@ export class AdvertService {
       where: { advertId: id, replyToId: directOnly ? IsNull() : undefined },
       skip: dto.skip,
       take: dto.count,
-    })) as any as Array<GetAdvertCommentsResultDto>;
+    })) as any as Array<AdvertCommentDto>;
     found = await this._loadCommentReplyCounts(found);
-    return found;
+
+    let count = await this.advertCommentsRepository.countBy({
+      advertId: id,
+      replyToId: directOnly ? IsNull() : undefined,
+    });
+
+    let result = new GetAdvertCommentsResultDto();
+    result.items = found;
+    result.resultCount = count;
+    return result;
   }
 
   async addCommentToAdvert(
@@ -452,7 +462,7 @@ export class AdvertService {
       throw new NotFoundException('No such comment');
     }
 
-    let replies = found.comments as any as Array<GetAdvertCommentsResultDto>;
+    let replies = found.comments as any as Array<AdvertCommentDto>;
     replies = await this._loadCommentReplyCounts(replies);
     return replies;
   }

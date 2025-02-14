@@ -21,9 +21,10 @@ import {
   GetAdvertPictureResultDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
-  GetAdvertCommentsResultDto,
+  AdvertCommentDto,
   SetPrimaryPictureDto,
   GetAdvertResultItemDto,
+  GetAdvertCommentsResultDto,
 } from './advert.do';
 import {
   ApiBadRequestResponse,
@@ -221,7 +222,7 @@ export class AdvertController {
     summary: 'Get comments of an advertisement',
     tags: ['advert comments'],
   })
-  @ApiOkResponse({ type: GetAdvertCommentsResultDto, isArray: true })
+  @ApiOkResponse({ type: GetAdvertCommentsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findCommentsOfAdvert(
@@ -262,7 +263,7 @@ export class AdvertController {
     summary: 'Get direct comments of an advertisement',
     tags: ['advert comments'],
   })
-  @ApiOkResponse({ type: GetAdvertCommentsResultDto, isArray: true })
+  @ApiOkResponse({ type: GetAdvertCommentsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findDirectCommentsOfAdvert(
@@ -277,7 +278,7 @@ export class AdvertController {
     summary: 'Get direct replies to a comment',
     tags: ['advert comments'],
   })
-  @ApiOkResponse({ type: GetAdvertCommentsResultDto })
+  @ApiOkResponse({ type: AdvertCommentDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findRepliesToComment(@Param() ids: IdParam2Dto) {

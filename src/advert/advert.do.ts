@@ -280,7 +280,7 @@ export class AddCommentToAdvertDto {
   text: string;
 }
 
-export class GetAdvertCommentsResultDto {
+export class AdvertCommentDto {
   @ApiProperty()
   id: number;
 
@@ -301,4 +301,12 @@ export class GetAdvertCommentsResultDto {
 
   @ApiProperty()
   replyCount: number;
+}
+
+export class GetAdvertCommentsResultDto {
+  @ApiProperty({ type: [AdvertCommentDto] })
+  items: AdvertCommentDto[];
+
+  @ApiProperty()
+  resultCount: number;
 }
