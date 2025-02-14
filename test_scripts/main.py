@@ -234,6 +234,35 @@ class TestUser(LoggedInTestBase):
     @pytest.mark.dependency(
         depends=[
             "TestUserBasic::test_create",
+            "TestUserBasic::test_log_in",
+            "TestUserBasic::test_get",
+        ]
+    )
+    def test_set_email(self):
+        resp = requests.patch(
+            BASE_URL + "/user",
+            headers={"Authorization": "Bearer " + self.token2},
+            data={"email": "new@mail.com"},
+        )
+        assert resp.content == b""
+        assert resp.status_code == 200
+
+        resp = requests.get(BASE_URL + "/user",
+            headers={"Authorization": "Bearer " + self.token2},
+        )
+        assert resp.json() == {
+            "id": 2,
+            "name": "user2",
+            "bio": ANY,
+            "picture": "",
+            "regDate": getIsoDate(),
+            "email": "new@mail.com",
+        }
+        assert resp.status_code == 200
+
+    @pytest.mark.dependency(
+        depends=[
+            "TestUserBasic::test_create",
         ]
     )
     def test_find_users(self):
