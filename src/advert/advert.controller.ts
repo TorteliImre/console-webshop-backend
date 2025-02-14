@@ -252,6 +252,7 @@ export class AdvertController {
         advertId.id,
         dto,
         req.user.id,
+        undefined,
       ),
     };
   }
@@ -281,5 +282,31 @@ export class AdvertController {
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findRepliesToComment(@Param() ids: IdParam2Dto) {
     return await this.advertsService.findRepliesToComment(ids.id1, ids.id2);
+  }
+
+  @Post(':id1/comments/:id2/replies')
+  @ApiOperation({
+    summary: 'Post a reply to a comment',
+    tags: ['advert comments'],
+  })
+  @ApiOkResponse({ type: IdResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async addReplyToComment(
+    @Param() ids: IdParam2Dto,
+    @Body() dto: AddCommentToAdvertDto,
+    @Request() req,
+  ) {
+    return {
+      id: await this.advertsService.addCommentToAdvert(
+        ids.id1,
+        dto,
+        req.user.id,
+        ids.id2,
+      ),
+    };
   }
 }

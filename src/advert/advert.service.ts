@@ -395,15 +395,27 @@ export class AdvertService {
     advertId: number,
     dto: AddCommentToAdvertDto,
     userId: number,
+    replyToId: number | undefined,
   ) {
     if (!(await this.advertRepository.existsBy({ id: advertId }))) {
       throw new NotFoundException('No such advertisement id');
+    }
+
+    if (
+      replyToId != undefined &&
+      !(await this.advertCommentsRepository.existsBy({
+        advertId: advertId,
+        id: replyToId,
+      }))
+    ) {
+      throw new NotFoundException('No such comment id');
     }
 
     const toInsert = new Comment();
     toInsert.userId = userId;
     toInsert.advertId = advertId;
     toInsert.text = dto.text;
+    toInsert.replyToId = replyToId;
 
     const result = await this.advertCommentsRepository.insert(toInsert);
     return result.identifiers[0].id;
