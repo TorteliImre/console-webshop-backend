@@ -22,6 +22,7 @@ import {
   FindOptionsWhere,
   ILike,
   In,
+  IsNull,
   Repository,
 } from 'typeorm';
 import { AdvertPic } from 'entities/AdvertPic';
@@ -293,7 +294,7 @@ export class AdvertService {
     this.advertPicsRepository.update(dto.id, pic);
   }
 
-  async deleteAdvertPicture(advertId: number, picId: number, userId: number){
+  async deleteAdvertPicture(advertId: number, picId: number, userId: number) {
     if (!(await this.advertRepository.existsBy({ id: advertId }))) {
       throw new NotFoundException('No such advertisement id');
     }
@@ -374,12 +375,16 @@ export class AdvertService {
     return found == null ? null : this.encodePicture(found);
   }
 
-  async findCommentsOfAdvert(id: number, dto: PaginatedDto) {
+  async findCommentsOfAdvert(
+    id: number,
+    dto: PaginatedDto,
+    directOnly: boolean,
+  ) {
     if (!(await this.advertRepository.existsBy({ id }))) {
       throw new NotFoundException('No such advertisement id');
     }
     const found = await this.advertCommentsRepository.find({
-      where: { advertId: id },
+      where: { advertId: id, replyToId: directOnly ? IsNull() : undefined },
       skip: dto.skip,
       take: dto.count,
     });

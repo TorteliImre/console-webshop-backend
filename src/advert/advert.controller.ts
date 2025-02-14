@@ -164,9 +164,10 @@ export class AdvertController {
     );
   }
 
-  @Delete(":id1/pictures/:id2")
+  @Delete(':id1/pictures/:id2')
   @ApiOperation({
-    summary: "Delete an advertisement picture", tags: ["advert pictures"],
+    summary: 'Delete an advertisement picture',
+    tags: ['advert pictures'],
   })
   @ApiOkResponse()
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
@@ -175,10 +176,7 @@ export class AdvertController {
   @ApiForbiddenResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async deleteAdvertPicture(
-    @Param() id: IdParam2Dto,
-    @Request() req,
-  ) {
+  async deleteAdvertPicture(@Param() id: IdParam2Dto, @Request() req) {
     await this.advertsService.deleteAdvertPicture(id.id1, id.id2, req.user.id);
   }
 
@@ -223,14 +221,14 @@ export class AdvertController {
     summary: 'Get comments of an advertisement',
     tags: ['advert comments'],
   })
-  @ApiOkResponse({ type: GetAdvertCommentsResultDto })
+  @ApiOkResponse({ type: GetAdvertCommentsResultDto, isArray: true })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findCommentsOfAdvert(
     @Param() id: IdParamDto,
     @Query() dto: PaginatedDto,
   ) {
-    return await this.advertsService.findCommentsOfAdvert(id.id, dto);
+    return await this.advertsService.findCommentsOfAdvert(id.id, dto, false);
   }
 
   @Post(':id/comments')
@@ -256,6 +254,21 @@ export class AdvertController {
         req.user.id,
       ),
     };
+  }
+
+  @Get(':id/comments/direct')
+  @ApiOperation({
+    summary: 'Get direct comments of an advertisement',
+    tags: ['advert comments'],
+  })
+  @ApiOkResponse({ type: GetAdvertCommentsResultDto, isArray: true })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  async findDirectCommentsOfAdvert(
+    @Param() id: IdParamDto,
+    @Query() dto: PaginatedDto,
+  ) {
+    return await this.advertsService.findCommentsOfAdvert(id.id, dto, true);
   }
 
   @Get(':id1/comments/:id2/replies')
