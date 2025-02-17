@@ -278,7 +278,7 @@ export class AdvertController {
     summary: 'Get direct replies to a comment',
     tags: ['advert comments'],
   })
-  @ApiOkResponse({ type: AdvertCommentDto })
+  @ApiOkResponse({ type: AdvertCommentDto, isArray: true })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
   async findRepliesToComment(@Param() ids: IdParam2Dto) {
