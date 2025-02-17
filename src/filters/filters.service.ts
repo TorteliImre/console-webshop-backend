@@ -19,7 +19,7 @@ export class FiltersService {
     private modelsRepository: Repository<Model>,
     @InjectRepository(ProductState)
     private statesRepository: Repository<Manufacturer>,
-  ) { }
+  ) {}
 
   async getBasicFilters(): Promise<GetFiltersResultDto> {
     let result = new GetFiltersResultDto();
@@ -49,9 +49,15 @@ export class FiltersService {
   }
 
   async getModelsForManufacturer(manufacturerId: number): Promise<Model[]> {
-    return this.modelsRepository.find({
-      where: { manufacturerId: manufacturerId },
+    const found = await this.manufacturersRepository.findOne({
+      where: { id: manufacturerId },
+      relations: { models: true },
     });
+    if (found == null) {
+      throw new NotFoundException('No such manufacturer ID');
+    }
+
+    return found.models;
   }
 
   async getManufacturerOfModel(modelId: number): Promise<Manufacturer> {

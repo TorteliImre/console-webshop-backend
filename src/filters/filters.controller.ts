@@ -19,7 +19,7 @@ import { HttpExceptionBody, IdParamDto } from 'src/common';
 
 @Controller('filters')
 export class FiltersController {
-  constructor(private readonly filtersService: FiltersService) { }
+  constructor(private readonly filtersService: FiltersService) {}
 
   @Get('basic')
   @ApiOperation({
@@ -61,6 +61,7 @@ export class FiltersController {
   })
   @ApiOkResponse({ type: GetModelResultDto, isArray: true })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
   async getModelsForManufacturer(@Query() dto: GetModelsForManufacturerDto) {
     return await this.filtersService.getModelsForManufacturer(
       dto.manufacturerId,
