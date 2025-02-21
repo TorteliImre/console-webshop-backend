@@ -278,11 +278,18 @@ export class AdvertController {
     summary: 'Get direct replies to a comment',
     tags: ['advert comments'],
   })
-  @ApiOkResponse({ type: AdvertCommentDto, isArray: true })
+  @ApiOkResponse({ type: GetAdvertCommentsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
-  async findRepliesToComment(@Param() ids: IdParam2Dto) {
-    return await this.advertsService.findRepliesToComment(ids.id1, ids.id2);
+  async findRepliesToComment(
+    @Param() ids: IdParam2Dto,
+    @Query() dto: PaginatedDto,
+  ) {
+    return await this.advertsService.findRepliesToComment(
+      ids.id1,
+      ids.id2,
+      dto,
+    );
   }
 
   @Post(':id1/comments/:id2/replies')

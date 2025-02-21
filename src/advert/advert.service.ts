@@ -467,25 +467,39 @@ export class AdvertService {
     return result.identifiers[0].id;
   }
 
-  async findRepliesToComment(advertId: number, commentId: number) {
+  async findRepliesToComment(
+    advertId: number,
+    commentId: number,
+    paginated: PaginatedDto,
+  ) {
     if (!(await this.advertRepository.existsBy({ id: advertId }))) {
       throw new NotFoundException('No such advertisement id');
     }
 
-    const found = await this.advertCommentsRepository.findOne({
-      where: {
+    if (
+      !(await this.advertCommentsRepository.existsBy({
         advertId,
         id: commentId,
-      },
-      relations: { comments: true },
-    });
-
-    if (found == null) {
+      }))
+    ) {
       throw new NotFoundException('No such comment');
     }
 
-    let replies = found.comments as any as Array<AdvertCommentDto>;
-    replies = await this._loadCommentReplyCounts(replies);
-    return replies;
+    let found = (await this.advertCommentsRepository.find({
+      where: { replyToId: commentId },
+      take: paginated.count,
+      skip: paginated.skip,
+    })) as any as Array<AdvertCommentDto>;
+    found = await this._loadCommentReplyCounts(found);
+
+    const count = await this.advertCommentsRepository.countBy({
+      replyToId: commentId,
+    });
+
+    let result = new GetAdvertCommentsResultDto();
+    result.items = found;
+    result.resultCount = count;
+
+    return result;
   }
 }
