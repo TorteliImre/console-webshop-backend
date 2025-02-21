@@ -415,6 +415,23 @@ export class AdvertService {
     return result;
   }
 
+  async _findCommentDepth(commentId: number | undefined) {
+    let depth = 1;
+    let comment: Comment = undefined;
+
+    while (true) {
+      comment = await this.advertCommentsRepository.findOneBy({
+        id: commentId,
+      });
+      commentId = comment.replyToId;
+      ++depth;
+
+      if (commentId == undefined) break;
+    }
+
+    return depth;
+  }
+
   async addCommentToAdvert(
     advertId: number,
     dto: AddCommentToAdvertDto,
@@ -433,6 +450,11 @@ export class AdvertService {
       }))
     ) {
       throw new NotFoundException('No such comment id');
+    }
+
+    const depth = await this._findCommentDepth(replyToId);
+    if (depth > 10) {
+      throw new BadRequestException('Too deep reply chain');
     }
 
     const toInsert = new Comment();
