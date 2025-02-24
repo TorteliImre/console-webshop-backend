@@ -25,6 +25,7 @@ import {
   SetPrimaryPictureDto,
   GetAdvertResultItemDto,
   GetAdvertCommentsResultDto,
+  PurchaseDto,
 } from './advert.do';
 import {
   ApiBadRequestResponse,
@@ -101,6 +102,18 @@ export class AdvertController {
     @Request() req,
   ) {
     await this.advertsService.modifyAdvert(id.id, dto, req.user.id);
+  }
+
+  @Post(':id/purchase')
+  @ApiOperation({ summary: 'Purchase item', tags: ['adverts'] })
+  //@ApiOkResponse({ type: IdResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard)
+  async purchaseItem(@Body() dto: PurchaseDto, @Request() req) {
+    //await this.advertsService.purchaseItem(dto, req.user.id);
+    await this.advertsService.purchaseItem(dto, 1);
   }
 
   @Get(':id/pictures')

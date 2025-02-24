@@ -321,3 +321,8 @@ export class GetAdvertCommentsResultDto {
   @ApiProperty()
   resultCount: number;
 }
+
+export class PurchaseDto {
+  @ApiProperty()
+  advertId: number;
+}

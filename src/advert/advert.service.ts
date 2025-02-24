@@ -15,6 +15,7 @@ import {
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
   priceHufMax,
+  PurchaseDto,
 } from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
@@ -82,6 +83,10 @@ export class AdvertService {
       );
     }
     await this.advertRepository.update(id, dto);
+  }
+
+  async purchaseItem(dto: PurchaseDto, userId: number) {
+    console.log(JSON.stringify(dto));
   }
 
   async _findLocationIdsInArea(
