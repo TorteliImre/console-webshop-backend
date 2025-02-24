@@ -179,6 +179,8 @@ export class AdvertService {
     let order: FindOptionsOrder<Advert> = {};
     if (dto.sortBy) order[dto.sortBy] = dto.sortOrder ?? 'ASC';
 
+    where.isSold = dto.includePurchased ? undefined : false;
+
     const found = await this.advertRepository.find({
       where,
       order,
