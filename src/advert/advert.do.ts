@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsArray,
+  IsBoolean,
   IsEnum,
   IsIn,
   IsInt,
@@ -14,7 +15,11 @@ import {
   Min,
 } from 'class-validator';
 import { Advert } from 'entities/Advert';
-import { PaginatedDto, TransformNumberArray } from '../common';
+import {
+  PaginatedDto,
+  TransformBoolean,
+  TransformNumberArray,
+} from '../common';
 
 export const priceHufMax = 10000000;
 
@@ -219,6 +224,12 @@ export class FindAdvertsDto extends PaginatedDto {
   @IsString()
   @IsEnum(AdvertsSortOrder)
   sortOrder: string;
+
+  @ApiPropertyOptional({ default: false })
+  @IsOptional()
+  @IsBoolean()
+  @TransformBoolean('includePurchased')
+  includePurchased: boolean;
 }
 
 export class AddPictureToAdvertDto {
@@ -309,4 +320,9 @@ export class GetAdvertCommentsResultDto {
 
   @ApiProperty()
   resultCount: number;
+}
+
+export class PurchaseDto {
+  @ApiProperty()
+  advertId: number;
 }

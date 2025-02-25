@@ -13,6 +13,13 @@ export function TransformNumberArray() {
   );
 }
 
+export function TransformBoolean(paramName: string) {
+  return Transform(({ obj }) => {
+    const value = obj[paramName];
+    return value.toLowerCase?.() === 'true' || value === '1';
+  });
+}
+
 export class HttpExceptionBody {
   @ApiProperty({
     oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],

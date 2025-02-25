@@ -25,6 +25,7 @@ import {
   SetPrimaryPictureDto,
   GetAdvertResultItemDto,
   GetAdvertCommentsResultDto,
+  PurchaseDto,
 } from './advert.do';
 import {
   ApiBadRequestResponse,
@@ -101,6 +102,18 @@ export class AdvertController {
     @Request() req,
   ) {
     await this.advertsService.modifyAdvert(id.id, dto, req.user.id);
+  }
+
+  @Post(':id/purchase')
+  @ApiOperation({ summary: 'Purchase item', tags: ['adverts'] })
+  //@ApiOkResponse({ type: IdResponseDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard)
+  async purchaseItem(@Body() dto: PurchaseDto, @Request() req) {
+    //await this.advertsService.purchaseItem(dto, req.user.id);
+    await this.advertsService.purchaseItem(dto, 1);
   }
 
   @Get(':id/pictures')
@@ -278,11 +291,18 @@ export class AdvertController {
     summary: 'Get direct replies to a comment',
     tags: ['advert comments'],
   })
-  @ApiOkResponse({ type: AdvertCommentDto, isArray: true })
+  @ApiOkResponse({ type: GetAdvertCommentsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiNotFoundResponse({ type: HttpExceptionBody })
-  async findRepliesToComment(@Param() ids: IdParam2Dto) {
-    return await this.advertsService.findRepliesToComment(ids.id1, ids.id2);
+  async findRepliesToComment(
+    @Param() ids: IdParam2Dto,
+    @Query() dto: PaginatedDto,
+  ) {
+    return await this.advertsService.findRepliesToComment(
+      ids.id1,
+      ids.id2,
+      dto,
+    );
   }
 
   @Post(':id1/comments/:id2/replies')

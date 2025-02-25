@@ -15,6 +15,7 @@ import {
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
   priceHufMax,
+  PurchaseDto,
 } from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
@@ -93,6 +94,10 @@ export class AdvertService {
     }
 
     await this.advertRepository.update(id, dto);
+  }
+
+  async purchaseItem(dto: PurchaseDto, userId: number) {
+    console.log(JSON.stringify(dto));
   }
 
   async _findLocationIdsInArea(
@@ -189,6 +194,8 @@ export class AdvertService {
 
     let order: FindOptionsOrder<Advert> = {};
     if (dto.sortBy) order[dto.sortBy] = dto.sortOrder ?? 'ASC';
+
+    where.isSold = dto.includePurchased ? undefined : false;
 
     const found = await this.advertRepository.find({
       where,
@@ -426,6 +433,23 @@ export class AdvertService {
     return result;
   }
 
+  async _findCommentDepth(commentId: number | undefined) {
+    let depth = 1;
+    let comment: Comment = undefined;
+
+    while (true) {
+      comment = await this.advertCommentsRepository.findOneBy({
+        id: commentId,
+      });
+      commentId = comment.replyToId;
+      ++depth;
+
+      if (commentId == undefined) break;
+    }
+
+    return depth;
+  }
+
   async addCommentToAdvert(
     advertId: number,
     dto: AddCommentToAdvertDto,
@@ -446,6 +470,11 @@ export class AdvertService {
       throw new NotFoundException('No such comment id');
     }
 
+    const depth = await this._findCommentDepth(replyToId);
+    if (depth > 10) {
+      throw new BadRequestException('Too deep reply chain');
+    }
+
     const toInsert = new Comment();
     toInsert.userId = userId;
     toInsert.advertId = advertId;
@@ -456,25 +485,39 @@ export class AdvertService {
     return result.identifiers[0].id;
   }
 
-  async findRepliesToComment(advertId: number, commentId: number) {
+  async findRepliesToComment(
+    advertId: number,
+    commentId: number,
+    paginated: PaginatedDto,
+  ) {
     if (!(await this.advertRepository.existsBy({ id: advertId }))) {
       throw new NotFoundException('No such advertisement id');
     }
 
-    const found = await this.advertCommentsRepository.findOne({
-      where: {
+    if (
+      !(await this.advertCommentsRepository.existsBy({
         advertId,
         id: commentId,
-      },
-      relations: { comments: true },
-    });
-
-    if (found == null) {
+      }))
+    ) {
       throw new NotFoundException('No such comment');
     }
 
-    let replies = found.comments as any as Array<AdvertCommentDto>;
-    replies = await this._loadCommentReplyCounts(replies);
-    return replies;
+    let found = (await this.advertCommentsRepository.find({
+      where: { replyToId: commentId },
+      take: paginated.count,
+      skip: paginated.skip,
+    })) as any as Array<AdvertCommentDto>;
+    found = await this._loadCommentReplyCounts(found);
+
+    const count = await this.advertCommentsRepository.countBy({
+      replyToId: commentId,
+    });
+
+    let result = new GetAdvertCommentsResultDto();
+    result.items = found;
+    result.resultCount = count;
+
+    return result;
   }
 }
