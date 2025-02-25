@@ -140,6 +140,11 @@ export class ModifyAdvertDto {
   revision: string;
 }
 
+export class IsAdvertInCartResultDto {
+  @ApiProperty()
+  result: boolean;
+}
+
 export enum AdvertsSortBy {
   Title = 'title',
   Owner = 'ownerId',

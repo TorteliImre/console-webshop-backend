@@ -26,6 +26,7 @@ import {
   GetAdvertResultItemDto,
   GetAdvertCommentsResultDto,
   PurchaseDto,
+  IsAdvertInCartResultDto,
 } from './advert.do';
 import {
   ApiBadRequestResponse,
@@ -102,6 +103,22 @@ export class AdvertController {
     @Request() req,
   ) {
     await this.advertsService.modifyAdvert(id.id, dto, req.user.id);
+  }
+
+  @Get(':id/isInCart')
+  @ApiOperation({
+    summary: "Check if an advertisement is in someone's cart",
+    tags: ['adverts'],
+  })
+  @ApiOkResponse({ type: IsAdvertInCartResultDto })
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async isInCart(@Param() id: IdParamDto, @Request() req) {
+    return await this.advertsService.isAdvertInCart(id.id, req.user.id);
   }
 
   @Post(':id/purchase')

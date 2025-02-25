@@ -96,6 +96,21 @@ export class AdvertService {
     await this.advertRepository.update(id, dto);
   }
 
+  async isAdvertInCart(id: number, userId: number) {
+    let found = await this.advertRepository.findOneBy({ id });
+    if (found == null) {
+      throw new NotFoundException('No such advertisement id');
+    }
+    if (found.ownerId != userId) {
+      throw new ForbiddenException(
+        "Cannot get state of another user's advertisement",
+      );
+    }
+
+    const isAdvertInCart = await this.cartRepository.existsBy({ advertId: id });
+    return { result: isAdvertInCart };
+  }
+
   async purchaseItem(dto: PurchaseDto, userId: number) {
     console.log(JSON.stringify(dto));
   }
