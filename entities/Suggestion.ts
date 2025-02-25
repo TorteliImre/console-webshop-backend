@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './User';
+import { maxSuggestionTextLength, maxSuggestionTitleLength } from 'src/limits';
 
 @Index('suggestions_users_FK', ['userId'], {})
 @Entity('suggestions', { schema: 'console-webshop' })
@@ -18,10 +19,10 @@ export class Suggestion {
   @Column('int', { name: 'user_id', nullable: true })
   userId: number | null;
 
-  @Column('varchar', { name: 'title', length: 100 })
+  @Column('varchar', { name: 'title', length: maxSuggestionTitleLength })
   title: string;
 
-  @Column('varchar', { name: 'text', length: 10000 })
+  @Column('varchar', { name: 'text', length: maxSuggestionTextLength })
   text: string;
 
   @CreateDateColumn({ name: 'created_time' })

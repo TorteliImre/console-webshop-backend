@@ -18,6 +18,7 @@ import {
 } from './user.dto';
 import * as bcrypt from 'bcrypt';
 import sharp from 'sharp';
+import { userPictureSize } from 'src/limits';
 
 function getIsoDate(): string {
   return new Date().toISOString().split('T')[0];
@@ -103,7 +104,11 @@ export class UserService {
       let img = sharp(decoded);
       await img.stats();
       decoded = await img
-        .resize({ fit: 'cover', width: 256, height: 256 })
+        .resize({
+          fit: 'cover',
+          width: userPictureSize,
+          height: userPictureSize,
+        })
         .toBuffer();
     } catch (e) {
       throw new BadRequestException(e);

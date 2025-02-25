@@ -7,6 +7,7 @@ import { Manufacturer } from 'entities/Manufacturer';
 import { ProductState } from 'entities/ProductState';
 import { Model } from 'entities/Model';
 import { assert } from 'console';
+import { maxFindLocationsResultCount } from 'src/limits';
 
 @Injectable()
 export class FiltersService {
@@ -35,7 +36,7 @@ export class FiltersService {
         { name: ILike(`${query}%`) },
         { zip: isNaN(queryInt) ? -1 : queryInt },
       ],
-      take: 100,
+      take: maxFindLocationsResultCount,
       order: { name: 'ASC' },
     });
   }

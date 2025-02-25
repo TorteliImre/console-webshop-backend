@@ -8,11 +8,16 @@ import {
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { PaginatedDto } from 'src/common';
+import {
+  maxUserBioLength,
+  maxUserNameLength,
+  maxUserPasswordLength,
+} from 'src/limits';
 
 export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
-  @MaxLength(20)
+  @MaxLength(maxUserNameLength)
   name: string;
 
   @ApiProperty()
@@ -28,7 +33,7 @@ export class ModifyUserDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(1000)
+  @MaxLength(maxUserBioLength)
   bio: string;
 
   @ApiPropertyOptional()
@@ -39,7 +44,7 @@ export class ModifyUserDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(100)
+  @MaxLength(maxUserPasswordLength)
   password: string;
 
   @ApiPropertyOptional()
@@ -52,7 +57,7 @@ export class FindUsersDto extends PaginatedDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(20)
+  @MaxLength(maxUserNameLength)
   name: string;
 }
 

@@ -20,18 +20,21 @@ import {
   TransformBoolean,
   TransformNumberArray,
 } from '../common';
-
-export const priceHufMax = 10000000;
+import {
+  maxAdvertDescriptionLength,
+  maxAdvertPrice,
+  maxAdvertTitleLength,
+} from 'src/limits';
 
 export class CreateAdvertDto {
   @ApiProperty()
   @IsNotEmpty()
-  @MaxLength(100)
+  @MaxLength(maxAdvertTitleLength)
   title: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @MaxLength(1000)
+  @MaxLength(maxAdvertDescriptionLength)
   description: string;
 
   @ApiProperty()
@@ -41,7 +44,7 @@ export class CreateAdvertDto {
   @ApiProperty()
   @IsInt()
   @Min(1)
-  @Max(priceHufMax)
+  @Max(maxAdvertPrice)
   priceHuf: number;
 
   @ApiProperty()
@@ -101,13 +104,13 @@ export class ModifyAdvertDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(100)
+  @MaxLength(maxAdvertTitleLength)
   title: string;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @MaxLength(1000)
+  @MaxLength(maxAdvertDescriptionLength)
   description: string;
 
   @ApiPropertyOptional()
@@ -119,7 +122,7 @@ export class ModifyAdvertDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  @Max(priceHufMax)
+  @Max(maxAdvertPrice)
   priceHuf: number;
 
   @ApiPropertyOptional()
@@ -196,14 +199,14 @@ export class FindAdvertsDto extends PaginatedDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  @Max(priceHufMax)
+  @Max(maxAdvertPrice)
   priceHufMin: number;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsInt()
   @Min(1)
-  @Max(priceHufMax)
+  @Max(maxAdvertPrice)
   priceHufMax: number;
 
   @ApiPropertyOptional()

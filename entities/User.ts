@@ -11,6 +11,11 @@ import { Comment } from './Comment';
 import { GetUserResponseDto } from 'src/user/user.dto';
 import { CartItem } from './CartItem';
 import { Suggestion } from './Suggestion';
+import {
+  maxUserBioLength,
+  maxUserEmailLength,
+  maxUserNameLength,
+} from 'src/limits';
 
 @Index('users_name_unique', ['name'], { unique: true })
 @Entity('users', { schema: 'console-webshop' })
@@ -18,13 +23,13 @@ export class User {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name', unique: true, length: 20 })
+  @Column('varchar', { name: 'name', unique: true, length: maxUserNameLength })
   name: string;
 
-  @Column('varchar', { name: 'email', length: 100 })
+  @Column('varchar', { name: 'email', length: maxUserEmailLength })
   email: string;
 
-  @Column('varchar', { name: 'bio', default: '', length: 1000 })
+  @Column('varchar', { name: 'bio', default: '', length: maxUserBioLength })
   bio: string;
 
   @Column('longblob', { name: 'picture', default: '' })

@@ -16,6 +16,11 @@ import { AdvertPic } from './AdvertPic';
 import { Bookmark } from './Bookmark';
 import { Comment } from './Comment';
 import { CartItem } from './CartItem';
+import {
+  maxAdvertDescriptionLength,
+  maxAdvertRevisionLength,
+  maxAdvertTitleLength,
+} from 'src/limits';
 
 @Index('adverts_locations_FK', ['locationId'], {})
 @Index('adverts_models_FK', ['modelId'], {})
@@ -26,16 +31,19 @@ export class Advert {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @CreateDateColumn({name: 'created_time'})
+  @CreateDateColumn({ name: 'created_time' })
   createdTime: Date;
 
-  @Column('varchar', { name: 'title', length: 100 })
+  @Column('varchar', { name: 'title', length: maxAdvertTitleLength })
   title: string;
 
   @Column('int', { name: 'owner_id', nullable: true })
   ownerId: number | null;
 
-  @Column('varchar', { name: 'description', length: 1000 })
+  @Column('varchar', {
+    name: 'description',
+    length: maxAdvertDescriptionLength,
+  })
   description: string;
 
   @Column('int', { name: 'location_id' })
@@ -50,7 +58,11 @@ export class Advert {
   @Column('int', { name: 'model_id' })
   modelId: number;
 
-  @Column('varchar', { name: 'revision', default: '', length: 100 })
+  @Column('varchar', {
+    name: 'revision',
+    default: '',
+    length: maxAdvertRevisionLength,
+  })
   revision: string;
 
   @Column('int', { name: 'view_count', default: 0 })

@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { json, urlencoded } from 'express';
+import { maxRequestBodySize } from './limits';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,8 +15,8 @@ async function bootstrap() {
     }),
   );
   app.setGlobalPrefix('/api');
-  app.use(json({ limit: '50mb' }));
-  app.use(urlencoded({ limit: '50mb', extended: true }));
+  app.use(json({ limit: maxRequestBodySize }));
+  app.use(urlencoded({ limit: maxRequestBodySize, extended: true }));
   app.enableCors();
 
   configureSwagger(app);

@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Advert } from './Advert';
 import { User } from './User';
+import { maxCommentLength } from 'src/limits';
 
 @Index('comments_adverts_FK', ['advertId'], {})
 @Index('comments_comments_FK', ['replyToId'], {})
@@ -25,13 +26,13 @@ export class Comment {
   @Column('int', { name: 'advert_id' })
   advertId: number;
 
-  @Column('varchar', { name: 'text', length: 1000 })
+  @Column('varchar', { name: 'text', length: maxCommentLength })
   text: string;
 
   @Column('int', { name: 'reply_to_id', nullable: true })
   replyToId: number | null;
 
-  @CreateDateColumn({name: 'created_time'})
+  @CreateDateColumn({ name: 'created_time' })
   createdTime: Date;
 
   @ManyToOne(() => Advert, (advert) => advert.comments, {

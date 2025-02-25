@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Advert } from './Advert';
+import { maxAdvertPicDescriptionLength } from 'src/limits';
 
 @Index('advert_pics_adverts_FK', ['advertId'], {})
 @Entity('advert_pics', { schema: 'console-webshop' })
@@ -17,7 +18,11 @@ export class AdvertPic {
   @Column('longblob', { name: 'data' })
   data: Buffer;
 
-  @Column('varchar', { name: 'description', default: '', length: 1000 })
+  @Column('varchar', {
+    name: 'description',
+    default: '',
+    length: maxAdvertPicDescriptionLength,
+  })
   description: string;
 
   @Column('int', { name: 'advert_id' })

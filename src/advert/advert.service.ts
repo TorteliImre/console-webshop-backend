@@ -14,7 +14,6 @@ import {
   AdvertCommentDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
-  priceHufMax,
   PurchaseDto,
 } from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -35,6 +34,12 @@ import { Location } from 'entities/Location';
 import { Model } from '../../entities/Model';
 import { PaginatedDto } from 'src/common';
 import { CartItem } from 'entities/CartItem';
+import {
+  advertPictureHeight,
+  advertPictureWidth,
+  maxAdvertPrice,
+  maxCommentReplyDepth,
+} from 'src/limits';
 
 @Injectable()
 export class AdvertService {
@@ -187,7 +192,7 @@ export class AdvertService {
     where.stateId = dto.stateIds ? In(dto.stateIds) : undefined;
     where.priceHuf =
       dto.priceHufMin || dto.priceHufMax
-        ? Between(dto.priceHufMin ?? 0, dto.priceHufMax ?? priceHufMax)
+        ? Between(dto.priceHufMin ?? 0, dto.priceHufMax ?? maxAdvertPrice)
         : undefined;
     if (dto.locationId != null && dto.locationMaxDistance != null) {
       const location = await this.locationRepository.findOne({
@@ -257,8 +262,8 @@ export class AdvertService {
       await img.stats();
       toInsert.data = await img
         .resize({
-          width: 1920,
-          height: 1080,
+          width: advertPictureWidth,
+          height: advertPictureHeight,
           fit: 'inside',
           withoutEnlargement: false,
         })
@@ -486,7 +491,7 @@ export class AdvertService {
     }
 
     const depth = await this._findCommentDepth(replyToId);
-    if (depth > 10) {
+    if (depth > maxCommentReplyDepth) {
       throw new BadRequestException('Too deep reply chain');
     }
 

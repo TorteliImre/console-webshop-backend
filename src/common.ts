@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
+import { defaultPaginationCount, maxPaginationCount } from './limits';
 
 /**
  * Parses a string or an string array to a number array.
@@ -64,10 +65,13 @@ export class PaginatedDto {
   @Min(0)
   skip: number = 0;
 
-  @ApiPropertyOptional({ default: 50, maximum: 100 })
+  @ApiPropertyOptional({
+    default: defaultPaginationCount,
+    maximum: maxPaginationCount,
+  })
   @IsOptional()
   @IsInt()
   @Min(1)
-  @Max(100)
-  count: number = 50;
+  @Max(maxPaginationCount)
+  count: number = defaultPaginationCount;
 }
