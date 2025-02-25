@@ -1,10 +1,8 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
@@ -21,7 +19,6 @@ import {
   GetAdvertPictureResultDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
-  AdvertCommentDto,
   SetPrimaryPictureDto,
   GetAdvertResultItemDto,
   GetAdvertCommentsResultDto,

@@ -1,7 +1,7 @@
-import { NestFactory } from '@nestjs/core';
+import { NestApplication, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { json, urlencoded } from 'express';
 
 async function bootstrap() {
@@ -18,6 +18,13 @@ async function bootstrap() {
   app.use(urlencoded({ limit: '50mb', extended: true }));
   app.enableCors();
 
+  configureSwagger(app);
+
+  await app.listen(3000);
+}
+bootstrap();
+
+function configureSwagger(app: INestApplication<any>) {
   const config = new DocumentBuilder()
     .setTitle('Console Webshop Backend')
     .setDescription('Console Webshop Backend')
@@ -52,7 +59,4 @@ async function bootstrap() {
     customJsStr:
       'const onLoad = window.onload; window.onload = () => {onLoad(); setTimeout(() => {document.querySelectorAll("#swagger-ui section.models button.model-box-control").forEach(btn => btn.click());}, 100)}',
   });
-
-  await app.listen(3000);
 }
-bootstrap();

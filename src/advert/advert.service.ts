@@ -76,7 +76,7 @@ export class AdvertService {
       throw new BadRequestException('No parameters were passed');
     }
 
-    let found = await this.advertRepository.findOneBy({ id });
+    const found = await this.advertRepository.findOneBy({ id });
     if (found == null) {
       throw new NotFoundException('No such advertisement id');
     }
@@ -97,7 +97,7 @@ export class AdvertService {
   }
 
   async isAdvertInCart(id: number, userId: number) {
-    let found = await this.advertRepository.findOneBy({ id });
+    const found = await this.advertRepository.findOneBy({ id });
     if (found == null) {
       throw new NotFoundException('No such advertisement id');
     }
@@ -153,6 +153,33 @@ export class AdvertService {
     ).map((x) => x.id);
   }
 
+  async _findPossibleModelIds(dto: FindAdvertsDto) {
+    let results: Number[] = [];
+
+    let passedModels = await this.modelRepository.findBy({
+      id: In(dto.modelIds ?? []),
+    });
+    for (const manufactId of dto.manufacturerIds ?? []) {
+      const passedModelsForManufact = passedModels.filter(
+        (x) => x.manufacturerId == manufactId,
+      );
+      passedModels = passedModels.filter(
+        (x) => !passedModelsForManufact.includes(x),
+      );
+      if (passedModelsForManufact.length == 0) {
+        results = results.concat(
+          await this._findModelIdsOfManufacturer(manufactId),
+        );
+      } else {
+        results = results.concat(passedModelsForManufact.map((x) => x.id));
+      }
+    }
+    for (const model of passedModels) {
+      results.push(model.id);
+    }
+    return results;
+  }
+
   async findAdverts(dto: FindAdvertsDto): Promise<FindAdvertsResultDto> {
     let where: FindOptionsWhere<Advert> = {};
     where.title = dto.title ? ILike(`%${dto.title}%`) : undefined;
@@ -177,35 +204,8 @@ export class AdvertService {
       where.locationId = In(possibleLocationIds);
     }
 
-    {
-      let possibleModelIds: Number[] = [];
-
-      let passedModels = await this.modelRepository.findBy({
-        id: In(dto.modelIds ?? []),
-      });
-      for (const manufactId of dto.manufacturerIds ?? []) {
-        const passedModelsForManufact = passedModels.filter(
-          (x) => x.manufacturerId == manufactId,
-        );
-        passedModels = passedModels.filter(
-          (x) => !passedModelsForManufact.includes(x),
-        );
-        if (passedModelsForManufact.length == 0) {
-          possibleModelIds = possibleModelIds.concat(
-            await this._findModelIdsOfManufacturer(manufactId),
-          );
-        } else {
-          possibleModelIds = possibleModelIds.concat(
-            passedModelsForManufact.map((x) => x.id),
-          );
-        }
-      }
-      for (const model of passedModels) {
-        possibleModelIds.push(model.id);
-      }
-
-      if (possibleModelIds.length != 0) where.modelId = In(possibleModelIds);
-    }
+    const possibleModelIds = await this._findPossibleModelIds(dto);
+    if (possibleModelIds.length != 0) where.modelId = In(possibleModelIds);
 
     let order: FindOptionsOrder<Advert> = {};
     if (dto.sortBy) order[dto.sortBy] = dto.sortOrder ?? 'ASC';
