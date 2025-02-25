@@ -33,6 +33,7 @@ import { Comment } from 'entities/Comment';
 import { Location } from 'entities/Location';
 import { Model } from '../../entities/Model';
 import { PaginatedDto } from 'src/common';
+import { CartItem } from 'entities/CartItem';
 
 @Injectable()
 export class AdvertService {
@@ -46,6 +47,8 @@ export class AdvertService {
   private locationRepository: Repository<Location>;
   @InjectRepository(Model)
   private modelRepository: Repository<Model>;
+  @InjectRepository(CartItem)
+  private cartRepository: Repository<CartItem>;
 
   async findById(id: number) {
     const found = await this.advertRepository.findOneBy({ id });
@@ -81,6 +84,14 @@ export class AdvertService {
         'Cannot modify advertisement of another user',
       );
     }
+
+    const isAdvertInCart = this.cartRepository.existsBy({ advertId: id });
+    if (isAdvertInCart) {
+      throw new BadRequestException(
+        "Cannot modify advertisement that is in a user's cart",
+      );
+    }
+
     await this.advertRepository.update(id, dto);
   }
 
