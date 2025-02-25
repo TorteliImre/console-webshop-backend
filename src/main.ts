@@ -36,6 +36,10 @@ async function bootstrap() {
     )
     .addTag('bookmarks', 'Bookmark advertisements for later viewing.')
     .addTag('cart', 'Put advertised items to cart to buy them.')
+    .addTag(
+      'suggestions',
+      'Suggest new features and modifications to site owners.',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {

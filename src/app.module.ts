@@ -14,6 +14,7 @@ import { DataSourceModule } from './datasource/datasource.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { CartModule } from './cart/cart.module';
 import { ConfigModule } from '@nestjs/config';
+import { SuggestionsModule } from './suggestions/suggestions.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ConfigModule } from '@nestjs/config';
     AdvertModule,
     BookmarkModule,
     CartModule,
+    SuggestionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

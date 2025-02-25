@@ -10,6 +10,7 @@ import { Bookmark } from './Bookmark';
 import { Comment } from './Comment';
 import { GetUserResponseDto } from 'src/user/user.dto';
 import { CartItem } from './CartItem';
+import { Suggestion } from './Suggestion';
 
 @Index('users_name_unique', ['name'], { unique: true })
 @Entity('users', { schema: 'console-webshop' })
@@ -46,6 +47,9 @@ export class User {
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.user)
   cartItems: Bookmark[];
+
+  @OneToMany(() => Suggestion, (suggestions) => suggestions.user)
+  suggestions: Suggestion[];
 
   constructor(
     name: string,
