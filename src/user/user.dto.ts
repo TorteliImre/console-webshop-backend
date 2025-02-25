@@ -10,6 +10,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { PaginatedDto } from 'src/common';
 import {
   maxUserBioLength,
+  maxUserEmailLength,
   maxUserNameLength,
   maxUserPasswordLength,
 } from 'src/limits';
@@ -22,10 +23,12 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsEmail()
+  @MaxLength(maxUserEmailLength)
   email: string;
 
   @ApiProperty()
   @IsNotEmpty()
+  @MaxLength(maxUserPasswordLength)
   password: string;
 }
 
@@ -50,6 +53,7 @@ export class ModifyUserDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsEmail()
+  @MaxLength(maxUserEmailLength)
   email: string;
 }
 
@@ -94,6 +98,7 @@ export class FindUsersResponseDto {
 export class SetUserBioDto {
   @ApiProperty()
   @IsString()
+  @MaxLength(maxUserBioLength)
   bio: string;
 }
 
@@ -106,5 +111,6 @@ export class SetUserPicDto {
 export class SetUserPassDto {
   @ApiProperty()
   @IsNotEmpty()
+  @MaxLength(maxUserPasswordLength)
   password: string;
 }

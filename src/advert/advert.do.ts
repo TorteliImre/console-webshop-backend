@@ -22,8 +22,10 @@ import {
 } from '../common';
 import {
   maxAdvertDescriptionLength,
+  maxAdvertPicDescriptionLength,
   maxAdvertPrice,
   maxAdvertTitleLength,
+  maxCommentLength,
 } from 'src/limits';
 
 export class CreateAdvertDto {
@@ -163,6 +165,7 @@ export class FindAdvertsDto extends PaginatedDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
+  @MaxLength(maxAdvertTitleLength)
   title: string;
 
   @ApiPropertyOptional()
@@ -248,6 +251,7 @@ export class AddPictureToAdvertDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
+  @MaxLength(maxAdvertPicDescriptionLength)
   description: string;
 }
 
@@ -282,6 +286,7 @@ export class ModifyAdvertPictureDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
+  @MaxLength(maxAdvertPicDescriptionLength)
   description: string;
 }
 
@@ -296,6 +301,7 @@ export class AddCommentToAdvertDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
+  @MaxLength(maxCommentLength)
   text: string;
 }
 
