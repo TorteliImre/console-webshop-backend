@@ -80,6 +80,9 @@ export class GetUserResponseDto {
 
   @ApiProperty()
   regDate: string;
+
+  @ApiProperty()
+  isAdmin: boolean;
 }
 
 export class GetOwnUserResponseDto extends GetUserResponseDto {

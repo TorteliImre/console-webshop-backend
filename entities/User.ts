@@ -41,6 +41,9 @@ export class User {
   @Column('date', { name: 'reg_date' })
   regDate: string;
 
+  @Column('bool', { name: 'is_admin', default: false })
+  isAdmin: boolean;
+
   @OneToMany(() => Advert, (advert) => advert.owner)
   adverts: Advert[];
 
@@ -75,6 +78,7 @@ export class User {
     result.bio = this.bio;
     result.picture = this.picture.toString('base64');
     result.regDate = this.regDate;
+    result.isAdmin = this.isAdmin;
     return result;
   }
 }
