@@ -4,6 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { json, urlencoded } from 'express';
 import { maxRequestBodySize } from './limits';
+import { AdminOnly } from './admin/admin.guard';
+import { AdminGuard } from './admin/admin.decorator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
