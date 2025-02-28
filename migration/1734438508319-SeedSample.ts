@@ -18,6 +18,9 @@ export class SeedSample1734438508319 implements MigrationInterface {
     if (await this.isTableEmpty(queryRunner, 'comments')) {
       await this.importComments(queryRunner);
     }
+    if (await this.isTableEmpty(queryRunner, 'suggestions')) {
+      await this.importSuggestions(queryRunner);
+    }
   }
 
   private handleEmptyStr(str: String) {
@@ -110,6 +113,25 @@ export class SeedSample1734438508319 implements MigrationInterface {
           parseInt(line[2]),
           this.handleEmptyStr(line[3]),
           this.handleNan(parseInt(line[4])),
+        ],
+      );
+    }
+    await queryRunner.commitTransaction();
+  }
+
+  private async importSuggestions(queryRunner: QueryRunner): Promise<void> {
+    const data = this.loadCsv('5_suggestions.csv');
+    await queryRunner.startTransaction();
+    for (const line of data) {
+      console.log(line);
+      await queryRunner.query(
+        'INSERT INTO suggestions (id, user_id, title, text) ' +
+          'VALUES (?, ?, ?, ?)',
+        [
+          parseInt(line[0]),
+          parseInt(line[1]),
+          this.handleEmptyStr(line[2]),
+          this.handleEmptyStr(line[3]),
         ],
       );
     }
