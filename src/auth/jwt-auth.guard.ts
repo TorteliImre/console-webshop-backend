@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -8,6 +9,7 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { jwtConstants } from './constants';
+import { IS_ADMIN_ONLY_KEY } from 'src/admin/admin.decorator';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -26,6 +28,16 @@ export class JwtAuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
+
+      const onlyAllowAdmin = this.reflector.get(
+        IS_ADMIN_ONLY_KEY,
+        context.getHandler(),
+      );
+
+      if (onlyAllowAdmin && !payload.isAdmin) {
+        throw new ForbiddenException();
+      }
+
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException();

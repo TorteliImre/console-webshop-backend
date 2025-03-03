@@ -143,4 +143,13 @@ export class UserService {
       })
     )?.id;
   }
+
+  async _getIsAdminFromName(name: string): Promise<boolean | null> {
+    return (
+      await this.userRepository.findOne({
+        where: { name },
+        select: ['isAdmin'],
+      })
+    )?.isAdmin;
+  }
 }

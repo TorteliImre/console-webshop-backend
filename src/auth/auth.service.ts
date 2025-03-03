@@ -26,11 +26,12 @@ export class AuthService {
     }
 
     const userId = await this.usersService._getIdFromName(username);
-    console.log(userId);
+
+    const isAdmin = await this.usersService._getIsAdminFromName(username);
 
     return {
       access_token: await this.jwtService.signAsync(
-        { username, id: userId },
+        { username, id: userId, isAdmin },
         { secret: jwtConstants.secret },
       ),
     };
