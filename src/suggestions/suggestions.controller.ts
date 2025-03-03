@@ -19,8 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { HttpExceptionBody, IdResponseDto, PaginatedDto } from 'src/common';
-import { CreateSuggestionDto } from './suggestions.dto';
-import { Any } from 'typeorm';
+import { GetSuggestionsResultDto, SuggestionDto } from './suggestions.dto';
 import { AdminOnly } from 'src/admin/admin.decorator';
 
 @Controller('suggestions')
@@ -32,7 +31,7 @@ export class SuggestionsController {
     summary: 'Get suggestions',
     tags: ['suggestions'],
   })
-  @ApiOkResponse({ type: Any })
+  @ApiOkResponse({ type: GetSuggestionsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiForbiddenResponse({ type: HttpExceptionBody })
   @AdminOnly()
@@ -48,7 +47,7 @@ export class SuggestionsController {
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async createSuggestion(@Body() dto: CreateSuggestionDto, @Request() req) {
+  async createSuggestion(@Body() dto: SuggestionDto, @Request() req) {
     return {
       id: await this.suggestionsService.createSuggestion(dto, req.user.id),
     };

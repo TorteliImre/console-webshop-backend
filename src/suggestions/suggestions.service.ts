@@ -2,10 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Suggestion } from 'entities/Suggestion';
 import { Repository } from 'typeorm';
-import {
-  CreateSuggestionDto,
-  GetSuggestionsResultDto,
-} from './suggestions.dto';
+import { SuggestionDto, GetSuggestionsResultDto } from './suggestions.dto';
 import { PaginatedDto } from 'src/common';
 
 @Injectable()
@@ -28,7 +25,7 @@ export class SuggestionsService {
     return result;
   }
 
-  async createSuggestion(dto: CreateSuggestionDto, userId: number) {
+  async createSuggestion(dto: SuggestionDto, userId: number) {
     const toInsert = dto as any as Suggestion;
     toInsert.userId = userId;
 
