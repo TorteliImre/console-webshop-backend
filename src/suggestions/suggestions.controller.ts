@@ -5,6 +5,7 @@ import {
   Post,
   Query,
   Request,
+  SetMetadata,
   UseGuards,
 } from '@nestjs/common';
 import { SuggestionsService } from './suggestions.service';
@@ -14,12 +15,13 @@ import {
   ApiUnauthorizedResponse,
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiForbiddenResponse,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { HttpExceptionBody, IdResponseDto, PaginatedDto } from 'src/common';
 import { CreateSuggestionDto } from './suggestions.dto';
 import { Any } from 'typeorm';
-import { AdminGuard } from 'src/admin/admin.decorator';
+import { AdminOnly } from 'src/admin/admin.decorator';
 
 @Controller('suggestions')
 export class SuggestionsController {
@@ -32,8 +34,9 @@ export class SuggestionsController {
   })
   @ApiOkResponse({ type: Any })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiForbiddenResponse({ type: HttpExceptionBody })
+  @AdminOnly()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(AdminGuard)
   async getSuggestions(@Query() dto: PaginatedDto) {
     return await this.suggestionsService.getSuggestions(dto);
   }
