@@ -24,24 +24,25 @@ export class JwtAuthGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException();
     }
+    let payload: any;
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
-
-      const onlyAllowAdmin = this.reflector.get(
-        IS_ADMIN_ONLY_KEY,
-        context.getHandler(),
-      );
-
-      if (onlyAllowAdmin && !payload.isAdmin) {
-        throw new ForbiddenException();
-      }
-
-      request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
+
+    const onlyAllowAdmin = this.reflector.get(
+      IS_ADMIN_ONLY_KEY,
+      context.getHandler(),
+    );
+
+    if (onlyAllowAdmin && !payload.isAdmin) {
+      throw new ForbiddenException();
+    }
+
+    request['user'] = payload;
     return true;
   }
 
