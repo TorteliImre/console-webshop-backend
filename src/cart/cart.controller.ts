@@ -75,7 +75,7 @@ export class CartController {
   }
 
   @Post('purchase')
-  @ApiOperation({ summary: 'Purchase items', tags: ['adverts'] })
+  @ApiOperation({ summary: 'Purchase items', tags: ['cart'] })
   @ApiOkResponse()
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBadRequestResponse({ type: HttpExceptionBody })

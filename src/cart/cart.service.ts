@@ -66,8 +66,25 @@ export class CartService {
   }
 
   async purchaseItems(userId: number) {
+    const items = await this.cartItemRepository.findBy({ userId });
+
+    // TODO: Check if item is sold
+
     console.log(
-      `purchaseItems called, items in cart: ${JSON.stringify(await this.getCartItemsOfUser(userId))}`,
+      `purchaseItems called, items in cart: ${JSON.stringify(items)}`,
     );
+
+    if (items.length == 0) {
+      throw new BadRequestException('There are no items to purchase');
+    }
+
+    for (let item of items) {
+      await this.advertRepository.update(
+        { id: item.advertId },
+        { isSold: true },
+      );
+    }
+
+    await this.cartItemRepository.remove(items);
   }
 }
