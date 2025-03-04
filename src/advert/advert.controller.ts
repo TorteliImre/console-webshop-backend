@@ -22,7 +22,6 @@ import {
   SetPrimaryPictureDto,
   GetAdvertResultItemDto,
   GetAdvertCommentsResultDto,
-  PurchaseItemsDto,
   IsAdvertInCartResultDto,
 } from './advert.do';
 import {
@@ -116,18 +115,6 @@ export class AdvertController {
   @UseGuards(JwtAuthGuard)
   async isInCart(@Param() id: IdParamDto, @Request() req) {
     return await this.advertsService.isAdvertInCart(id.id, req.user.id);
-  }
-
-  @Post(':id/purchase')
-  @ApiOperation({ summary: 'Purchase item', tags: ['adverts'] })
-  //@ApiOkResponse({ type: IdResponseDto })
-  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
-  @ApiBadRequestResponse({ type: HttpExceptionBody })
-  @ApiBearerAuth()
-  //@UseGuards(JwtAuthGuard)
-  async purchaseItem(@Body() dto: PurchaseItemsDto, @Request() req) {
-    //await this.advertsService.purchaseItem(dto, req.user.id);
-    await this.advertsService.purchaseItem(dto, 1);
   }
 
   @Get(':id/pictures')

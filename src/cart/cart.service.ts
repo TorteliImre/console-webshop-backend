@@ -64,4 +64,10 @@ export class CartService {
     }
     await this.cartItemRepository.remove(found);
   }
+
+  async purchaseItems(userId: number) {
+    console.log(
+      `purchaseItems called, items in cart: ${JSON.stringify(await this.getCartItemsOfUser(userId))}`,
+    );
+  }
 }

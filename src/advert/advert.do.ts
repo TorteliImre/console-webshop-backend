@@ -335,8 +335,3 @@ export class GetAdvertCommentsResultDto {
   @ApiProperty()
   resultCount: number;
 }
-
-export class PurchaseItemsDto {
-  @ApiProperty({ type: [Number] })
-  advertId: number;
-}

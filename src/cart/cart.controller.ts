@@ -73,4 +73,16 @@ export class CartController {
   async removeItemFromCart(@Param() id: IdParamDto, @Request() req) {
     await this.cartService.removeCartItem(id.id, req.user.id);
   }
+
+  @Post('purchase')
+  @ApiOperation({ summary: 'Purchase items', tags: ['adverts'] })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard)
+  async purchaseItem(@Request() req) {
+    //await this.advertsService.purchaseItem(dto, req.user.id);
+    await this.cartService.purchaseItems(1);
+  }
 }
