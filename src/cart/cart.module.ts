@@ -9,10 +9,18 @@ import { AdvertService } from 'src/advert/advert.service';
 import { AdvertPic } from 'entities/AdvertPic';
 import { Comment } from 'entities/Comment';
 import { Location } from 'entities/Location';
+import { Model } from 'entities/Model';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CartItem, Advert, AdvertPic, Comment, Location]),
+    TypeOrmModule.forFeature([
+      CartItem,
+      Advert,
+      AdvertPic,
+      Comment,
+      Location,
+      Model,
+    ]),
     AdvertModule,
   ],
   controllers: [CartController],
