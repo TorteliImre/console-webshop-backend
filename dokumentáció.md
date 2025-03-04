@@ -1,10 +1,11 @@
 # Konzol webshop dokumentáció
 ## Bevezetés
 ### Témaválasztás indoklása
-### Célkitűzés
+A konzol árusító oldal ötlete a csapat videójátékok iránti szenvedélyéből ered. A webshop ötlet már hamar felmerült, viszont a játékkonzolos fő téma csak később került szóba.
 ### Záródolgozatom témája, mégis milyen funkciókat foglal magába?
-### Kiknek szánjuk a weboldalt
+Egy videójáték konzolok árusítására specializálódott internetes áruház, ahol felhasználók feltölthetnek hirdetéseket, illetve böngészhetnek azok között. A weboldal fő funkciói közé tartozik a felhasználói profil regisztrációja és testreszabása, a hirdetések közzétéle, a hirdetések részletes keresése.
 ### De miben másabb, mint a többi
+Weboldalunk fő sajátossága más felhasználók által vezérelt áruházzal szemben a részletes szűrési lehetőség a hirdetések létrehzása és keresése közben. Ez a rendszer lehetővé teszi, hogy a felhasználók könnyedén megtalálják azokat a hirdetéseket amelyek a számukra megfelelőek.
 ## Fejlesztői dokumentáció
 ### Milyen programozási nyelveket használtam?
 ### Fejlesztői környezet
