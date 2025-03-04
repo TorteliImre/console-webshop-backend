@@ -7,11 +7,10 @@ export class AppLoggerMiddleware implements NestMiddleware {
 
   use(request: Request, response: Response, next: NextFunction): void {
     response.on('close', () => {
-      const { statusCode } = response;
+      const { statusCode, statusMessage } = response;
 
       this.logger.log(
-        `${request.method} ${request.url} ${statusCode} ` +
-          `${JSON.stringify(request.params)} ${JSON.stringify(request.body)}`,
+        `${request.method} ${request.url} ${JSON.stringify(request.params)} ${JSON.stringify(request.body)} => ${statusCode} ${statusMessage}`,
       );
     });
 
