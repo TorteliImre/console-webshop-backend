@@ -9,6 +9,7 @@ import { CartItem } from 'entities/CartItem';
 import { Repository } from 'typeorm';
 import { AddCartItemDto } from './cart.dto';
 import { Advert } from 'entities/Advert';
+import { AdvertService } from 'src/advert/advert.service';
 
 @Injectable()
 export class CartService {
@@ -16,6 +17,8 @@ export class CartService {
   private cartItemRepository: Repository<CartItem>;
   @InjectRepository(Advert)
   private advertRepository: Repository<Advert>;
+
+  constructor(private advertService: AdvertService) {}
 
   async getCartItemsOfUser(userId: number) {
     return await this.cartItemRepository.find({
@@ -36,6 +39,9 @@ export class CartService {
       await this.cartItemRepository.existsBy({ advertId: dto.advertId, userId })
     ) {
       throw new BadRequestException('Advert is already in the cart');
+    }
+    if (await this.advertService._isItemSold(dto.advertId)) {
+      throw new BadRequestException('Item has already been sold');
     }
     await this.cartItemRepository.insert({ advertId: dto.advertId, userId });
   }

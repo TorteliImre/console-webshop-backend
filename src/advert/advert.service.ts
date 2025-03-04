@@ -14,7 +14,7 @@ import {
   AdvertCommentDto,
   ModifyAdvertDto,
   ModifyAdvertPictureDto,
-  PurchaseDto,
+  PurchaseItemsDto,
 } from './advert.do';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from 'entities/Advert';
@@ -116,9 +116,13 @@ export class AdvertService {
     return { result: isAdvertInCart };
   }
 
-  async purchaseItem(dto: PurchaseDto, userId: number) {
-    console.log(JSON.stringify(dto));
+  async _isItemSold(id: number) {
+    return (
+      await this.advertRepository.findOne({ where: { id }, select: ['isSold'] })
+    ).isSold;
   }
+
+  async purchaseItem(dto: PurchaseItemsDto, userId: number) {}
 
   async _findLocationIdsInArea(
     lat: number,

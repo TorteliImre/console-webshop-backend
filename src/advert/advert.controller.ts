@@ -22,7 +22,7 @@ import {
   SetPrimaryPictureDto,
   GetAdvertResultItemDto,
   GetAdvertCommentsResultDto,
-  PurchaseDto,
+  PurchaseItemsDto,
   IsAdvertInCartResultDto,
 } from './advert.do';
 import {
@@ -125,7 +125,7 @@ export class AdvertController {
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   //@UseGuards(JwtAuthGuard)
-  async purchaseItem(@Body() dto: PurchaseDto, @Request() req) {
+  async purchaseItem(@Body() dto: PurchaseItemsDto, @Request() req) {
     //await this.advertsService.purchaseItem(dto, req.user.id);
     await this.advertsService.purchaseItem(dto, 1);
   }
