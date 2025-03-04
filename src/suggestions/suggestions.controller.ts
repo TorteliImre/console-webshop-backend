@@ -34,6 +34,7 @@ export class SuggestionsController {
   @ApiOkResponse({ type: GetSuggestionsResultDto })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiForbiddenResponse({ type: HttpExceptionBody })
+  @ApiBearerAuth()
   @AdminOnly()
   @UseGuards(JwtAuthGuard)
   async getSuggestions(@Query() dto: PaginatedDto) {
