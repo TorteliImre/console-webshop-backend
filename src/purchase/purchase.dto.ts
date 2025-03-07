@@ -1,3 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-// TODO
+export class GetPurchaseResponseDto {
+  @ApiProperty()
+  userId: number;
+
+  @ApiProperty()
+  advertId: number;
+
+  @ApiProperty()
+  createdTime: string;
+}

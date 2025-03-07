@@ -1,12 +1,8 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Purchase } from 'entities/Purchase';
+import { GetPurchaseResponseDto } from './purchase.dto';
 
 @Injectable()
 export class PurchaseService {
@@ -14,16 +10,23 @@ export class PurchaseService {
   private purchaseRepository: Repository<Purchase>;
 
   async getPurchasesBy(userId: number) {
-    return await this.purchaseRepository.findBy({ userId });
+    const results = await this.purchaseRepository.find({
+      where: { userId },
+      select: ['advertId', 'userId', 'createdTime'],
+    });
+    return results as any as Array<GetPurchaseResponseDto>;
   }
 
   async getPurchasesFrom(userId: number) {
-    let results = await this.purchaseRepository
+    const results = await this.purchaseRepository
       .createQueryBuilder('purchase')
       .leftJoin('purchase.advert', 'advert')
       .where('advert.owner = :userId', { userId })
+      .select('purchase.userId')
+      .addSelect('purchase.advertId')
+      .addSelect('purchase.createdTime')
       .getMany();
-    return results;
+    return results as any as Array<GetPurchaseResponseDto>;
   }
 
   async _addPurchase(userId: number, advertId: number) {
