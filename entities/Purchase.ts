@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Advert } from './Advert';
 import { User } from './User';
+import { Rating } from './Rating';
 
 @Index('purchases_adverts_FK', ['advertId'], {})
 @Index('purchases_users_FK', ['userId'], {})
@@ -44,4 +45,11 @@ export class Purchase {
   })
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
   user: User;
+
+  @OneToOne(() => Rating, (rating) => rating.purchase, {
+    onDelete: 'CASCADE',
+    onUpdate: 'RESTRICT',
+  })
+  @JoinColumn([{ name: 'rating_id', referencedColumnName: 'id' }])
+  rating: Rating;
 }
