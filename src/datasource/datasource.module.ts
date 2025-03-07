@@ -15,6 +15,7 @@ import { SeedStatic1729359464030 } from 'migration/1729359464030-SeedStatic';
 import { SeedSample1734438508319 } from 'migration/1734438508319-SeedSample';
 import { ConfigService } from '@nestjs/config';
 import { Suggestion } from 'entities/Suggestion';
+import { Purchase } from 'entities/Purchase';
 
 const TESTING_DB_DEFAULT = 'true';
 const LOAD_SAMPLE_DATA_DEFAULT = 'true';
@@ -51,6 +52,7 @@ const LOAD_SAMPLE_DATA_DEFAULT = 'true';
               Comment,
               CartItem,
               Suggestion,
+              Purchase,
             ],
             synchronize: true,
             logging: true,

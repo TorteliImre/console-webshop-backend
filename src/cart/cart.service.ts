@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { AddCartItemDto } from './cart.dto';
 import { Advert } from 'entities/Advert';
 import { AdvertService } from 'src/advert/advert.service';
+import { PurchaseService } from 'src/purchase/purchase.service';
 
 @Injectable()
 export class CartService {
@@ -18,7 +19,10 @@ export class CartService {
   @InjectRepository(Advert)
   private advertRepository: Repository<Advert>;
 
-  constructor(private advertService: AdvertService) {}
+  constructor(
+    private advertService: AdvertService,
+    private purchaseService: PurchaseService,
+  ) {}
 
   async getCartItemsOfUser(userId: number) {
     return await this.cartItemRepository.find({
@@ -83,6 +87,8 @@ export class CartService {
         { id: item.advertId },
         { isSold: true },
       );
+
+      await this.purchaseService._addPurchase(userId, item.advertId);
     }
 
     await this.cartItemRepository.remove(items);

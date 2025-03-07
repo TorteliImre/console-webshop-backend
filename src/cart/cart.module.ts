@@ -10,6 +10,9 @@ import { AdvertPic } from 'entities/AdvertPic';
 import { Comment } from 'entities/Comment';
 import { Location } from 'entities/Location';
 import { Model } from 'entities/Model';
+import { PurchaseModule } from 'src/purchase/purchase.module';
+import { PurchaseService } from 'src/purchase/purchase.service';
+import { Purchase } from 'entities/Purchase';
 
 @Module({
   imports: [
@@ -20,10 +23,12 @@ import { Model } from 'entities/Model';
       Comment,
       Location,
       Model,
+      Purchase,
     ]),
     AdvertModule,
+    PurchaseModule,
   ],
   controllers: [CartController],
-  providers: [CartService, AdvertService],
+  providers: [CartService, AdvertService, PurchaseService],
 })
 export class CartModule {}

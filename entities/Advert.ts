@@ -6,6 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Location } from './Location';
@@ -21,6 +22,7 @@ import {
   maxAdvertRevisionLength,
   maxAdvertTitleLength,
 } from 'src/limits';
+import { Purchase } from './Purchase';
 
 @Index('adverts_locations_FK', ['locationId'], {})
 @Index('adverts_models_FK', ['modelId'], {})
@@ -110,4 +112,7 @@ export class Advert {
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.advert)
   cartItems: Bookmark[];
+
+  @OneToOne(() => Purchase, (purchase) => purchase.advert)
+  purchase: Purchase;
 }

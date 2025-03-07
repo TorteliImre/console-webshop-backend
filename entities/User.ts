@@ -11,6 +11,7 @@ import { Comment } from './Comment';
 import { GetUserResponseDto } from 'src/user/user.dto';
 import { CartItem } from './CartItem';
 import { Suggestion } from './Suggestion';
+import { Purchase } from './Purchase';
 import {
   maxUserBioLength,
   maxUserEmailLength,
@@ -58,6 +59,9 @@ export class User {
 
   @OneToMany(() => Suggestion, (suggestions) => suggestions.user)
   suggestions: Suggestion[];
+
+  @OneToMany(() => Purchase, (purchases) => purchases.user)
+  purchases: Purchase[];
 
   constructor(
     name: string,
