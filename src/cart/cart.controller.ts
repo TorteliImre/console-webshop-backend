@@ -80,9 +80,8 @@ export class CartController {
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
   @ApiBadRequestResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async purchaseItem(@Request() req) {
-    //await this.advertsService.purchaseItem(dto, req.user.id);
-    await this.cartService.purchaseItems(1);
+    await this.cartService.purchaseItems(req.user.id);
   }
 }
