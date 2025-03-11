@@ -15,7 +15,9 @@ import { Rating } from './Rating';
 
 @Index('purchases_adverts_FK', ['advertId'], {})
 @Index('purchases_users_FK', ['userId'], {})
+@Index('purchases_ratings_FK', ['ratingId'], {})
 @Unique(['userId', 'advertId'])
+@Unique(['ratingId'])
 @Entity('purchases', { schema: 'console-webshop' })
 export class Purchase {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
@@ -29,6 +31,9 @@ export class Purchase {
 
   @CreateDateColumn({ name: 'created_time' })
   createdTime: Date;
+
+  @Column('int', { name: 'rating_id' })
+  ratingId: number;
 
   // TODO: onDelete?, onUpdate?
 
