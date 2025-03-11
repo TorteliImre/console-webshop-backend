@@ -12,4 +12,7 @@ export class GetPurchaseResponseDto {
 
   @ApiProperty()
   createdTime: string;
+
+  @ApiProperty()
+  rating: number;
 }

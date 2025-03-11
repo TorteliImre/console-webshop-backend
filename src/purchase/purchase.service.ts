@@ -13,7 +13,12 @@ export class PurchaseService {
     const results = await this.purchaseRepository.find({
       where: { userId },
       select: ['id', 'userId', 'advertId', 'createdTime'],
+      relations: ['rating'],
     });
+    for (let res of results) {
+      const rating = res.rating;
+      (res as any).rating = rating == null ? null : rating.value;
+    }
     return results as any as Array<GetPurchaseResponseDto>;
   }
 
