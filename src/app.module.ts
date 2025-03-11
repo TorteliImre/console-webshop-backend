@@ -15,6 +15,7 @@ import { BookmarkModule } from './bookmark/bookmark.module';
 import { CartModule } from './cart/cart.module';
 import { ConfigModule } from '@nestjs/config';
 import { SuggestionsModule } from './suggestions/suggestions.module';
+import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { SuggestionsModule } from './suggestions/suggestions.module';
     BookmarkModule,
     CartModule,
     SuggestionsModule,
+    RatingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

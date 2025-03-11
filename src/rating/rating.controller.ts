@@ -1,7 +1,9 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { RatingService } from './rating.service';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiUnauthorizedResponse,
@@ -15,16 +17,18 @@ import { CreateRatingDto } from './rating.dto';
 export class RatingController {
   constructor(private readonly ratingService: RatingService) {}
 
-  @Post('bySelf')
+  @Post()
   @ApiOperation({
-    summary: 'Leave a rating for a purchase',
+    summary: 'Leave a rating to a purchase',
     tags: ['ratings'],
   })
   @ApiOkResponse({ type: Any })
   @ApiUnauthorizedResponse({ type: HttpExceptionBody })
+  @ApiBadRequestResponse({ type: HttpExceptionBody })
+  @ApiNotFoundResponse({ type: HttpExceptionBody })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   async createRating(@Body() dto: CreateRatingDto, @Request() req) {
-    return await this.ratingService.createRating(dto);
+    return await this.ratingService.createRating(dto, req.user.id);
   }
 }

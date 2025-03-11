@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, Min } from 'class-validator';
+import { IsDecimal, IsInt, Max, Min } from 'class-validator';
 
 export class CreateRatingDto {
   @ApiProperty()
+  @IsDecimal()
+  @Min(1)
+  @Max(5)
   value: number;
-
-  @ApiProperty()
-  createdTime: Date;
 
   @ApiProperty()
   @IsInt()
