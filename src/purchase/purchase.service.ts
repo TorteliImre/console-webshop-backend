@@ -26,12 +26,17 @@ export class PurchaseService {
     const results = await this.purchaseRepository
       .createQueryBuilder('purchase')
       .leftJoin('purchase.advert', 'advert')
+      .leftJoinAndSelect('purchase.rating', 'rating')
       .where('advert.owner = :userId', { userId })
-      .select('purchase.id')
+      .addSelect('purchase.id')
       .addSelect('purchase.userId')
       .addSelect('purchase.advertId')
       .addSelect('purchase.createdTime')
       .getMany();
+    for (let res of results) {
+      const rating = res.rating;
+      (res as any).rating = rating == null ? null : rating.value;
+    }
     return results as any as Array<GetPurchaseResponseDto>;
   }
 
