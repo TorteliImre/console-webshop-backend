@@ -1,12 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsInt, Min } from 'class-validator';
 
-export class GetRatingResponseDto {
+export class CreateRatingDto {
   @ApiProperty()
-  userId: number;
-
-  @ApiProperty()
-  advertId: number;
+  value: number;
 
   @ApiProperty()
-  createdTime: string;
+  createdTime: Date;
+
+  @ApiProperty()
+  @IsInt()
+  @Min(1)
+  purchaseId: number;
 }

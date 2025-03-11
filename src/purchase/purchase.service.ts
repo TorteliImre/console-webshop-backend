@@ -12,7 +12,7 @@ export class PurchaseService {
   async getPurchasesBy(userId: number) {
     const results = await this.purchaseRepository.find({
       where: { userId },
-      select: ['advertId', 'userId', 'createdTime'],
+      select: ['id', 'userId', 'advertId', 'createdTime'],
     });
     return results as any as Array<GetPurchaseResponseDto>;
   }
@@ -22,7 +22,8 @@ export class PurchaseService {
       .createQueryBuilder('purchase')
       .leftJoin('purchase.advert', 'advert')
       .where('advert.owner = :userId', { userId })
-      .select('purchase.userId')
+      .select('purchase.id')
+      .addSelect('purchase.userId')
       .addSelect('purchase.advertId')
       .addSelect('purchase.createdTime')
       .getMany();
