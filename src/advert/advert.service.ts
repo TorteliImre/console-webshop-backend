@@ -90,7 +90,7 @@ export class AdvertService {
       );
     }
 
-    const isAdvertInCart = this.cartRepository.existsBy({ advertId: id });
+    const isAdvertInCart = await this.cartRepository.existsBy({ advertId: id });
     if (isAdvertInCart) {
       throw new BadRequestException(
         "Cannot modify advertisement that is in a user's cart",
