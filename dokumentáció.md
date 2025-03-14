@@ -7,10 +7,21 @@
  ### Sajátosságok
  Weboldalunk fő sajátossága más felhasználók által vezérelt áruházzal szemben a részletes szűrési lehetőség a hirdetések létrehzása és keresése közben. Ez a rendszer lehetővé teszi, hogy a felhasználók könnyedén megtalálják azokat a hirdetéseket amelyek a számukra megfelelőek.
 ## Fejlesztői dokumentáció
- ### Felhasznált programozási nyelvek
+ ### Felhasznált programozási nyelvek és keretrendszerek
+  #### Backend
+  - <ins>Nest.js</ins>
+    - Programozási nyelv: Typescript/Javascript 
+  #### Frontend
+  - <ins>SvelteKit</ins>
+    - Programozási nyelv: Typescript/Javascript, SCSS/CSS
  ### Fejlesztői környezet
   #### Github és git
+  Projektmunkánk során verziókezelőként a Git rendszerét választottuk, amelyet online a Github szolgáltalásaival tárolunk. Ezzel nagyban megkönyítettük a fejlesztési folyamatot és a változtatások egymással való megosztását.
   #### Tesztelési keretrendszerek
+  - **Backend: Pytest**
+    - A Pytest egy, a python programozási nyelven alapuló tesztelési keretrendszer amellyel bárki létre tud hozni testreszabott teszteket egyszerűen.
+  - **Frontend: PlayWright**
+    - A PlayWright egy úgynevezett "End-to-End" tesztelési keretrendszer, amellyel egyszerűen tudjuk tesztelni a weblapjainkat a felhasználók szemszögéből, ezzel biztosítva a megfelelő kinézetet és viselkedést.
  ### Kialakított adatszerkezet
   #### Adatbázis táblái
    ##### A `users` tábla
