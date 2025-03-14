@@ -19,6 +19,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import sharp from 'sharp';
 import { userPictureSize } from 'src/limits';
+import { Purchase } from 'entities/Purchase';
 
 function getIsoDate(): string {
   return new Date().toISOString().split('T')[0];
@@ -29,6 +30,8 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Purchase)
+    private purchaseRepository: Repository<Purchase>,
   ) {}
 
   async create(dto: CreateUserDto): Promise<number> {
@@ -51,11 +54,28 @@ export class UserService {
     return found.toGetUserDto();
   }
 
+  async _loadRatingOfUser(user: GetUserResponseDto) {
+    const builder =
+      await this.purchaseRepository.createQueryBuilder('purchases');
+    const result = (
+      await builder
+        .leftJoin('purchases.advert', 'advert')
+        .leftJoin('purchases.rating', 'rating')
+        .select('AVG(rating.rating)', 'average')
+        .where('advert.owner_id = :userId', {
+          userId: user.id,
+        })
+        .getRawOne()
+    ).average;
+    user.rating = result;
+  }
+
   async findSelfById(id: number): Promise<GetOwnUserResponseDto> {
     let found = await this.userRepository.findOne({ where: { id } });
     if (!found) throw new NotFoundException('No such user');
     let converted = found.toGetUserDto() as any as GetOwnUserResponseDto;
     converted.email = found.email;
+    this._loadRatingOfUser(converted);
     return converted;
   }
 

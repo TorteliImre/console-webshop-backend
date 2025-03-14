@@ -83,6 +83,9 @@ export class GetUserResponseDto {
 
   @ApiProperty()
   isAdmin: boolean;
+
+  @ApiProperty()
+  rating: number;
 }
 
 export class GetOwnUserResponseDto extends GetUserResponseDto {
