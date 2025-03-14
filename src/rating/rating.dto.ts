@@ -4,7 +4,7 @@ import { IsInt, IsNumber, Max, Min } from 'class-validator';
 export class CreateRatingDto {
   @ApiProperty()
   @IsNumber()
-  @Min(1)
+  @Min(0.5)
   @Max(5)
   value: number;
 
