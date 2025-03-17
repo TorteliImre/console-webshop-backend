@@ -102,7 +102,7 @@
    </form>
    ```
 
-   A `data` változót taralmazza az URL utolsó szekcióját, az úgynevezett `action` változót.
+   A `data` változót tartalmazza az URL utolsó szekcióját, az úgynevezett `action` változót.
 
    A form leadása után a következő kódrészlet fut le:
 
@@ -179,7 +179,7 @@
    }
    ```
 
-   Az adabázisból lekérjük a jelszó hashet ha ez nem létezik, vagy nem egyezik a felhasználó által megadott jelszóval, `401 Unauthorized` hibát adunk vissza.
+   Az adabázisból lekérjük a jelszó hashet. Ha ez nem létezik, vagy nem egyezik a felhasználó által megadott jelszóval, `401 Unauthorized` hibát adunk vissza.
 
    Lekérjuk a felhasználó azonosítóját és az admin jogot tároló értéket. Ezek után legeneráljuk a token-t és visszaadjuk.
 
@@ -218,6 +218,7 @@
    ```
 
    A tokent visszaalakítjuk a payloaddá, majd ellenőrzéseket végzünk rajta. Egy másik decorator segítségével endpointokat csak admin által elérhetővé tehetünk. Ha ez az endpoint ilyen, ellenőrizzük, hogy a felhasználó admin-e. Ha a token rossz, hibát adunk vissza.
+
    #### Felhasználó belépési folyamat frontend oldal
    A bejelntkezési felület az `/auth/login` aloldalon érhető el. Ez az oldal a regisztrációs oldallal egybefűzött, így ez a két oldal szinte ugyan az.
 
@@ -256,7 +257,7 @@
    </form>
    ```
 
-   A `data` változót taralmazza az URL utolsó szekcióját, az úgynevezett `action` változót.
+   A `data` változót tartalmazza az URL utolsó szekcióját, az úgynevezett `action` változót.
 
    A form leadása után a következő kódrészlet fut le:
 
@@ -308,6 +309,13 @@
    };
    ```
    #### Hirdetés feltöltési folyamat backand oldal
+
+    A hirdetések feltöltése az oldal legfontosabb funkciója. A feltöltéskor megadhatjuk az eladni kívánt termék adatait, árát, leírását és annak helyét.
+    A videójáték-konzol modellének megadása a webáruház egyik fő sajátossága. Segítségével egyértelműen megjelölhetjük a terméket.
+    És keresésnél a modell vagy gyártó alapj segít megtalálni a számunkra megfelelő hirdetéseket.
+
+
+
    #### Hirdetés feltöltési folyamat frontend oldal
    #### Keresési folyamat backend oldal
    #### Keresési folyamat frontend oldal
