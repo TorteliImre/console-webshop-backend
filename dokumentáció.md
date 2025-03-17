@@ -308,13 +308,11 @@
     }
    };
    ```
-   #### Hirdetés feltöltési folyamat backand oldal
 
+   #### Hirdetés feltöltési folyamat backend oldal
     A hirdetések feltöltése az oldal legfontosabb funkciója. A feltöltéskor megadhatjuk az eladni kívánt termék adatait, árát, leírását és annak helyét.
     A videójáték-konzol modellének megadása a webáruház egyik fő sajátossága. Segítségével egyértelműen megjelölhetjük a terméket.
-    És keresésnél a modell vagy gyártó alapj segít megtalálni a számunkra megfelelő hirdetéseket.
-
-
+    És keresésnél a modell vagy gyártó segít megtalálni a számunkra megfelelő hirdetéseket. 
 
    #### Hirdetés feltöltési folyamat frontend oldal
    A hirdetés feltöltésére szolgáló oldalt az `advert/create` címen érhetjük el, vagy az "Új hirdetés" menüpontra kattintva a felhasználói menüben.
@@ -325,7 +323,78 @@
      - A fájlokat a szekcióra dobva (Drag&Drop) a mozgatott fájlok feltöltésre kerülnek
 
    #### Keresési folyamat backend oldal
+   A hirdetések keresése tetszőlegesen cím alapján is történhet, de emellett szűrők is rendelkezésre állnak.
+   A gyártón és modellen kívül a hely alapján is kereshetünk. Beállíthatjuk, hogy egy adott település körüli területen belüli hirdetéseket lássuk.
+   Egy másik fontos tényező a termék állapota, pl. Újszerű vagy Jó állapotú.
+   Azt is megadhatja a felhasználó, hogy az árak milyen értékek közöttiek lehetnek.
+
+   A következő kódrészlet összegyűjti azokat a településeket, amelyek a megadott területen belül helyezkednek el. Az ezeken a településeken lévő termékeket adjuk vissza találatként.
+
+  ```ts
+  async _findLocationIdsInArea(
+    lat: number,
+    long: number,
+    maxDist: number,
+  ): Promise<Array<number>> {
+    const results = (
+      (await this.locationRepository
+        .createQueryBuilder()
+        .addSelect('id')
+        .addSelect(
+          `
+            3959 * acos (
+              cos ( radians(${lat}) )
+              * cos( radians( latitude ) )
+              * cos( radians( longitude ) - radians(${long}) )
+              + sin ( radians(${lat}) )
+              * sin( radians( latitude ) )
+            )
+          `,
+          'distance',
+        )
+        .having('distance <= :maxDist', { maxDist })
+        .getRawMany()) as Array<Location>
+    ).map((x) => x.id);
+    return results;
+  }
+  ```
+
+
+  Ez a kód pedig azt kezeli le, hogy a gyártók megadásával is lehetséges legyen a keresés:
+
+  ```ts
+  async _findPossibleModelIds(dto: FindAdvertsDto) {
+    let results: Number[] = [];
+
+    let passedModels = await this.modelRepository.findBy({
+      id: In(dto.modelIds ?? []),
+    });
+    for (const manufactId of dto.manufacturerIds ?? []) {
+      const passedModelsForManufact = passedModels.filter(
+        (x) => x.manufacturerId == manufactId,
+      );
+      passedModels = passedModels.filter(
+        (x) => !passedModelsForManufact.includes(x),
+      );
+      if (passedModelsForManufact.length == 0) {
+        results = results.concat(
+          await this._findModelIdsOfManufacturer(manufactId),
+        );
+      } else {
+        results = results.concat(passedModelsForManufact.map((x) => x.id));
+      }
+    }
+    for (const model of passedModels) {
+      results.push(model.id);
+    }
+    return results;
+  }
+  ```
+
+
+
    #### Keresési folyamat frontend oldal
+
   ### Különböző körülmények, esetek és hibakezelések
 <!-- ## Üres profil oldal lezárolt telefon után
 ## Üres képek a galériában
