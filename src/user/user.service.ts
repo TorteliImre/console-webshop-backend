@@ -51,7 +51,7 @@ export class UserService {
   async findById(id: number): Promise<GetUserResponseDto> {
     let found = await this.userRepository.findOne({ where: { id } });
     if (!found) throw new NotFoundException('No such user');
-    return found.toGetUserDto();
+    return await this._loadRatingOfUser(found.toGetUserDto());
   }
 
   async _loadRatingOfUser(user: GetUserResponseDto) {
@@ -68,6 +68,7 @@ export class UserService {
         .getRawOne()
     ).average;
     user.rating = result;
+    return user;
   }
 
   async findSelfById(id: number): Promise<GetOwnUserResponseDto> {
@@ -75,7 +76,7 @@ export class UserService {
     if (!found) throw new NotFoundException('No such user');
     let converted = found.toGetUserDto() as any as GetOwnUserResponseDto;
     converted.email = found.email;
-    this._loadRatingOfUser(converted);
+    await this._loadRatingOfUser(converted);
     return converted;
   }
 
@@ -90,6 +91,9 @@ export class UserService {
         take: dto.count,
       })
     ).map((x) => x.toGetUserDto());
+    for (let u of found) {
+      await this._loadRatingOfUser(u);
+    }
     const resultCount = await this.userRepository.count({ where });
 
     let output = new FindUsersResponseDto();
