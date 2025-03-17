@@ -24,17 +24,19 @@
     - A PlayWright egy úgynevezett "End-to-End" tesztelési keretrendszer, amellyel egyszerűen tudjuk tesztelni a weblapjainkat a felhasználók szemszögéből, ezzel biztosítva a megfelelő kinézetet és viselkedést.
  ### Kialakított adatszerkezet
   #### Adatbázis táblái
-   ##### A `users` tábla
-   ##### Az `adverts` tábla
    ##### A `locations` tábla
    ##### A `manufacturers` tábla
    ##### A `migrations` tábla
    ##### A `product_states` tábla
+   ##### A `users` tábla
    ##### A `models` tábla
    ##### A `suggestions` tábla
+   ##### Az `adverts` tábla
    ##### A `bookmarks` tábla
    ##### A `cart_items` tábla
    ##### A `comments` tábla
+   ##### A `purchases` tábla
+   ##### A `ratings` tábla
    ##### Az `advert_pics` tábla
  ### Algoritmusok a backend és frontend megvalósításban
   #### Felhasználó regisztrációs folyamat backend oldal
