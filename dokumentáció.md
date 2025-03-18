@@ -67,7 +67,7 @@
    #### Felhasználó regisztrációs folyamat frontend oldal
    A regisztrációs felület az `/auth/register` aloldalon érhető el. Ez az oldal a bejelentkezés oldallal egybefűzött, így ez a két oldal szinte ugyan az.
 
-   A form kódja így néz ki:
+   A form kódja a következő:
    ```html
    <form method="post">
      <h1>{data.action === "login" ? "Bejelentkezés" : "Regisztráció"}</h1>
@@ -222,7 +222,7 @@
    #### Felhasználó belépési folyamat frontend oldal
    A bejelntkezési felület az `/auth/login` aloldalon érhető el. Ez az oldal a regisztrációs oldallal egybefűzött, így ez a két oldal szinte ugyan az.
 
-   A form kódja így néz ki:
+   A form kódja a következő:
    ```html
    <form method="post">
      <h1>{data.action === "login" ? "Bejelentkezés" : "Regisztráció"}</h1>
@@ -317,6 +317,13 @@
 
 
    #### Hirdetés feltöltési folyamat frontend oldal
+   A hirdetés feltöltésére szolgáló oldalt az `advert/create` címen érhetjük el, vagy az "Új hirdetés" menüpontra kattintva a felhasználói menüben.
+   Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
+   - Az első rész, amely bal-felül található a hirdetéshez tartozó képek  két féle módon történő feltöltésére szolgál
+     - A plussz (+) gombra kattintva az böngésző segítségével kiválaszthatunk képeket amelyeket fel akarunk tölteni.
+       - kódblock
+     - A fájlokat a szekcióra dobva (Drag&Drop) a mozgatott fájlok feltöltésre kerülnek
+
    #### Keresési folyamat backend oldal
    #### Keresési folyamat frontend oldal
   ### Különböző körülmények, esetek és hibakezelések
