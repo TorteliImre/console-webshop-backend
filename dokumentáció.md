@@ -333,9 +333,107 @@ A hirdetés feltöltésére szolgáló oldalt az `advert/create` címen érhetj�
 Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
 - Az első rész, amely bal-felül található a hirdetéshez tartozó képek  két féle módon történő feltöltésére szolgál
   - A plussz (+) gombra kattintva az böngésző segítségével kiválaszthatunk képeket amelyeket fel akarunk tölteni.
-    - kódblock
-  - A fájlokat a szekcióra dobva (Drag&Drop) a mozgatott fájlok feltöltésre kerülnek
+    - A `handleFiles` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhejezzük a kiválaszott képek listájában.
+      ```ts
+      async function handleFiles(event: Event | DragEvent) {
+        event.preventDefault();
 
+        const target = event.target as HTMLInputElement;
+
+        let eventFiles: FileList | null | undefined;
+
+        if (event instanceof DragEvent) {
+            eventFiles = event.dataTransfer?.files;
+        } else {
+            eventFiles = target.files;
+        }
+
+        if (!eventFiles) return;
+
+        for (const file of eventFiles) {
+            if (file.size > 50000000) {
+                alert("Valamely fájlok mérete túl nagy!");
+                return;
+            }
+        }
+
+        for (let i = 0; i < eventFiles.length; i++) {
+            const file = eventFiles[i] as File;
+            const base64 = await file.arrayBuffer().then(buffer => Buffer.from(buffer).toString("base64"));
+            const image = new Image();
+            image.src = "data:image/jpeg;base64," + base64;
+            image.onload = () => {
+                let localFiles = [];
+                localFiles.push({ base64, aspect: `${image.width} / ${image.height}` });
+                imageFiles = [...imageFiles, ...localFiles];
+                console.log(imageFiles);
+            };
+        }
+        target.files = null;
+      }
+      ```
+  - A fájlokat a szekcióra dobva (Drag&Drop) a mozgatott fájlok feltöltésre kerülnek
+    - Az `imageDrop` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhejezzük a kiválaszott képek listájában.
+    ```ts
+    async function imageDrop(e: DragEvent) {
+        e.preventDefault();
+
+        const target = e.target as HTMLInputElement;
+
+        let eventFiles: FileList | null | undefined;
+
+        if (e instanceof DragEvent) {
+            eventFiles = e.dataTransfer?.files;
+        } else {
+            eventFiles = target.files;
+        }
+
+        if (!eventFiles) return;
+
+        for (const file of eventFiles) {
+            if (file.size > 50000000) {
+                alert("Valamely fájlok mérete túl nagy!");
+                return;
+            }
+        }
+
+        for (let i = 0; i < eventFiles.length; i++) {
+            const file = eventFiles[i] as File;
+            const base64 = await file.arrayBuffer().then(buffer => Buffer.from(buffer).toString("base64"));
+            const image = new Image();
+            image.src = "data:image/jpeg;base64," + base64;
+            image.onload = () => {
+                let localFiles = [];
+                localFiles.push({ base64, aspect: `${image.width} / ${image.height}` });
+                imageFiles = [...imageFiles, ...localFiles];
+                console.log(imageFiles);
+            };
+        }
+        target.files = null;
+    }
+    ```
+- A második rész, amely a kép feltöltéstől jobbra helyezkedik el, a hirdetés fő adatainak feltöltésére szolgál.
+  - A cím megadása, amely a `limitTo100` függvény segítségével 100 karakternél nem lehet hoszabb.
+    ```ts
+    function limitTo100(e: Event) {
+        if (!e?.target) return;
+        if ((e.target as HTMLInputElement).value.length > 100) {
+            (e.target as HTMLInputElement).value = (e.target as HTMLInputElement).value.slice(0, 100);
+        }
+    }
+    ```
+  - A hirdetés árát, amelyet 0 és 10000000 között tart a kód.
+  - A hirdetés gyártóját és állapotát, melyeket a backend által megadott opciók közül választhatóak ki
+  - A hirdetés modelljét, amelyeket az után kérünk le, miután a felhasználó kiválaszott egy gyártót
+    ```ts
+    async function manufacturerSelect() {
+        const res = await fetch(`${apiPath}/filters/modelsForManufacturer?manufacturerId=${brandId}`);
+        const data = await res.json();
+        models = data;
+    }
+    ```
+- A harmadik rész, amely az előző kettő alatt helyezkedik el, a leírás megadásához szolgáló szövegdobozt tartalmazza.
+  - A leírás megadásánál lehetőségünk van markdown segítségével formázni a megadott szöveget. Ehhez segítségül a "Carta" nevű csomagot használjuk, amely tartalmaz egy Markdown szövegszerkesztőt.
 #### Keresési folyamat backend oldal
 A hirdetések keresése tetszőlegesen cím alapján is történhet, de emellett szűrők is rendelkezésre állnak.
 A gyártón és modellen kívül a hely alapján is kereshetünk. Beállíthatjuk, hogy egy adott település körüli területen belüli hirdetéseket lássuk.
