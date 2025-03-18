@@ -373,8 +373,9 @@ async _findLocationIdsInArea(
 }
 ```
 
-
-Ez a kód pedig azt kezeli le, hogy a gyártók megadásával is lehetséges legyen a keresés:
+Az alábbi kód pedig a gyártók és modellek alapján való kereséshez kapcsolódik.
+Ha egy gyártót kapunk, akkor az azon belüli minden modell visszaadandó.
+Viszont ha gyártó mellett ahhoz tartozó modelleket is megkapunk, nem az összes modellt, hanem csak a megadottakat nézzük.
 
 ```ts
 async _findPossibleModelIds(dto: FindAdvertsDto) {
@@ -403,6 +404,24 @@ async _findPossibleModelIds(dto: FindAdvertsDto) {
   }
   return results;
 }
+```
+
+A keresési paraméterek előkészítése után lefuttatjuk a keresést.
+Pagináció használatával adjuk vissza az eredményeket. A `skip` paraméter a kihagyott találatok, a `count` pedig a visszaadandó találatok száma.
+Az összes (tehát pagináció nélküli) találatok számát is betöltjük.
+
+```ts
+const found = await this.advertRepository.find({
+  where,
+  order,
+  skip: dto.skip,
+  take: dto.count,
+});
+const resultCount = await this.advertRepository.count({ where });
+
+let output = new FindAdvertsResultDto();
+output.items = found as any;
+output.resultCount = resultCount;
 ```
 
 #### Keresési folyamat frontend oldal
