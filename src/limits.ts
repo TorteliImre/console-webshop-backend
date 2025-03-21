@@ -16,7 +16,6 @@ export const userPictureSize = 256; // Px
 export const maxAdvertTitleLength = 100;
 export const maxAdvertDescriptionLength = 1000;
 export const maxAdvertPrice = 10000000; // Ft
-export const maxAdvertRevisionLength = 100;
 
 // Advert picture
 export const maxAdvertPicDescriptionLength = 1000;

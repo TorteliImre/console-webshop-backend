@@ -59,11 +59,6 @@ export class CreateAdvertDto {
   @Min(1)
   modelId: number;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  revision: string;
-
   toEntity(): Advert {
     let result = new Advert();
     result.title = this.title;
@@ -72,7 +67,6 @@ export class CreateAdvertDto {
     result.priceHuf = this.priceHuf;
     result.stateId = this.stateId;
     result.modelId = this.modelId;
-    result.revision = this.revision ?? '';
     return result;
   }
 }
@@ -138,11 +132,6 @@ export class ModifyAdvertDto {
   @IsInt()
   @Min(1)
   modelId: number;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  revision: string;
 }
 
 export class IsAdvertInCartResultDto {

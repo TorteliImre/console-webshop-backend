@@ -17,11 +17,7 @@ import { AdvertPic } from './AdvertPic';
 import { Bookmark } from './Bookmark';
 import { Comment } from './Comment';
 import { CartItem } from './CartItem';
-import {
-  maxAdvertDescriptionLength,
-  maxAdvertRevisionLength,
-  maxAdvertTitleLength,
-} from 'src/limits';
+import { maxAdvertDescriptionLength, maxAdvertTitleLength } from 'src/limits';
 import { Purchase } from './Purchase';
 
 @Index('adverts_locations_FK', ['locationId'], {})
@@ -59,13 +55,6 @@ export class Advert {
 
   @Column('int', { name: 'model_id' })
   modelId: number;
-
-  @Column('varchar', {
-    name: 'revision',
-    default: '',
-    length: maxAdvertRevisionLength,
-  })
-  revision: string;
 
   @Column('int', { name: 'view_count', default: 0 })
   viewCount: number;

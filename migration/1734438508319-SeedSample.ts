@@ -59,8 +59,8 @@ export class SeedSample1734438508319 implements MigrationInterface {
     for (const line of data) {
       console.log(line);
       await queryRunner.query(
-        'INSERT INTO adverts (id, title, owner_id, description, location_id, price_huf, state_id, model_id, revision, view_count, is_sold) ' +
-          'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'INSERT INTO adverts (id, title, owner_id, description, location_id, price_huf, state_id, model_id, view_count, is_sold) ' +
+          'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
           parseInt(line[0]),
           this.handleEmptyStr(line[1]),
@@ -70,7 +70,6 @@ export class SeedSample1734438508319 implements MigrationInterface {
           parseInt(line[5]),
           parseInt(line[6]),
           parseInt(line[7]),
-          this.handleEmptyStr(line[8]),
           parseInt(line[9]),
           parseInt(line[10]),
         ],
