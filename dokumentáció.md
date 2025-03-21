@@ -36,20 +36,54 @@ Projektmunkánk során verziókezelőként a Git rendszerét választottuk, amel
 
 ### Kialakított adatszerkezet
 #### Adatbázis táblái
+
+![Adatbázis Séma](./docs/scheme.png "Adatbázis Séma")
+
 ##### A `locations` tábla
+A `locations` tábla tárolja el az eladni kívánt termékek lehetséges helyeit.
+Ez a tábla statikus adatok tárolására szolgál, futás közben nem módosul, hanem induláskor töltődik be.
+Eltároljuk a település nevét, megyéjét és irányítószámá. Ezek a keresést teszik lehetővé.
+A koordináták segítségével ki tudjuk számolni a távolságokat. [Ez a keresési folyamat során történik meg](#keresési-folyamat-backend-oldal).
+
 ##### A `manufacturers` tábla
-##### A `migrations` tábla
+Itt tároljuk ez a gyártókat, amik a modellekhez kapcsolódnak.
+
 ##### A `product_states` tábla
+Szintén a keresést segító tábla, a termékek lehetséges állapotjait tárolja.
+
 ##### A `users` tábla
+Az egyik legfontosabb tábla, a felhasználói profilok legfőbb adatait tárolja.
+Ezek az adatok a név, e-mail cím, profil leírás, profilkép, a jelszó hash és az, hogy a felhasználó adminisztrátor-e.
+Hozzá kapcsolódnak a létrehozott hirdetések, hozzászólások, vásárlások, könyvjelzők, a kosár és a javaslatok.
+
 ##### A `models` tábla
+A termékek lehetséges modelljei, amik a szűrés fő szempontjai.
+
 ##### A `suggestions` tábla
+Felhasználók által tett javaslatok. Ezeket bárki létrehozhatja, de csak az adminisztrátori joggal rendelkező felhasználók olvashatják.
+
 ##### Az `adverts` tábla
+A létrehozott hirdetéseket tartalmazza. Tárolja a címet, leírást, létrehozó felhasználót, a termék helyét, állapotát, árát és a modellt.
+Ezek mellett azt is tárolja, hogy a termék eladottnak lett-e már jelölve.
+A nézettségi számot is tárolja, ami minden olyan alkalomman növekszik, amikor egy felhasználó megnézi a hirdetést. Ez egy nagyszerű mód arra, hogy az eladók felmérjék termékeik népszerűségét.
+
 ##### A `bookmarks` tábla
+A felhasználók képesek hirdetéseket későbbre elmenteni könyvjelzőzés segítségével.
+
 ##### A `cart_items` tábla
+A kosárba helyezett elemeket is az adatbázisban tároljuk. Ezeket a termékeket meg tudja vásárolni a vevő.
+
 ##### A `comments` tábla
+A hirdetések alatt lehetséges hozzászólásokat közzétenni. Ezekben további információkat kérdezhetünk meg az eladótól. Eltároljuk nem csak azt, hogy melyik hirdetés alatt hagyták a kommentet, hanem azt is, hogy melyik másik hozzászólásra válaszoltak.
+
 ##### A `purchases` tábla
+A kosárba helyezett termékeket megvásárolhatjuk, ebben a táblában az eddigi vásárlásokat tároljuk.
+
 ##### A `ratings` tábla
+A vásárlás után lehetőségünk van a terméket és az eladó által nyújtott szolgáltatást értékelni. Eltároljuk, hogy melyik vásárláshoz kapcsolódik az értékelés, valamint annak értékét.
+
 ##### Az `advert_pics` tábla
+A vásárlóknak lehetőségük van a hirdetésekhez több képet csatolniuk. Maga a kép mellett egyéb adatokat is tárolunk a táblában. A képekhez lehet hozzáadni leírást is. Beállítható, hogy melyik legyen a fő kép, vagyis amelyik a hirdetés listázásakor megjelenik.
 
 ### Algoritmusok a backend és frontend megvalósításban
 
