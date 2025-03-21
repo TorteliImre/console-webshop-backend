@@ -1,3 +1,9 @@
+<style>
+  h2 {
+    border-bottom: 1px solid black;
+  }
+</style>
+
 # Konzol webshop dokumentáció
 
 ## Bevezetés
@@ -31,8 +37,8 @@ Projektmunkánk során verziókezelőként a Git rendszerét választottuk, amel
 #### Tesztelési keretrendszerek
 - **Backend: Pytest**
   - A Pytest egy, a python programozási nyelven alapuló tesztelési keretrendszer amellyel bárki létre tud hozni testreszabott teszteket egyszerűen.
-- **Frontend: PlayWright**
-  - A PlayWright egy úgynevezett "End-to-End" tesztelési keretrendszer, amellyel egyszerűen tudjuk tesztelni a weblapjainkat a felhasználók szemszögéből, ezzel biztosítva a megfelelő kinézetet és viselkedést.
+- **Frontend: Playwright**
+  - A Playwright egy úgynevezett "End-to-End" tesztelési keretrendszer, amellyel egyszerűen tudjuk tesztelni a weblapjainkat a felhasználók szemszögéből, ezzel biztosítva a megfelelő kinézetet és viselkedést.
 
 ### Kialakított adatszerkezet
 #### Adatbázis táblái
@@ -524,8 +530,46 @@ output.resultCount = resultCount;
 ```
 
 #### Keresési folyamat frontend oldal
+A hirdetések kereséséhez egy szűrési rendszert alakítottunk ki, amely alapja a hirdetések pontos keresésének. A szűrő paramétereit a backend egy végponton keresztül teszi elérhetővé, így könnyen bővíthető, és jövőbiztos. Szűrőkön felül a felahsználó képes a hirdetések címére is keresni a keresőmeő segítségével.
+
+A kereső felület úgynevezett "végtelen görgetést" használ a hirdetések progresszív betöltéséhez. Ezt egy `IntersectionObserver` segítségével oldjuk meg. Az observer segítségével tetszőleges fügvényt tudunk futtatni amikor egy adott elem megjelenik a felhasználó képernyőjén.
+Ehhez létrehoztunk egy saját Svelte komponenst:
+```ts
+import { createEventDispatcher, onMount } from "svelte";
+
+export let isIntersecting = false;
+
+let observer: IntersectionObserver;
+
+let observedElement: HTMLElement;
+
+onMount(() => {
+    observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                console.log("intersecting");
+                isIntersecting = true;
+                dispatch("intersect");
+            }
+        });
+    });
+
+    observer.observe(observedElement);
+
+    return () => {
+        observer.disconnect();
+    };
+});
+
+const dispatch = createEventDispatcher<{
+    intersect: void;
+}>();
+```
+Ennek segítségével könnyedén észlelhetjük hogy egy adott szekció mikor jelenik meg az oldalon.
 
 ### Különböző körülmények, esetek és hibakezelések
+#### Hirdetések hiánya
+Ha nincsenek hirdetések feltöltve az oldalra, akkor a keresőben a "Nincs találat" felirat látható
 <!-- ## Üres profil oldal lezárolt telefon után
 ## Üres képek a galériában
 ## Az időpontfoglalás kijátszása
@@ -536,6 +580,25 @@ output.resultCount = resultCount;
 ## Teszt dokumentáció
 ### Backend tesztek
 ### Frontend tesztek
+A frontend tesztelését úgynevezett "End-To-End" tesztekkel oldottuk meg. Ezek megvalósításához a "Playwright" nevű tesztelési keretrendszert használjuk amely segítségével könnyedén tudunk olyan teszteket készíteni, amelyek nem a kódot, hanem a felhasználói élményt tesztelik.
+Példaképpen láthatjuk a regisztrációs oldal egyik tesztjét:
+```ts
+test("Register ui should be displayed", async ({ page }) => {
+    const usernameInput = await page.getByLabel("Felhasználó név");
+    await expect(usernameInput).toBeVisible();
+    const emailInput = await page.getByLabel("E-mail");
+    await expect(emailInput).toBeVisible();
+    const passwordInput = await page.getByLabel("Jelszó");
+    await expect(passwordInput).toBeVisible();
+    const registerButton = await page.getByRole("button", { name: "Regisztráció" });
+    await expect(registerButton).toBeVisible();
+});
+```
+Ez a teszt azt ellenőrzi, hogy a regisztrációs felület látható-e az oldalon.
+
+Ezeket a teszteket a Playwright által szolgáltatott felhasználó felületen futtathatjuk.
+![Playwright](./docs/Playwright.png "Playwright ablak")
+Itt láthatunk minden tesztet és azok eredményeit.
 ## Felhasználói dokumentáció
 ### Üdvözöllek!
 ### Szükséges eszközök a weboldal használatához
