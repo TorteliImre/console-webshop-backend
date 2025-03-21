@@ -1,8 +1,101 @@
+---
+title: "Konzol Webshop Dokumentáció"
+output:
+  pdf_document:
+    toc: true
+export_on_save:
+    puppeteer: true
+    puppeteer: ["pdf"]
+class: "markdown-body"
+---
+
 <style>
-  h2 {
-    border-bottom: 1px solid black;
-  }
+body {
+    background-color: #fff;
+    color: #111;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: darkgreen;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: cyan;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h2 {
+    border-bottom: 1px solid blue;
+}
 </style>
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Konzol webshop dokumentáció](#konzol-webshop-dokumentáció)
+  - [Bevezetés](#bevezetés)
+    - [Témaválasztás indoklása](#témaválasztás-indoklása)
+    - [Záródolgozatom témája, mégis milyen funkciókat foglal magába?](#záródolgozatom-témája-mégis-milyen-funkciókat-foglal-magába)
+    - [Sajátosságok](#sajátosságok)
+  - [Fejlesztői dokumentáció](#fejlesztői-dokumentáció)
+    - [Felhasznált programozási nyelvek és keretrendszerek](#felhasznált-programozási-nyelvek-és-keretrendszerek)
+      - [Backend](#backend)
+      - [Frontend](#frontend)
+    - [Fejlesztői környezet](#fejlesztői-környezet)
+      - [Github és git](#github-és-git)
+      - [Tesztelési keretrendszerek](#tesztelési-keretrendszerek)
+    - [Kialakított adatszerkezet](#kialakított-adatszerkezet)
+      - [Adatbázis táblái](#adatbázis-táblái)
+        - [A `locations` tábla](#a-locations-tábla)
+        - [A `manufacturers` tábla](#a-manufacturers-tábla)
+        - [A `product_states` tábla](#a-product_states-tábla)
+        - [A `users` tábla](#a-users-tábla)
+        - [A `models` tábla](#a-models-tábla)
+        - [A `suggestions` tábla](#a-suggestions-tábla)
+        - [Az `adverts` tábla](#az-adverts-tábla)
+        - [A `bookmarks` tábla](#a-bookmarks-tábla)
+        - [A `cart_items` tábla](#a-cart_items-tábla)
+        - [A `comments` tábla](#a-comments-tábla)
+        - [A `purchases` tábla](#a-purchases-tábla)
+        - [A `ratings` tábla](#a-ratings-tábla)
+        - [Az `advert_pics` tábla](#az-advert_pics-tábla)
+    - [Algoritmusok a backend és frontend megvalósításban](#algoritmusok-a-backend-és-frontend-megvalósításban)
+      - [Felhasználó regisztrációs folyamat backend oldal](#felhasználó-regisztrációs-folyamat-backend-oldal)
+      - [Felhasználó regisztrációs folyamat frontend oldal](#felhasználó-regisztrációs-folyamat-frontend-oldal)
+      - [Felhasználó belépési folyamat backend oldal](#felhasználó-belépési-folyamat-backend-oldal)
+      - [Felhasználó belépési folyamat frontend oldal](#felhasználó-belépési-folyamat-frontend-oldal)
+      - [Hirdetés feltöltési folyamat backend oldal](#hirdetés-feltöltési-folyamat-backend-oldal)
+      - [Hirdetés feltöltési folyamat frontend oldal](#hirdetés-feltöltési-folyamat-frontend-oldal)
+      - [Keresési folyamat backend oldal](#keresési-folyamat-backend-oldal)
+      - [Keresési folyamat frontend oldal](#keresési-folyamat-frontend-oldal)
+    - [Különböző körülmények, esetek és hibakezelések](#különböző-körülmények-esetek-és-hibakezelések)
+      - [Hirdetések hiánya](#hirdetések-hiánya)
+    - [Fejlesztési lehetőségek](#fejlesztési-lehetőségek)
+  - [Teszt dokumentáció](#teszt-dokumentáció)
+    - [Backend tesztek](#backend-tesztek)
+    - [Frontend tesztek](#frontend-tesztek)
+  - [Felhasználói dokumentáció](#felhasználói-dokumentáció)
+    - [Üdvözöllek!](#üdvözöllek)
+    - [Szükséges eszközök a weboldal használatához](#szükséges-eszközök-a-weboldal-használatához)
+    - [Weboldal eléréséhez használható böngészők](#weboldal-eléréséhez-használható-böngészők)
+    - [Weboldal használatának részletes ismertetése](#weboldal-használatának-részletes-ismertetése)
+    - [A regisztráció folyamatának ismertetése](#a-regisztráció-folyamatának-ismertetése)
+    - [A belépés folyamatának ismertetése](#a-belépés-folyamatának-ismertetése)
+    - [Hirdetés feltöltés folyamatának ismertetése](#hirdetés-feltöltés-folyamatának-ismertetése)
+    - [Hirdetés keresés folyamatának ismertetése](#hirdetés-keresés-folyamatának-ismertetése)
+    - [Hirdetés vásárlás folyamatának ismertetése](#hirdetés-vásárlás-folyamatának-ismertetése)
+  - [Összefoglalás](#összefoglalás)
+    - [Elkészült munkánk értékelése](#elkészült-munkánk-értékelése)
+    - [Köszönetnyilvánítás](#köszönetnyilvánítás)
+  - [Irodalomjegyzék](#irodalomjegyzék)
+
+<!-- /code_chunk_output -->
+
 
 # Konzol webshop dokumentáció
 
