@@ -20,16 +20,34 @@ a {
     color: darkgreen;
 }
 
-h1,h2,h3,h4,h5,h6 {
-    color: cyan;
+a:hover {
+  background-color: green;
+  color: white;
 }
 
-code {
+a:hover code {
+  background-color: green !important;
+  color: white !important;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: darkblue;
+}
+
+code, pre * {
     font-family: 'Courier New', Courier, monospace;
+    background-color: #f5f2f0 !important;
+    color: black;
 }
 
 h2 {
-    border-bottom: 1px solid blue;
+    border-bottom: 1px solid darkblue;
+}
+
+img {
+  max-width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>
 
@@ -98,6 +116,7 @@ h2 {
 
 <!-- /code_chunk_output -->
 
+<div style="page-break-after: always;"></div>
 
 # Konzol webshop dokumentáció
 
