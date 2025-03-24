@@ -908,7 +908,9 @@ Ez a Konzol Webshop főoldala. A fejlécben láthatja az oldal logóját, a szö
 A fejléc alatt az oldal fő tartalma, a hirdetés kereső található, bal oldalt a szűrőkkel, jobb oldalt pedig a hirdetésekkel.
 
 #### A regisztráció folyamatának ismertetése
+A regisztrációs folyamat megkezdéséhez először a regisztrációs oldalra kell navigálnunk. Ezt a jobb felső sarokban található "Regisztráció" gombbal tehetjük meg. A gomb át navigál minket az `auth/register` aloldalra, ahol kitölthetjük a regisztrációs űrlapot. Az űrlap helyes kitöltése után már kész is a saját felhasználónk amely adataival be is tudunk jelentkezni.
 #### A belépés folyamatának ismertetése
+A belépési folyamat megkezdéséhez, hasonlóan a regisztrációhoz, először a bejelentkezés oldalra kell navigálnunk. Ezz a jobb felső sarokban található "Bejelentkezés" gombbal tehetjük meg. A gomb át navigál minket az `auth/login` aloldalra, ahol kitölthetjük a bejelentkezési űrlapon. Az űrlap helyes kitöltése után autómatikusan visszakerülünk a főoldalra, ahol a "Bejelentkezés" és a "Regisztráció" gombok helyett profilképünket láthatjuk.
 #### Hirdetés feltöltés folyamatának ismertetése
 #### Hirdetés keresés folyamatának ismertetése
 #### Hirdetés vásárlás folyamatának ismertetése
