@@ -75,6 +75,8 @@ h2 {
       - [Keresési folyamat frontend oldal](#keresési-folyamat-frontend-oldal)
     - [Különböző körülmények, esetek és hibakezelések](#különböző-körülmények-esetek-és-hibakezelések)
       - [Hirdetések hiánya](#hirdetések-hiánya)
+      - [Hirdetés módosításának hibalehetőségei](#hirdetés-módosításának-hibalehetőségei)
+      - [Túl nagy vagy hibás kép feltöltése](#túl-nagy-vagy-hibás-kép-feltöltése)
     - [Fejlesztési lehetőségek](#fejlesztési-lehetőségek)
   - [Teszt dokumentáció](#teszt-dokumentáció)
     - [Backend tesztek](#backend-tesztek)
@@ -732,6 +734,50 @@ Ennek segítségével könnyedén észlelhetjük hogy egy adott szekció mikor j
 ### Különböző körülmények, esetek és hibakezelések
 #### Hirdetések hiánya
 Ha nincsenek hirdetések feltöltve az oldalra, akkor a keresőben a "Nincs találat" felirat látható
+
+#### Hirdetés módosításának hibalehetőségei
+Miután megbizonyosodtunk a hirdetés létezéréről, leellenőrizzük, hogy van-e jogunk módosítani.
+Ha a hirdetés nem a miénk, vagy valaki már kosárba tette, nem engedjük a módosítást.
+A kosárba helyezés azért zárja le a hirdetést, hogy annak módosítása semmiképpen se érinthesse hátrányosan a vásárlót. Így azt a terméket fogja kézhez kapni, amely a kosárban van.
+
+```ts
+const found = await this.advertRepository.findOneBy({ id });
+if (found == null) {
+  throw new NotFoundException('No such advertisement id');
+}
+
+if (found.ownerId != userId) {
+  throw new ForbiddenException(
+    'Cannot modify advertisement of another user',
+  );
+}
+
+const isAdvertInCart = await this.cartRepository.existsBy({ advertId: id });
+if (isAdvertInCart) {
+  throw new BadRequestException(
+    "Cannot modify advertisement that is in a user's cart",
+  );
+}
+```
+
+#### Túl nagy vagy hibás kép feltöltése
+```ts
+try {
+  let img = sharp(toInsert.data);
+  await img.stats();
+  toInsert.data = await img
+    .resize({
+      width: advertPictureWidth,
+      height: advertPictureHeight,
+      fit: 'inside',
+      withoutEnlargement: false,
+    })
+    .toBuffer();
+} catch (e) {
+  throw new BadRequestException(e);
+}
+```
+
 <!-- ## Üres profil oldal lezárolt telefon után
 ## Üres képek a galériában
 ## Az időpontfoglalás kijátszása
