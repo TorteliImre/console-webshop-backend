@@ -17,16 +17,22 @@ body {
 }
 
 a {
-    color: darkgreen;
+    color: black;
+    text-decoration-color: blue;
+}
+
+/* TOC */
+ul:nth-of-type(1) a {
+    line-height: 1.4rem;
 }
 
 a:hover {
-  background-color: green;
+  background-color: black;
   color: white;
 }
 
 a:hover code {
-  background-color: green !important;
+  background-color: black !important;
   color: white !important;
 }
 
