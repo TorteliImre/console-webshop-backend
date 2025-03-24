@@ -72,17 +72,18 @@ export class CartService {
   async purchaseItems(userId: number) {
     const items = await this.cartItemRepository.findBy({ userId });
 
-    // TODO: Check if item is sold
+    let itemsToBuy: CartItem[] = [];
+    for (const item of items) {
+      if (!(await this.advertService._isItemSold(item.advertId))) {
+        itemsToBuy.push(item);
+      }
+    }
 
-    console.log(
-      `purchaseItems called, items in cart: ${JSON.stringify(items)}`,
-    );
-
-    if (items.length == 0) {
+    if (itemsToBuy.length == 0) {
       throw new BadRequestException('There are no items to purchase');
     }
 
-    for (let item of items) {
+    for (let item of itemsToBuy) {
       await this.advertRepository.update(
         { id: item.advertId },
         { isSold: true },
