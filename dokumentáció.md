@@ -95,6 +95,7 @@ img {
       - [Hirdetések hiánya](#hirdetések-hiánya)
       - [Hirdetés módosításának hibalehetőségei](#hirdetés-módosításának-hibalehetőségei)
       - [Túl nagy vagy hibás kép feltöltése](#túl-nagy-vagy-hibás-kép-feltöltése)
+      - [Hirdetés kosárhoz adása közbeni hibák](#hirdetés-kosárhoz-adása-közbeni-hibák)
     - [Fejlesztési lehetőségek](#fejlesztési-lehetőségek)
   - [Teszt dokumentáció](#teszt-dokumentáció)
     - [Backend tesztek](#backend-tesztek)
@@ -755,31 +756,44 @@ Ennek segítségével könnyedén észlelhetjük hogy egy adott szekció mikor j
 Ha nincsenek hirdetések feltöltve az oldalra, akkor a keresőben a "Nincs találat" felirat látható
 
 #### Hirdetés módosításának hibalehetőségei
-Miután megbizonyosodtunk a hirdetés létezéréről, leellenőrizzük, hogy van-e jogunk módosítani.
+Először megnézzük, hogy a bodyban van-e módosítandó paraméter.
+Majd miután megbizonyosodtunk a hirdetés létezéréről, leellenőrizzük, hogy van-e jogunk módosítani.
 Ha a hirdetés nem a miénk, vagy valaki már kosárba tette, nem engedjük a módosítást.
 A kosárba helyezés azért zárja le a hirdetést, hogy annak módosítása semmiképpen se érinthesse hátrányosan a vásárlót. Így azt a terméket fogja kézhez kapni, amely a kosárban van.
 
 ```ts
-const found = await this.advertRepository.findOneBy({ id });
-if (found == null) {
-  throw new NotFoundException('No such advertisement id');
-}
+async modifyAdvert(id: number, dto: ModifyAdvertDto, userId: number) {
+  if (Object.keys(dto).filter((x) => x != 'id').length == 0) {
+    throw new BadRequestException('No parameters were passed');
+  }
 
-if (found.ownerId != userId) {
-  throw new ForbiddenException(
-    'Cannot modify advertisement of another user',
-  );
-}
+  const found = await this.advertRepository.findOneBy({ id });
+  if (found == null) {
+    throw new NotFoundException('No such advertisement id');
+  }
 
-const isAdvertInCart = await this.cartRepository.existsBy({ advertId: id });
-if (isAdvertInCart) {
-  throw new BadRequestException(
-    "Cannot modify advertisement that is in a user's cart",
-  );
+  if (found.ownerId != userId) {
+    throw new ForbiddenException(
+      'Cannot modify advertisement of another user',
+    );
+  }
+
+  const isAdvertInCart = await this.cartRepository.existsBy({ advertId: id });
+  if (isAdvertInCart) {
+    throw new BadRequestException(
+      "Cannot modify advertisement that is in a user's cart",
+    );
+  }
+
+  await this.advertRepository.update(id, dto);
 }
 ```
 
 #### Túl nagy vagy hibás kép feltöltése
+Ha a felhasználó túl nagy képet szeretne feltölteni, akkor átméretezzük.
+Hibás kép feltöltése esetén `Bad Request` hibát adunk vissza.
+Profilkép és hirdetés kép feltöltése esetén is hasonlóan járunk el.
+
 ```ts
 try {
   let img = sharp(toInsert.data);
@@ -794,6 +808,34 @@ try {
     .toBuffer();
 } catch (e) {
   throw new BadRequestException(e);
+}
+```
+
+#### Hirdetés kosárhoz adása közbeni hibák
+A következő esetekben adunk vissza hibát:
+- Nem található hirdetés
+- Saját hirdetés
+- Már a kosárban van a termék
+- A termék már el lett adva
+
+```ts
+async addCartItem(dto: AddCartItemDto, userId: number): Promise<void> {
+  const advert = await this.advertRepository.findOneBy({ id: dto.advertId });
+  if (advert == null) {
+    throw new BadRequestException('Attemped to add invalid advert id');
+  }
+  if (advert.ownerId == userId) {
+    throw new BadRequestException('Attemped to add own advert to cart');
+  }
+  if (
+    await this.cartItemRepository.existsBy({ advertId: dto.advertId, userId })
+  ) {
+    throw new BadRequestException('Advert is already in the cart');
+  }
+  if (await this.advertService._isItemSold(dto.advertId)) {
+    throw new BadRequestException('Item has already been sold');
+  }
+  await this.cartItemRepository.insert({ advertId: dto.advertId, userId });
 }
 ```
 
