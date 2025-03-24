@@ -84,14 +84,13 @@ h2 {
     - [Szükséges eszközök a weboldal használatához](#szükséges-eszközök-a-weboldal-használatához)
     - [Weboldal eléréséhez használható böngészők](#weboldal-eléréséhez-használható-böngészők)
     - [Weboldal használatának részletes ismertetése](#weboldal-használatának-részletes-ismertetése)
-    - [A regisztráció folyamatának ismertetése](#a-regisztráció-folyamatának-ismertetése)
-    - [A belépés folyamatának ismertetése](#a-belépés-folyamatának-ismertetése)
-    - [Hirdetés feltöltés folyamatának ismertetése](#hirdetés-feltöltés-folyamatának-ismertetése)
-    - [Hirdetés keresés folyamatának ismertetése](#hirdetés-keresés-folyamatának-ismertetése)
-    - [Hirdetés vásárlás folyamatának ismertetése](#hirdetés-vásárlás-folyamatának-ismertetése)
+      - [A regisztráció folyamatának ismertetése](#a-regisztráció-folyamatának-ismertetése)
+      - [A belépés folyamatának ismertetése](#a-belépés-folyamatának-ismertetése)
+      - [Hirdetés feltöltés folyamatának ismertetése](#hirdetés-feltöltés-folyamatának-ismertetése)
+      - [Hirdetés keresés folyamatának ismertetése](#hirdetés-keresés-folyamatának-ismertetése)
+      - [Hirdetés vásárlás folyamatának ismertetése](#hirdetés-vásárlás-folyamatának-ismertetése)
   - [Összefoglalás](#összefoglalás)
     - [Elkészült munkánk értékelése](#elkészült-munkánk-értékelése)
-    - [Köszönetnyilvánítás](#köszönetnyilvánítás)
   - [Irodalomjegyzék](#irodalomjegyzék)
 
 <!-- /code_chunk_output -->
@@ -761,17 +760,46 @@ Ez a teszt azt ellenőrzi, hogy a regisztrációs felület látható-e az oldalo
 Ezeket a teszteket a Playwright által szolgáltatott felhasználó felületen futtathatjuk.
 ![Playwright](./docs/Playwright.png "Playwright ablak")
 Itt láthatunk minden tesztet és azok eredményeit.
+
 ## Felhasználói dokumentáció
 ### Üdvözöllek!
+Ön a Konzol Webshop weboldalának felhasználói dokumentációját olvassa, amely egy online webshop, ahol könnyedén könnyedén vásárolhat vagy adhat el régi és új konzolokat egyaránt.
+A Konzol Webshop alapvető funkciói között szerepel a belépés és regisztráció lehetősége. Ha még nem regisztrált, egyszerűen létrehozhatja a fiókját, majd bejelentkezhet az oldalra, hogy teljes körű hozzáférést kapjon a funkciókhoz.
+Emellett a weboldalon lehetősége van hirdetések böngészésére és keresésére, amelyhez segítséget nyújt a részletes szűrésre lehetsőéget adó keresőmotor. 
+Ha pedig saját konzolját kívánja eladni könnyedén létre tud hozni új hirdetést melyet más felhasználók is megtekinthetnek.
+Köszönjük, hogy csatlakozott hozzánk, és jó böngészést kívánunk a játékkonzolok világában!
+Üdvözlettel,
+Konzol Webshop csapata
+
 ### Szükséges eszközök a weboldal használatához
+A weboldalhoz való hozzáféréshez és használatához csak egy internetkapcsolattal rendelkező eszközre van szükséged. 
+Például:
+  - Okostelefon
+  - Táblagép
+  - Számítógép (laptop vagy asztali számítógép)
+
+Ezen eszközök bármelyike alkalmas a Konzol Webshop weboldalának böngészésére, hirdetések keresésére és feltöltésére.
+
 ### Weboldal eléréséhez használható böngészők
+Az internetkapcsolat mellett szüksége lesz egy modern webböngészőre.
+Például:
+- Google Chrome
+- Mozilla Firefox
+- Microsoft Edge
+
+Ezek a böngészők lehetővé teszik a Konzol Webshop weboldalának teljes körű használatát és böngészését.
+
 ### Weboldal használatának részletes ismertetése
-### A regisztráció folyamatának ismertetése
-### A belépés folyamatának ismertetése
-### Hirdetés feltöltés folyamatának ismertetése
-### Hirdetés keresés folyamatának ismertetése
-### Hirdetés vásárlás folyamatának ismertetése
+![Main-Page](./docs/main-page.jpeg "Főoldal")
+Ez a Konzol Webshop főoldala. A fejlécben láthatja az oldal logóját, a szöveges kereső mezőt, a kocsár, bejelentkezés és regisztráció gombokat.
+A fejléc alatt az oldal fő tartalma, a hirdetés kereső található, bal oldalt a szűrőkkel, jobb oldalt pedig a hirdetésekkel.
+
+#### A regisztráció folyamatának ismertetése
+#### A belépés folyamatának ismertetése
+#### Hirdetés feltöltés folyamatának ismertetése
+#### Hirdetés keresés folyamatának ismertetése
+#### Hirdetés vásárlás folyamatának ismertetése
 ## Összefoglalás
 ### Elkészült munkánk értékelése
-### Köszönetnyilvánítás
+<!-- ### Köszönetnyilvánítás -->
 ## Irodalomjegyzék
