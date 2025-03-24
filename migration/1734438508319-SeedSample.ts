@@ -70,8 +70,8 @@ export class SeedSample1734438508319 implements MigrationInterface {
           parseInt(line[5]),
           parseInt(line[6]),
           parseInt(line[7]),
+          parseInt(line[8]),
           parseInt(line[9]),
-          parseInt(line[10]),
         ],
       );
     }
