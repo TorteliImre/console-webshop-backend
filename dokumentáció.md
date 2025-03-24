@@ -73,6 +73,7 @@ img {
     - [Fejlesztői környezet](#fejlesztői-környezet)
       - [Github és git](#github-és-git)
       - [Tesztelési keretrendszerek](#tesztelési-keretrendszerek)
+      - [A backend futtatása](#a-backend-futtatása)
     - [Kialakított adatszerkezet](#kialakított-adatszerkezet)
       - [Adatbázis táblái](#adatbázis-táblái)
         - [A `locations` tábla](#a-locations-tábla)
@@ -159,6 +160,17 @@ Projektmunkánk során verziókezelőként a Git rendszerét választottuk, amel
   - A Pytest egy, a python programozási nyelven alapuló tesztelési keretrendszer amellyel bárki létre tud hozni testreszabott teszteket egyszerűen.
 - **Frontend: Playwright**
   - A Playwright egy úgynevezett "End-to-End" tesztelési keretrendszer, amellyel egyszerűen tudjuk tesztelni a weblapjainkat a felhasználók szemszögéből, ezzel biztosítva a megfelelő kinézetet és viselkedést.
+
+#### A backend futtatása
+Legelső dolgunk a backend elindítása előtt az, hogy az adatbázis rendszert futtatjuk.
+
+A `.env.template` fájlt `.env`-re átnevezve állíthatjuk be az adatbázis paramétereit: a host-ot, port-ot, felhasználónevet és a jelszót. Ezek mellett a `TESTING_DB`-vel állítható be, hogy tesztelői (fejlesztői) adatbázishoz, vagy éles adatbázishoz szeretnénk kapcsolódni. A `LOAD_SAMPLE_DATA` adja meg, hogy példa adatok betöltődjenek-e. A statikus adatok (pl. települések) mindkét esetben betöltődnek.
+
+A tesztelői adatbázist a backend `console-webshop-testing` néven, az éles adatbázist `console-webshop` néven keresi. Ezek közül létre kell hoznunk azt, amelyiket használni fogjuk. A táblák automatikusan létrejönnek.
+
+A szükséges előkészületek után a backend futtatása következik. A mappájába belépve `npm i` paranccsal telepítjük a szükséges csomagokat, majd `npm run start:dev` paranccsal elindíthatjuk a backendet.
+
+Az API és annak dokumentációja a `localhost:3000/api` címen lesz elérhető.
 
 ### Kialakított adatszerkezet
 #### Adatbázis táblái
