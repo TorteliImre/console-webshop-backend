@@ -29,7 +29,7 @@ class TestUserBasic:
     def test_create(self):
         resp = requests.post(
             BASE_URL + "/user",
-            data={
+            json={
                 "name": "user1",
                 "email": "user1@mail.com",
                 "password": "pass123",
@@ -40,7 +40,7 @@ class TestUserBasic:
 
         resp = requests.post(
             BASE_URL + "/user",
-            data={
+            json={
                 "name": "user2",
                 "email": "user2@mail.com",
                 "password": "pass123",
@@ -51,7 +51,7 @@ class TestUserBasic:
 
         resp = requests.post(
             BASE_URL + "/user",
-            data={
+            json={
                 "name": "user3",
                 "email": "user3@mail.com",
                 "password": "pass123",
@@ -101,21 +101,21 @@ class TestUserBasic:
     @pytest.mark.dependency(depends=["TestUserBasic::test_create"])
     def test_log_in(self):
         resp = requests.post(
-            BASE_URL + "/auth/login", data={"name": "user1", "password": "pass123"}
+            BASE_URL + "/auth/login", json={"name": "user1", "password": "pass123"}
         )
         assert resp.json() == {"access_token": ANY}
         assert resp.status_code == 201
         self.token1 = resp.json()["access_token"]
 
         resp = requests.post(
-            BASE_URL + "/auth/login", data={"name": "user2", "password": "pass123"}
+            BASE_URL + "/auth/login", json={"name": "user2", "password": "pass123"}
         )
         assert resp.json() == {"access_token": ANY}
         assert resp.status_code == 201
         self.token2 = resp.json()["access_token"]
 
         resp = requests.post(
-            BASE_URL + "/auth/login", data={"name": "user3", "password": "pass123"}
+            BASE_URL + "/auth/login", json={"name": "user3", "password": "pass123"}
         )
         assert resp.json() == {"access_token": ANY}
         assert resp.status_code == 201
@@ -125,21 +125,21 @@ class TestUserBasic:
 class LoggedInTestBase:
     def setup_method(self, method):
         resp = requests.post(
-            BASE_URL + "/auth/login", data={"name": "user1", "password": "pass123"}
+            BASE_URL + "/auth/login", json={"name": "user1", "password": "pass123"}
         )
         assert resp.json() == {"access_token": ANY}
         assert resp.status_code == 201
         self.token1 = resp.json()["access_token"]
 
         resp = requests.post(
-            BASE_URL + "/auth/login", data={"name": "user2", "password": "pass123"}
+            BASE_URL + "/auth/login", json={"name": "user2", "password": "pass123"}
         )
         assert resp.json() == {"access_token": ANY}
         assert resp.status_code == 201
         self.token2 = resp.json()["access_token"]
 
         resp = requests.post(
-            BASE_URL + "/auth/login", data={"name": "user3", "password": "pass123"}
+            BASE_URL + "/auth/login", json={"name": "user3", "password": "pass123"}
         )
         assert resp.json() == {"access_token": ANY}
         assert resp.status_code == 201
@@ -158,7 +158,7 @@ class TestUser(LoggedInTestBase):
         resp = requests.patch(
             BASE_URL + "/user",
             headers={"Authorization": "Bearer " + self.token1},
-            data={"bio": "This is the bio of user1."},
+            json={"bio": "This is the bio of user1."},
         )
         assert resp.content == b""
         assert resp.status_code == 200
@@ -190,7 +190,7 @@ class TestUser(LoggedInTestBase):
         resp = requests.patch(
             BASE_URL + "/user",
             headers={"Authorization": "Bearer " + self.token2},
-            data={"bio": ""},
+            json={"bio": ""},
         )
         assert resp.content == b""
         assert resp.status_code == 200
@@ -218,7 +218,7 @@ class TestUser(LoggedInTestBase):
         resp = requests.post(
             BASE_URL + "/user/setPicture",
             headers={"Authorization": "Bearer " + self.token1},
-            data={"picture": IMAGE_DATA},
+            json={"picture": IMAGE_DATA},
         )
         assert resp.content == b""
         assert resp.status_code == 201
@@ -258,7 +258,7 @@ class TestUser(LoggedInTestBase):
         resp = requests.patch(
             BASE_URL + "/user",
             headers={"Authorization": "Bearer " + self.token2},
-            data={"email": "new@mail.com"},
+            json={"email": "new@mail.com"},
         )
         assert resp.content == b""
         assert resp.status_code == 200
@@ -328,7 +328,7 @@ class TestAdvert(LoggedInTestBase):
         resp = requests.post(
             BASE_URL + "/adverts",
             headers={"Authorization": "Bearer " + self.token1},
-            data={
+            json={
                 "title": "Test advertisement",
                 "description": "This is the description of the test advertisement.",
                 "locationId": 1171,
@@ -343,7 +343,7 @@ class TestAdvert(LoggedInTestBase):
         resp = requests.post(
             BASE_URL + "/adverts",
             headers={"Authorization": "Bearer " + self.token2},
-            data={
+            json={
                 "title": "Eladó PS3",
                 "description": "Jó állapotú Sony PlayStation 3",
                 "locationId": 1492,
@@ -439,7 +439,7 @@ class TestAdvert(LoggedInTestBase):
         resp = requests.patch(
             BASE_URL + "/adverts/1",
             headers={"Authorization": "Bearer " + self.token1},
-            data={
+            json={
                 "description": "This is the NEW description.",
                 "priceHuf": 12345,
                 "ignoreThis": 123,
@@ -477,7 +477,7 @@ class TestAdvert(LoggedInTestBase):
         resp = requests.post(
             BASE_URL + "/adverts/1/pictures",
             headers={"Authorization": "Bearer " + self.token1},
-            data={
+            json={
                 "data": IMAGE_DATA,
                 "description": "This is the description of the picture.",
             },
@@ -515,7 +515,7 @@ class TestAdvert(LoggedInTestBase):
         resp = requests.patch(
             BASE_URL + "/adverts/1/pictures",
             headers={"Authorization": "Bearer " + self.token1},
-            data={
+            json={
                 "id": 1,
                 "description": "This is the NEW description of the picture.",
             },
