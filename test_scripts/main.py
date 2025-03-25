@@ -69,6 +69,8 @@ class TestUserBasic:
             "bio": "",
             "picture": "",
             "regDate": getIsoDate(),
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -79,6 +81,8 @@ class TestUserBasic:
             "bio": "",
             "picture": "",
             "regDate": getIsoDate(),
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -89,6 +93,8 @@ class TestUserBasic:
             "bio": "",
             "picture": "",
             "regDate": getIsoDate(),
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -164,6 +170,8 @@ class TestUser(LoggedInTestBase):
             "bio": "This is the bio of user1.",
             "picture": "",
             "regDate": getIsoDate(),
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -174,6 +182,8 @@ class TestUser(LoggedInTestBase):
             "bio": "",
             "picture": "",
             "regDate": getIsoDate(),
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -192,6 +202,8 @@ class TestUser(LoggedInTestBase):
             "bio": "",
             "picture": "",
             "regDate": getIsoDate(),
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -218,6 +230,8 @@ class TestUser(LoggedInTestBase):
             "bio": "This is the bio of user1.",
             "picture": IMAGE_PFP_DATA,
             "regDate": getIsoDate(),
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -228,6 +242,8 @@ class TestUser(LoggedInTestBase):
             "bio": "",
             "picture": "",
             "regDate": getIsoDate(),
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -257,6 +273,8 @@ class TestUser(LoggedInTestBase):
             "picture": "",
             "regDate": getIsoDate(),
             "email": "new@mail.com",
+            "isAdmin": False,
+            "rating": None,
         }
         assert resp.status_code == 200
 
@@ -282,6 +300,8 @@ class TestUser(LoggedInTestBase):
                     "bio": "This is the bio of user1.",
                     "picture": IMAGE_PFP_DATA,
                     "regDate": getIsoDate(),
+                    "isAdmin": False,
+                    "rating": None,
                 },
                 {
                     "id": 2,
@@ -289,6 +309,8 @@ class TestUser(LoggedInTestBase):
                     "bio": "",
                     "picture": "",
                     "regDate": getIsoDate(),
+                    "isAdmin": False,
+                    "rating": None,
                 },
             ],
             "resultCount": 3,
