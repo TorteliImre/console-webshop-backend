@@ -932,11 +932,11 @@ Az űrlap helyes kitöltése után már kész is a saját felhasználónk amely 
 #### A belépés folyamatának ismertetése
 A belépési folyamat megkezdéséhez, hasonlóan a regisztrációhoz, először a bejelentkezés oldalra kell navigálnunk. Ezz a jobb felső sarokban található "Bejelentkezés" gombbal tehetjük meg.
 
-![Bejelentkezés űrlap](./docs/login.jpeg "Bejelentkezés űrlap")
+![Bejelentkezés](./docs/login-guide.jpg "Bejelentkezés")
 
 A gomb át navigál minket az `auth/login` aloldalra, ahol kitölthetjük a bejelentkezési űrlapon.
 
-(Kép)
+![Bejelentkezés űrlap](./docs/login.jpeg "Bejelentkezés űrlap")
 
 Az űrlap helyes kitöltése után autómatikusan visszakerülünk a főoldalra, ahol a "Bejelentkezés" és a "Regisztráció" gombok helyett profilképünket láthatjuk.
 #### Hirdetés feltöltés folyamatának ismertetése
