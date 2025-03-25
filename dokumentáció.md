@@ -940,6 +940,18 @@ A gomb át navigál minket az `auth/login` aloldalra, ahol kitölthetjük a beje
 
 Az űrlap helyes kitöltése után autómatikusan visszakerülünk a főoldalra, ahol a "Bejelentkezés" és a "Regisztráció" gombok helyett profilképünket láthatjuk.
 #### Hirdetés feltöltés folyamatának ismertetése
+Egy hirdetés feltöltéséhez először be kell jelentkeznünk az oldalra egy korábban létrehozott felhasználóval. Ezt követően a fejléc jobb oldalán a "Bejelentkezés" és "Regisztráció" gombok helyett a saját profilképünket találjuk, amelyre rákattintva megjeleníthetjük a felhasználói menüt.
+
+(Kép - Teljes oldal, profilkép karikázva, nyilazva)
+
+(Kép - Felhasználói menü közelről, létrehozás nyilazva)
+
+A menüben a "Hirdetés létrehozása" opciót választva térhetünk át az új hirdetés készítésének oldalára.
+
+(Kép - advert create page)
+Ezen az oldalon a kitölthetünk minden olyan adatot, amely szükséges egy új hirdetés létrehozásához. Ezt követően a "Létrehozás" gombra kattintva létre tudjuk hozni a hirdetést.
+
+(Kép - Kitöltött új advert oldal, létrehozás gomb karikázva, nyilazva)
 #### Hirdetés keresés folyamatának ismertetése
 #### Hirdetés vásárlás folyamatának ismertetése
 ## Összefoglalás
