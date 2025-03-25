@@ -74,6 +74,7 @@ img {
       - [Github és git](#github-és-git)
       - [Tesztelési keretrendszerek](#tesztelési-keretrendszerek)
       - [A backend futtatása](#a-backend-futtatása)
+      - [Mappaszerkezet](#mappaszerkezet)
     - [Kialakított adatszerkezet](#kialakított-adatszerkezet)
       - [Adatbázis táblái](#adatbázis-táblái)
         - [A `locations` tábla](#a-locations-tábla)
@@ -171,6 +172,84 @@ A tesztelői adatbázist a backend `console-webshop-testing` néven, az éles ad
 A szükséges előkészületek után a backend futtatása következik. A mappájába belépve `npm i` paranccsal telepítjük a szükséges csomagokat, majd `npm run start:dev` paranccsal elindíthatjuk a backendet.
 
 Az API és annak dokumentációja a `localhost:3000/api` címen lesz elérhető.
+
+#### Mappaszerkezet
+- `.env.template`: Sablon a `.env` fájlhoz, amely a backend beállításait tartalmazza.
+- `data/`: A statikus adatok (települések, gyártók, modellek) és példa adatok (felhasználók, hirdetések, képek, hozzászólások és javaslatok) CSV filejai.
+- `entities/`: Az adatbázis táblákban tárolt példányok definícióji.
+- `migration/`: A statikus és példa adatokat betöltő adatbázis migrációk.
+- `src/admin/`
+- `src/advert`: Hirdetések végpontjai.
+- `src/advert/advert.controller.ts`.
+- `src/advert/advert.do.ts`
+- `src/advert/advert.module.ts`
+- `src/advert/advert.service.ts`
+- `src/app.controller.ts`
+- `src/app.module.ts`
+- `src/app.service.ts`
+- `src/auth/`: Bejelentkezések végpontjai, JWT autentikáció, felhasználókkal kapcsolatos dekorátorok, felhasználói jogok.
+- `src/auth/auth.controller.ts`
+- `src/auth/auth.dto.ts`
+- `src/auth/auth.module.ts`
+- `src/auth/auth.service.ts`
+- `src/auth/constants.ts`
+- `src/auth/jwt-auth.guard.ts`
+- `src/bookmark/`: Felhasználók könyvjelzőinek végpontjai.
+- `src/bookmark/bookmark.controller.ts`
+- `src/bookmark/bookmark.dto.ts`
+- `src/bookmark/bookmark.module.ts`
+- `src/bookmark/bookmark.service.ts`
+- `src/cart/`: Felhasználók kosarának végpontjai.
+- `src/cart/cart.controller.ts`
+- `src/cart/cart.dto.ts`
+- `src/cart/cart.module.ts`
+- `src/cart/cart.service.ts`
+- `src/common.ts`
+- `src/datasource/`: Az adatbázis kapcsolódás implementációja.
+- `src/datasource/datasource.module.ts`
+- `src/filters/`: Szűrők végpontjai.
+- `src/filters/filters.controller.ts`
+- `src/filters/filters.dto.ts`
+- `src/filters/filters.module.ts`
+- `src/filters/filters.service.ts`
+- `src/limits.ts`: Az adatbázis celláinak maximum hosszai, maximum értékei és minimum értékei.
+- `src/logger/`
+- `src/logger/logger.ts`
+- `src/main.ts`
+- `src/purchase/`: A felhasználók által vásárolt és eladott termékek végpontjai.
+- `src/purchase/purchase.controller.ts`
+- `src/purchase/purchase.dto.ts`
+- `src/purchase/purchase.module.ts`
+- `src/purchase/purchase.service.ts`
+- `src/rating/`: A vásárlások értékeléseinek végpontjai.
+- `src/rating/rating.controller.ts`
+- `src/rating/rating.dto.ts`
+- `src/rating/rating.module.ts`
+- `src/rating/rating.service.ts`
+- `src/suggestions/`: Felhasználók által hagyott javaslatok.
+- `src/suggestions/suggestions.controller.ts`
+- `src/suggestions/suggestions.dto.ts`
+- `src/suggestions/suggestions.module.ts`
+- `src/suggestions/suggestions.service.ts`
+- `src/user/`
+- `src/user/user.controller.ts`
+- `src/user/user.dto.ts`
+- `src/user/user.module.ts`
+- `src/user/user.service.ts`
+- `test/`
+- `test/app.e2e-spec.ts`
+- `test/jest-e2e.json`
+- `test_scripts/`
+- `test_scripts/.env`
+- `test_scripts/data/`
+- `test_scripts/data/picture-ad.jpg`
+- `test_scripts/data/picture-pfp.jpg`
+- `test_scripts/data/picture.jpg`
+- `test_scripts/endpoints.txt`
+- `test_scripts/main.py`
+- `test_scripts/requirements.txt`
+- `tsconfig.build.json`
+- `tsconfig.json`
 
 ### Kialakított adatszerkezet
 #### Adatbázis táblái
