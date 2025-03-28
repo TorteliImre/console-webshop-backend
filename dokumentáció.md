@@ -107,6 +107,8 @@ img {
     - [Fejlesztési lehetőségek](#fejlesztési-lehetőségek)
   - [Teszt dokumentáció](#teszt-dokumentáció)
     - [Backend tesztek](#backend-tesztek)
+      - [Előkészítés](#előkészítés)
+      - [Futtatás](#futtatás)
     - [Frontend tesztek](#frontend-tesztek)
   - [Felhasználói dokumentáció](#felhasználói-dokumentáció)
     - [Üdvözöllek!](#üdvözöllek)
@@ -896,6 +898,21 @@ async addCartItem(dto: AddCartItemDto, userId: number): Promise<void> {
 ### Fejlesztési lehetőségek
 ## Teszt dokumentáció
 ### Backend tesztek
+A végpontok tesztelése a kövekezőképpen történik: python scriptben kérést küldünk a `requests` könyvtár segítségével,
+majd `pytest` segítségével leellenőrizzük a választ.
+
+#### Előkészítés
+1. Beállítjuk a backendet: a `.env` fájlban beállítjuk, hogy teszt adatbázist használjon (`TESTING_DB=true`) és ne töltse be a példa adatokat (`LOAD_SAMPLE_DATA=false`), majd elindítjuk/újraindítjuk.
+2. Telepítjük a Python 3-at, ha szükséges.
+3. Parancssorban megnyitjuk a `test_scripts/` mappát.
+4. A következő paranccsal létrehozzuk a környezetet, ahova a csomagokat telepítjuk: `python -m venv .venv`.
+5. Aktiváljuk a környezetet: `.venv\Scripts\activate`.
+6. Telepítjük a szükséges csomagokat: `python -m pip install -r requirements.txt`.
+
+#### Futtatás
+1. Aktiváljuk a környezetet: `.venv\Scripts\activate`.
+2. Futtatjuk a teszteket: `python -m pytest main.py`.
+
 ### Frontend tesztek
 A frontend tesztelését úgynevezett "End-To-End" tesztekkel oldottuk meg. Ezek megvalósításához a "Playwright" nevű tesztelési keretrendszert használjuk amely segítségével könnyedén tudunk olyan teszteket készíteni, amelyek nem a kódot, hanem a felhasználói élményt tesztelik.
 Példaképpen láthatjuk a regisztrációs oldal egyik tesztjét:
