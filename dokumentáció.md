@@ -174,82 +174,34 @@ A szükséges előkészületek után a backend futtatása következik. A mappáj
 Az API és annak dokumentációja a `localhost:3000/api` címen lesz elérhető.
 
 #### Mappaszerkezet
+A végpontokhoz tartozó mappákban a következő fájlok vannak:
+- `fájlnév.module.ts`: A modul, ami betölti a végpontokhoz tartozó kontrollereket, serviceket és elérhetővé teszi az adatbázist.
+- `fájlnév.controller.ts`: A végpontokat létrehozó kód.
+- `fájlnév.service.ts`: A kontroller által meghívott függvények, amik az adatbázist kezelik.
+- `fájlnév.dto.ts`: A kérések és a válaszok paramétereit, formátumát és a validációt tartalmazza.
+
+A mappaszerkezet:
 - `.env.template`: Sablon a `.env` fájlhoz, amely a backend beállításait tartalmazza.
 - `data/`: A statikus adatok (települések, gyártók, modellek) és példa adatok (felhasználók, hirdetések, képek, hozzászólások és javaslatok) CSV filejai.
 - `entities/`: Az adatbázis táblákban tárolt példányok definícióji.
 - `migration/`: A statikus és példa adatokat betöltő adatbázis migrációk.
-- `src/admin/`
+- `src/admin/`: Csak adminok által elérhető végpontok dekorátora.
 - `src/advert`: Hirdetések végpontjai.
-- `src/advert/advert.controller.ts`.
-- `src/advert/advert.do.ts`
-- `src/advert/advert.module.ts`
-- `src/advert/advert.service.ts`
-- `src/app.controller.ts`
-- `src/app.module.ts`
-- `src/app.service.ts`
-- `src/auth/`: Bejelentkezések végpontjai, JWT autentikáció, felhasználókkal kapcsolatos dekorátorok, felhasználói jogok.
-- `src/auth/auth.controller.ts`
-- `src/auth/auth.dto.ts`
-- `src/auth/auth.module.ts`
-- `src/auth/auth.service.ts`
-- `src/auth/constants.ts`
-- `src/auth/jwt-auth.guard.ts`
+- `src/app.module.ts`: A fő modul, ami betölti az végpontokat.
+- `src/auth/`: Bejelentkezések végpontjai, JWT autentikáció, bejelentkezéssel kapcsolatos dekorátorok és guardok, felhasználói jogok, jelszó hashelés.
 - `src/bookmark/`: Felhasználók könyvjelzőinek végpontjai.
-- `src/bookmark/bookmark.controller.ts`
-- `src/bookmark/bookmark.dto.ts`
-- `src/bookmark/bookmark.module.ts`
-- `src/bookmark/bookmark.service.ts`
 - `src/cart/`: Felhasználók kosarának végpontjai.
-- `src/cart/cart.controller.ts`
-- `src/cart/cart.dto.ts`
-- `src/cart/cart.module.ts`
-- `src/cart/cart.service.ts`
-- `src/common.ts`
+- `src/common.ts`: Több kontroller által használt dekorátorok és osztályok.
 - `src/datasource/`: Az adatbázis kapcsolódás implementációja.
-- `src/datasource/datasource.module.ts`
 - `src/filters/`: Szűrők végpontjai.
-- `src/filters/filters.controller.ts`
-- `src/filters/filters.dto.ts`
-- `src/filters/filters.module.ts`
-- `src/filters/filters.service.ts`
 - `src/limits.ts`: Az adatbázis celláinak maximum hosszai, maximum értékei és minimum értékei.
-- `src/logger/`
-- `src/logger/logger.ts`
-- `src/main.ts`
+- `src/logger/`: Hibakereséshez használatos logger.
+- `src/main.ts`: A backend konfigurációja, indítása.
 - `src/purchase/`: A felhasználók által vásárolt és eladott termékek végpontjai.
-- `src/purchase/purchase.controller.ts`
-- `src/purchase/purchase.dto.ts`
-- `src/purchase/purchase.module.ts`
-- `src/purchase/purchase.service.ts`
 - `src/rating/`: A vásárlások értékeléseinek végpontjai.
-- `src/rating/rating.controller.ts`
-- `src/rating/rating.dto.ts`
-- `src/rating/rating.module.ts`
-- `src/rating/rating.service.ts`
-- `src/suggestions/`: Felhasználók által hagyott javaslatok.
-- `src/suggestions/suggestions.controller.ts`
-- `src/suggestions/suggestions.dto.ts`
-- `src/suggestions/suggestions.module.ts`
-- `src/suggestions/suggestions.service.ts`
-- `src/user/`
-- `src/user/user.controller.ts`
-- `src/user/user.dto.ts`
-- `src/user/user.module.ts`
-- `src/user/user.service.ts`
-- `test/`
-- `test/app.e2e-spec.ts`
-- `test/jest-e2e.json`
-- `test_scripts/`
-- `test_scripts/.env`
-- `test_scripts/data/`
-- `test_scripts/data/picture-ad.jpg`
-- `test_scripts/data/picture-pfp.jpg`
-- `test_scripts/data/picture.jpg`
-- `test_scripts/endpoints.txt`
-- `test_scripts/main.py`
-- `test_scripts/requirements.txt`
-- `tsconfig.build.json`
-- `tsconfig.json`
+- `src/suggestions/`: Felhasználók által hagyott javaslatok végpontjai.
+- `src/user/`: Felhasználók létrehozása, módosítása és keresése.
+- `test_scripts/`: Végpont teszt scriptek és adataik.
 
 ### Kialakított adatszerkezet
 #### Adatbázis táblái
