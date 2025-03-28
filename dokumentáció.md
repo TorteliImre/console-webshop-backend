@@ -1018,13 +1018,13 @@ Az űrlap helyes kitöltése után autómatikusan visszakerülünk a főoldalra,
 #### Hirdetés feltöltés folyamatának ismertetése
 Az oldal egyik legfontosabb funkciója a hirdetések létrehozása. Egy hirdetés feltöltéséhez először be kell jelentkeznünk az oldalra egy korábban létrehozott felhasználóval. Ezt követően a fejléc jobb oldalán a "Bejelentkezés" és "Regisztráció" gombok helyett a saját profilképünket találjuk, amelyre rákattintva megjeleníthetjük a felhasználói menüt.
 
-(Kép - Teljes oldal, profilkép karikázva, nyilazva)
+![Felhasználói menü megnyitása](./docs/user-menu-unopened.jpg "Felhasználói menü megnyitása")
 
-(Kép - Felhasználói menü közelről, létrehozás nyilazva)
+![Új hirdetés gomb](./docs/new-advert-arrow.jpg "Új hirdetés gomb")
 
-A menüben a "Hirdetés létrehozása" opciót választva térhetünk át az új hirdetés készítésének oldalára.
+A menüben az "Új hirdetés" opciót választva térhetünk át az új hirdetés készítésének oldalára.
 
-(Kép - advert create page)
+![Új hirdetés oldal](./docs/advert-create-page.jpeg "Új hirdetés oldal")
 
 Ekkor átkerülünk az `advert/create` aloldara, ahol egy űrlap tárul elénk. Az űrlap 4 szekcióra osztódik szét.
 
