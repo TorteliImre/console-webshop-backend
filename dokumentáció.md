@@ -1032,6 +1032,18 @@ Ezen az oldalon a kitölthetünk minden olyan adatot, amely szükséges egy új 
 
 (Kép - Kitöltött új advert oldal, létrehozás gomb karikázva, nyilazva)
 #### Hirdetés keresés folyamatának ismertetése
+Az oldal egyik fő funkciója a hirdetések keresése. Az oldal tartalmaz egy részletes keresőmotort amely segítségével megtalálhatjuk a számunkra megfelelő hirdetéseket.
+Az első keresési metódus a szöveges keresés, amely segítségével a a hirdetések címe alapján kereshetünk.
+
+(Kép - Szöveges kereső mező nyilazva)
+
+Az oldal bal oldalán találjuk a szűrési lehetőségeket. Keresés közben szűrni tudjuk a megjelenő hirdetéseket állapotuk szerint, gyártójuk szerint, gyártó kiválasztása után az egyes modellek szerint, és földrajzi hely és attól számított távolság alapján.
+
+(Kép - Szűrés részlegre nyilazva)
+
+Akármelyik szűrési opció változása esetén az oldal autómatikusan ujratöltődik, és a megfelelő hirdetések jelennek meg az oldalon.
+
+(Kép - Kitöltött szűrési menü 1 hirdetéssel)
 #### Hirdetés vásárlás folyamatának ismertetése
 ## Összefoglalás
 ### Elkészült munkánk értékelése
