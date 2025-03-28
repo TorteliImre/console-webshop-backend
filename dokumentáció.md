@@ -118,9 +118,6 @@ img {
       - [Hirdetés feltöltés folyamatának ismertetése](#hirdetés-feltöltés-folyamatának-ismertetése)
       - [Hirdetés keresés folyamatának ismertetése](#hirdetés-keresés-folyamatának-ismertetése)
       - [Hirdetés vásárlás folyamatának ismertetése](#hirdetés-vásárlás-folyamatának-ismertetése)
-  - [Összefoglalás](#összefoglalás)
-    - [Elkészült munkánk értékelése](#elkészült-munkánk-értékelése)
-  - [Irodalomjegyzék](#irodalomjegyzék)
 
 <!-- /code_chunk_output -->
 
@@ -1019,7 +1016,7 @@ A gomb át navigál minket az `auth/login` aloldalra, ahol kitölthetjük a beje
 
 Az űrlap helyes kitöltése után autómatikusan visszakerülünk a főoldalra, ahol a "Bejelentkezés" és a "Regisztráció" gombok helyett profilképünket láthatjuk.
 #### Hirdetés feltöltés folyamatának ismertetése
-Egy hirdetés feltöltéséhez először be kell jelentkeznünk az oldalra egy korábban létrehozott felhasználóval. Ezt követően a fejléc jobb oldalán a "Bejelentkezés" és "Regisztráció" gombok helyett a saját profilképünket találjuk, amelyre rákattintva megjeleníthetjük a felhasználói menüt.
+Az oldal egyik legfontosabb funkciója a hirdetések létrehozása. Egy hirdetés feltöltéséhez először be kell jelentkeznünk az oldalra egy korábban létrehozott felhasználóval. Ezt követően a fejléc jobb oldalán a "Bejelentkezés" és "Regisztráció" gombok helyett a saját profilképünket találjuk, amelyre rákattintva megjeleníthetjük a felhasználói menüt.
 
 (Kép - Teljes oldal, profilkép karikázva, nyilazva)
 
@@ -1028,9 +1025,17 @@ Egy hirdetés feltöltéséhez először be kell jelentkeznünk az oldalra egy k
 A menüben a "Hirdetés létrehozása" opciót választva térhetünk át az új hirdetés készítésének oldalára.
 
 (Kép - advert create page)
-Ezen az oldalon a kitölthetünk minden olyan adatot, amely szükséges egy új hirdetés létrehozásához. Ezt követően a "Létrehozás" gombra kattintva létre tudjuk hozni a hirdetést.
 
-(Kép - Kitöltött új advert oldal, létrehozás gomb karikázva, nyilazva)
+Ekkor átkerülünk az `advert/create` aloldara, ahol egy űrlap tárul elénk. Az űrlap 4 szekcióra osztódik szét.
+
+- Az első szekció a bal felső sarokban található, amely képek feltöltésére szolgál. Itt a plussz (+) gombra kattintva vagy a fájlokat a fájlkezelőből a szekcióra dobva tudunk képeket feltölteni. Egy adott kép feltöltése után a szekcióban megjelenik a kép előnézete, amelyben egy jelölőnégyzet segítségével kiválaszthatjuk a kiemelni kívánt képet, amely a hirdetés indexképeként és első megjelnített képeként jelenik majd meg. Az előnézet alján pedig írhatunk leírást az adott képhez.
+  - (Kép - Új advert, 1 feltöltött kép, nyilak)
+- A második szekció az elsőtől jobbra, jobb felül található, amely a hirdetés fő adatainak megadására szolgál. Itt adhatjuk meg a hirdetésünk címét, árát, a konzol gyártóját és modelljét, illetve a hirdetés helyét is.
+  - (Kép - Új advert, nyilak az inputokra)
+- A harmadik szekció az előző kettő alatt található, amelynek egyetlen funkciója a hirdetés leírásának megadása. A szekcióban egy úgynevezett "Markdown szerkesztő" található, amely segítségével személyre szabott leírást adhatunk a hirdetéseinknek.
+  - (Kép - Új advert, nyilak a descriptionre)
+- Az utolsó, legkisebb szekció két gombot tartalmaz. A kuka piktogrammal ellátott gomb alaphelyzetbe állítja az űrlapot, amíg a "Létrehozás" gomb leadja azt, ezzel létrehozva egy új hirdetést.
+  - (Kép - Új advert, nyilak a gombokra)
 #### Hirdetés keresés folyamatának ismertetése
 Az oldal egyik fő funkciója a hirdetések keresése. Az oldal tartalmaz egy részletes keresőmotort amely segítségével megtalálhatjuk a számunkra megfelelő hirdetéseket.
 Az első keresési metódus a szöveges keresés, amely segítségével a a hirdetések címe alapján kereshetünk.
@@ -1045,7 +1050,35 @@ Akármelyik szűrési opció változása esetén az oldal autómatikusan ujratö
 
 (Kép - Kitöltött szűrési menü 1 hirdetéssel)
 #### Hirdetés vásárlás folyamatának ismertetése
-## Összefoglalás
+A weblap egyik talán legfontosabb funkciója a hirdetések megvásárlása. A hirdetések listáját bárki elérheti akár bejelentkezés nélkül is, de a vásárláshoz szükséges lesz bejelentkeznünk.
+Egy hirdetés megvásárlásához először el kell jutnunk a hirdetések saját oldalára. Ezt a keresőben a hirdetésekre kattintva tehetjük meg. Ekkor eljutunk a hirdetés dedikált oldalára.
+
+(Kép - Advert oldal)
+
+Itt megtekinthetjük a hirdetés pontos adatait, és ha meg vagyunk elégedve akkor elmenteni késöbbre, vagy akár kosárba helyezni.
+A hirdetés adai alatt két gomb található.
+- Az első hozzáadja a hirdetést a könyvjelzők listához, amellyel könnyedén vissza tudunk jönni később is a hirdetéshez
+  - (Kép - Advert oldal, Bookmark gomb karikázva)
+- A második gomb hozzáadja a hirdetést a kosárhoz, így később megvásárolhatjuk azt.
+  - (Kép - Advert oldal, Kosárba gomb karikázva)
+
+Kosárba helyezést követően a vásárlás folytatásához a kosár oldalra kell átlépnünk, amit a kosár gombra való kattintással tehetünk meg.
+
+(Kép - Advert oldal, advert kosárban van, Kosár gomb karikázva)
+
+A gombra kattintva átkerülünk a `/cart` aloldalra, ahol a saját kosarunkat tekinthetjk meg.
+
+(Kép - Kosár oldal, 1 termék benne)
+
+Ha meg vagyunk elégedve a kosarunk tartalmával, a "Vásárlás" gombra kattinva megvehetjük a kosárba rakott hirdetéseket.
+
+(Kép - Kosár oldal, 1 termék benne, vásárlás gomb bekarikázva)
+
+Vásárlás után a vásárlási előzmények oldalra navigál minket a weblap, ahol értékelhetjük a hirdetéseket, ezzel elősegítve az eladó további munkásságát.
+
+(Kép - History oldal, megvásárolt termékek)
+
+<!-- ## Összefoglalás
 ### Elkészült munkánk értékelése
-<!-- ### Köszönetnyilvánítás -->
-## Irodalomjegyzék
+### Köszönetnyilvánítás
+## Irodalomjegyzék -->
