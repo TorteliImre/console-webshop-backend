@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Suggestion } from 'entities/Suggestion';
 import { Repository } from 'typeorm';
-import { SuggestionDto, GetSuggestionsResultDto } from './suggestions.dto';
+import {
+  CreateSuggestionDto,
+  GetSuggestionsItemDto,
+  GetSuggestionsResultDto,
+} from './suggestions.dto';
 import { PaginatedDto } from 'src/common';
 
 @Injectable()
@@ -17,15 +21,16 @@ export class SuggestionsService {
     const items = await this.suggestionRepository.find({
       skip: dto.skip,
       take: dto.count,
+      select: ['title', 'text', 'createdTime', 'userId'],
     });
 
     result.resultCount = count;
-    result.items = items;
+    result.items = items as any as Array<GetSuggestionsItemDto>;
 
     return result;
   }
 
-  async createSuggestion(dto: SuggestionDto, userId: number) {
+  async createSuggestion(dto: CreateSuggestionDto, userId: number) {
     const toInsert = dto as any as Suggestion;
     toInsert.userId = userId;
 

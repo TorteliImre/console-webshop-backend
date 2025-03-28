@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, MaxLength } from 'class-validator';
 import { maxSuggestionTextLength, maxSuggestionTitleLength } from 'src/limits';
 
-export class SuggestionDto {
+export class CreateSuggestionDto {
   @ApiProperty()
   @IsNotEmpty()
   @MaxLength(maxSuggestionTitleLength)
@@ -14,9 +14,17 @@ export class SuggestionDto {
   text: string;
 }
 
+export class GetSuggestionsItemDto extends CreateSuggestionDto {
+  @ApiProperty()
+  createdTime: string;
+
+  @ApiProperty()
+  userId: number;
+}
+
 export class GetSuggestionsResultDto {
-  @ApiProperty({ type: [SuggestionDto] })
-  items: SuggestionDto[];
+  @ApiProperty({ type: [GetSuggestionsItemDto] })
+  items: GetSuggestionsItemDto[];
 
   @ApiProperty()
   resultCount: number;
