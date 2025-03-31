@@ -1004,20 +1004,20 @@ Ekkor átkerülünk az `advert/create` aloldara, ahol egy űrlap tárul elénk. 
 - A harmadik szekció az előző kettő alatt található, amelynek egyetlen funkciója a hirdetés leírásának megadása. A szekcióban egy úgynevezett "Markdown szerkesztő" található, amely segítségével személyre szabott leírást adhatunk a hirdetéseinknek.
   ![Új hirdetés leírás](./docs/advert-create-page-desc.jpg "Új hirdetés leírás")
 - Az utolsó, legkisebb szekció két gombot tartalmaz. A kuka piktogrammal ellátott gomb alaphelyzetbe állítja az űrlapot, amíg a "Létrehozás" gomb leadja azt, ezzel létrehozva egy új hirdetést.
-  - ![Új hirdetés gombok](./docs/advert-create-page-buttons.jpg "Új hirdetés gombok")
+  ![Új hirdetés gombok](./docs/advert-create-page-buttons.jpg "Új hirdetés gombok")
 #### Hirdetés keresés folyamatának ismertetése
 Az oldal egyik fő funkciója a hirdetések keresése. Az oldal tartalmaz egy részletes keresőmotort amely segítségével megtalálhatjuk a számunkra megfelelő hirdetéseket.
 Az első keresési metódus a szöveges keresés, amely segítségével a a hirdetések címe alapján kereshetünk.
 
-(Kép - Szöveges kereső mező nyilazva)
+![Hirdetés keresés](./docs/advert-search-text.jpg "Hirdetés keresése")
 
 Az oldal bal oldalán találjuk a szűrési lehetőségeket. Keresés közben szűrni tudjuk a megjelenő hirdetéseket állapotuk szerint, gyártójuk szerint, gyártó kiválasztása után az egyes modellek szerint, és földrajzi hely és attól számított távolság alapján.
 
-(Kép - Szűrés részlegre nyilazva)
+![Hirdetés keresés szűrés](./docs/advert-search-filters.jpg "Hirdetés keresése szűrés")
 
 Akármelyik szűrési opció változása esetén az oldal autómatikusan ujratöltődik, és a megfelelő hirdetések jelennek meg az oldalon.
 
-(Kép - Kitöltött szűrési menü 1 hirdetéssel)
+![Hirdetés keresés szűrés példa](./docs/advert-search-filters-content.png "Hirdetés keresése szűrés példa")
 #### Hirdetés vásárlás folyamatának ismertetése
 A weblap egyik talán legfontosabb funkciója a hirdetések megvásárlása. A hirdetések listáját bárki elérheti akár bejelentkezés nélkül is, de a vásárláshoz szükséges lesz bejelentkeznünk.
 Egy hirdetés megvásárlásához először el kell jutnunk a hirdetések saját oldalára. Ezt a keresőben a hirdetésekre kattintva tehetjük meg. Ekkor eljutunk a hirdetés dedikált oldalára.
