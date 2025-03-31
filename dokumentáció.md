@@ -1022,30 +1022,30 @@ Akármelyik szűrési opció változása esetén az oldal autómatikusan ujratö
 A weblap egyik talán legfontosabb funkciója a hirdetések megvásárlása. A hirdetések listáját bárki elérheti akár bejelentkezés nélkül is, de a vásárláshoz szükséges lesz bejelentkeznünk.
 Egy hirdetés megvásárlásához először el kell jutnunk a hirdetések saját oldalára. Ezt a keresőben a hirdetésekre kattintva tehetjük meg. Ekkor eljutunk a hirdetés dedikált oldalára.
 
-(Kép - Advert oldal)
+![Hirdetés oldal](./docs/advert-page.png "Hirdetés oldal")
 
 Itt megtekinthetjük a hirdetés pontos adatait, és ha meg vagyunk elégedve akkor elmenteni késöbbre, vagy akár kosárba helyezni.
 A hirdetés adai alatt két gomb található.
 - Az első hozzáadja a hirdetést a könyvjelzők listához, amellyel könnyedén vissza tudunk jönni később is a hirdetéshez
-  - (Kép - Advert oldal, Bookmark gomb karikázva)
+  ![Hirdetés könyvjelző](./docs/advert-page-bookmark.jpg "Hirdetés könyvjelző")
 - A második gomb hozzáadja a hirdetést a kosárhoz, így később megvásárolhatjuk azt.
-  - (Kép - Advert oldal, Kosárba gomb karikázva)
+  ![Hirdetés kosár](./docs/advert-page-cart.jpg "Hirdetés kosár")
 
 Kosárba helyezést követően a vásárlás folytatásához a kosár oldalra kell átlépnünk, amit a kosár gombra való kattintással tehetünk meg.
 
-(Kép - Advert oldal, advert kosárban van, Kosár gomb karikázva)
+![Hirdetés kosárban](./docs/advert-page-incart.jpg "Hirdetés kosárban")
 
 A gombra kattintva átkerülünk a `/cart` aloldalra, ahol a saját kosarunkat tekinthetjk meg.
 
-(Kép - Kosár oldal, 1 termék benne)
+![Kosár oldal](./docs/cart-page.png "Kosár oldal")
 
 Ha meg vagyunk elégedve a kosarunk tartalmával, a "Vásárlás" gombra kattinva megvehetjük a kosárba rakott hirdetéseket.
 
-(Kép - Kosár oldal, 1 termék benne, vásárlás gomb bekarikázva)
+![Kosár oldal vásárlás](./docs/cart-page-purchase.jpg "Kosár oldal vásárlás")
 
 Vásárlás után a vásárlási előzmények oldalra navigál minket a weblap, ahol értékelhetjük a hirdetéseket, ezzel elősegítve az eladó további munkásságát.
 
-(Kép - History oldal, megvásárolt termékek)
+![Előzmények oldal](./docs/history-page.png "Előzmények oldal")
 
 <!-- ## Összefoglalás
 ### Elkészült munkánk értékelése
