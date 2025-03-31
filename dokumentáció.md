@@ -993,18 +993,18 @@ Az oldal egyik legfontosabb funkciója a hirdetések létrehozása. Egy hirdeté
 
 A menüben az "Új hirdetés" opciót választva térhetünk át az új hirdetés készítésének oldalára.
 
-![Új hirdetés oldal](./docs/advert-create-page.jpeg "Új hirdetés oldal")
+![Új hirdetés oldal](./docs/advert-create-page.png "Új hirdetés oldal")
 
 Ekkor átkerülünk az `advert/create` aloldara, ahol egy űrlap tárul elénk. Az űrlap 4 szekcióra osztódik szét.
 
 - Az első szekció a bal felső sarokban található, amely képek feltöltésére szolgál. Itt a plussz (+) gombra kattintva vagy a fájlokat a fájlkezelőből a szekcióra dobva tudunk képeket feltölteni. Egy adott kép feltöltése után a szekcióban megjelenik a kép előnézete, amelyben egy jelölőnégyzet segítségével kiválaszthatjuk a kiemelni kívánt képet, amely a hirdetés indexképeként és első megjelnített képeként jelenik majd meg. Az előnézet alján pedig írhatunk leírást az adott képhez.
-  - (Kép - Új advert, 1 feltöltött kép, nyilak)
+  ![Új hirdetés képfeltöltés](./docs/advert-create-page-images.jpg "Új hirdetés képfeltöltés")
 - A második szekció az elsőtől jobbra, jobb felül található, amely a hirdetés fő adatainak megadására szolgál. Itt adhatjuk meg a hirdetésünk címét, árát, a konzol gyártóját és modelljét, illetve a hirdetés helyét is.
-  - (Kép - Új advert, nyilak az inputokra)
+  ![Új hirdetés mezők](./docs/advert-create-page-inputs.jpg "Új hirdetés mezők")
 - A harmadik szekció az előző kettő alatt található, amelynek egyetlen funkciója a hirdetés leírásának megadása. A szekcióban egy úgynevezett "Markdown szerkesztő" található, amely segítségével személyre szabott leírást adhatunk a hirdetéseinknek.
-  - (Kép - Új advert, nyilak a descriptionre)
+  ![Új hirdetés leírás](./docs/advert-create-page-desc.jpg "Új hirdetés leírás")
 - Az utolsó, legkisebb szekció két gombot tartalmaz. A kuka piktogrammal ellátott gomb alaphelyzetbe állítja az űrlapot, amíg a "Létrehozás" gomb leadja azt, ezzel létrehozva egy új hirdetést.
-  - (Kép - Új advert, nyilak a gombokra)
+  - ![Új hirdetés gombok](./docs/advert-create-page-buttons.jpg "Új hirdetés gombok")
 #### Hirdetés keresés folyamatának ismertetése
 Az oldal egyik fő funkciója a hirdetések keresése. Az oldal tartalmaz egy részletes keresőmotort amely segítségével megtalálhatjuk a számunkra megfelelő hirdetéseket.
 Az első keresési metódus a szöveges keresés, amely segítségével a a hirdetések címe alapján kereshetünk.
