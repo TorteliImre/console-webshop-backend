@@ -75,6 +75,7 @@ img {
       - [Tesztelési keretrendszerek](#tesztelési-keretrendszerek)
       - [A backend futtatása](#a-backend-futtatása)
       - [Mappaszerkezet](#mappaszerkezet)
+    - [Végpontok](#végpontok)
     - [Kialakított adatszerkezet](#kialakított-adatszerkezet)
       - [Adatbázis táblái](#adatbázis-táblái)
         - [A `locations` tábla](#a-locations-tábla)
@@ -201,6 +202,19 @@ A mappaszerkezet:
 - `src/suggestions/`: Felhasználók által hagyott javaslatok végpontjai.
 - `src/user/`: Felhasználók létrehozása, módosítása és keresése.
 - `test_scripts/`: Végpont teszt scriptek és adataik.
+
+### Végpontok
+![](docs/swagger_1.png)
+![](docs/swagger_2.png)
+![](docs/swagger_3.png)
+![](docs/swagger_4.png)
+![](docs/swagger_5.png)
+![](docs/swagger_6.png)
+![](docs/swagger_7.png)
+![](docs/swagger_8.png)
+![](docs/swagger_9.png)
+![](docs/swagger_10.png)
+![](docs/swagger_11.png)
 
 ### Kialakított adatszerkezet
 #### Adatbázis táblái
