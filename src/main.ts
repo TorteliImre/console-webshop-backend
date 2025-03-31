@@ -48,6 +48,8 @@ function configureSwagger(app: INestApplication<any>) {
       'suggestions',
       'Suggest new features and modifications to site owners.',
     )
+    .addTag('purchases', 'Get purchases made by users.')
+    .addTag('ratings', 'Rate past purchases')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {
