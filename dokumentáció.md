@@ -169,6 +169,8 @@ A `.env.template` fájlt `.env`-re átnevezve állíthatjuk be az adatbázis par
 
 A tesztelői adatbázist a backend `console-webshop-testing` néven, az éles adatbázist `console-webshop` néven keresi. Ezek közül létre kell hoznunk azt, amelyiket használni fogjuk. A táblák automatikusan létrejönnek.
 
+A képek tárolása érdekében lehetséges, hogy növelnünk kell a MySQL által engedélyezett maximum csomag méretet. Ezt a MySQL konfigurációs fájljában tehetjük meg.
+
 A szükséges előkészületek után a backend futtatása következik. A mappájába belépve `npm i` paranccsal telepítjük a szükséges csomagokat, majd `npm run start:dev` paranccsal elindíthatjuk a backendet.
 
 Az API és annak dokumentációja a `localhost:3000/api` címen lesz elérhető.
