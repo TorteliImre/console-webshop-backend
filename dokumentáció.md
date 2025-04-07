@@ -913,6 +913,12 @@ async addCartItem(dto: AddCartItemDto, userId: number): Promise<void> {
 ## Nagyon előre tervezett időpontfoglalás -->
 <!-- #### Belépési folyamat kezelése -->
 ### Fejlesztési lehetőségek
+- Moderációs funkciók
+- Felhasználók törlése
+- Hozzászólások törlése
+- Minden funkciót magába foglaló tesztek
+- Privát üzenetek küldése és fogadása
+
 ## Teszt dokumentáció
 ### Backend tesztek
 A végpontok tesztelése a kövekezőképpen történik: python scriptben kérést küldünk a `requests` könyvtár segítségével,
