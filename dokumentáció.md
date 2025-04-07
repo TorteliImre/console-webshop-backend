@@ -74,23 +74,23 @@ img {
       - [Github és git](#github-és-git)
       - [Tesztelési keretrendszerek](#tesztelési-keretrendszerek)
       - [A backend futtatása](#a-backend-futtatása)
-      - [Mappaszerkezet](#mappaszerkezet)
+      - [A frontend futtatása](#a-frontend-futtatása)
+      - [A backend mappaszerkezete](#a-backend-mappaszerkezete)
     - [Végpontok](#végpontok)
-    - [Kialakított adatszerkezet](#kialakított-adatszerkezet)
-      - [Adatbázis táblái](#adatbázis-táblái)
-        - [A `locations` tábla](#a-locations-tábla)
-        - [A `manufacturers` tábla](#a-manufacturers-tábla)
-        - [A `product_states` tábla](#a-product_states-tábla)
-        - [A `users` tábla](#a-users-tábla)
-        - [A `models` tábla](#a-models-tábla)
-        - [A `suggestions` tábla](#a-suggestions-tábla)
-        - [Az `adverts` tábla](#az-adverts-tábla)
-        - [A `bookmarks` tábla](#a-bookmarks-tábla)
-        - [A `cart_items` tábla](#a-cart_items-tábla)
-        - [A `comments` tábla](#a-comments-tábla)
-        - [A `purchases` tábla](#a-purchases-tábla)
-        - [A `ratings` tábla](#a-ratings-tábla)
-        - [Az `advert_pics` tábla](#az-advert_pics-tábla)
+    - [Adatbázis táblái](#adatbázis-táblái)
+      - [A `locations` tábla](#a-locations-tábla)
+      - [A `manufacturers` tábla](#a-manufacturers-tábla)
+      - [A `product_states` tábla](#a-product_states-tábla)
+      - [A `users` tábla](#a-users-tábla)
+      - [A `models` tábla](#a-models-tábla)
+      - [A `suggestions` tábla](#a-suggestions-tábla)
+      - [Az `adverts` tábla](#az-adverts-tábla)
+      - [A `bookmarks` tábla](#a-bookmarks-tábla)
+      - [A `cart_items` tábla](#a-cart_items-tábla)
+      - [A `comments` tábla](#a-comments-tábla)
+      - [A `purchases` tábla](#a-purchases-tábla)
+      - [A `ratings` tábla](#a-ratings-tábla)
+      - [Az `advert_pics` tábla](#az-advert_pics-tábla)
     - [Algoritmusok a backend és frontend megvalósításban](#algoritmusok-a-backend-és-frontend-megvalósításban)
       - [Felhasználó regisztrációs folyamat backend oldal](#felhasználó-regisztrációs-folyamat-backend-oldal)
       - [Felhasználó regisztrációs folyamat frontend oldal](#felhasználó-regisztrációs-folyamat-frontend-oldal)
@@ -175,7 +175,12 @@ A szükséges előkészületek után a backend futtatása következik. A mappáj
 
 Az API és annak dokumentációja a `localhost:3000/api` címen lesz elérhető.
 
-#### Mappaszerkezet
+#### A frontend futtatása
+Miután elindítottuk a backend szerverét, a frontend mappájába belépve `npm i` paranccsal telepítjük a szükséges csomagokat, majd `npm run dev` paranccsal elindíthatjuk azt.
+
+Az oldalt a `localhost:5173` címen érhetjük el.
+
+#### A backend mappaszerkezete
 A végpontokhoz tartozó mappákban a következő fájlok vannak:
 - `fájlnév.module.ts`: A modul, ami betölti a végpontokhoz tartozó kontrollereket, serviceket és elérhetővé teszi az adatbázist.
 - `fájlnév.controller.ts`: A végpontokat létrehozó kód.
@@ -218,55 +223,54 @@ A mappaszerkezet:
 ![](docs/swagger_10.png)
 ![](docs/swagger_11.png)
 
-### Kialakított adatszerkezet
-#### Adatbázis táblái
+### Adatbázis táblái
 
 ![Adatbázis Séma](./docs/scheme.png "Adatbázis Séma")
 
-##### A `locations` tábla
+#### A `locations` tábla
 A `locations` tábla tárolja el az eladni kívánt termékek lehetséges helyeit.
 Ez a tábla statikus adatok tárolására szolgál, futás közben nem módosul, hanem induláskor töltődik be.
 Eltároljuk a település nevét, megyéjét és irányítószámá. Ezek a keresést teszik lehetővé.
 A koordináták segítségével ki tudjuk számolni a távolságokat. [Ez a keresési folyamat során történik meg](#keresési-folyamat-backend-oldal).
 
-##### A `manufacturers` tábla
+#### A `manufacturers` tábla
 Itt tároljuk ez a gyártókat, amik a modellekhez kapcsolódnak.
 
-##### A `product_states` tábla
+#### A `product_states` tábla
 Szintén a keresést segító tábla, a termékek lehetséges állapotjait tárolja.
 
-##### A `users` tábla
+#### A `users` tábla
 Az egyik legfontosabb tábla, a felhasználói profilok legfőbb adatait tárolja.
 Ezek az adatok a név, e-mail cím, profil leírás, profilkép, a jelszó hash és az, hogy a felhasználó adminisztrátor-e.
 Hozzá kapcsolódnak a létrehozott hirdetések, hozzászólások, vásárlások, könyvjelzők, a kosár és a javaslatok.
 
-##### A `models` tábla
+#### A `models` tábla
 A termékek lehetséges modelljei, amik a szűrés fő szempontjai.
 
-##### A `suggestions` tábla
+#### A `suggestions` tábla
 Felhasználók által tett javaslatok. Ezeket bárki létrehozhatja, de csak az adminisztrátori joggal rendelkező felhasználók olvashatják.
 
-##### Az `adverts` tábla
+#### Az `adverts` tábla
 A létrehozott hirdetéseket tartalmazza. Tárolja a címet, leírást, létrehozó felhasználót, a termék helyét, állapotát, árát és a modellt.
 Ezek mellett azt is tárolja, hogy a termék eladottnak lett-e már jelölve.
 A nézettségi számot is tárolja, ami minden olyan alkalomman növekszik, amikor egy felhasználó megnézi a hirdetést. Ez egy nagyszerű mód arra, hogy az eladók felmérjék termékeik népszerűségét.
 
-##### A `bookmarks` tábla
+#### A `bookmarks` tábla
 A felhasználók képesek hirdetéseket későbbre elmenteni könyvjelzőzés segítségével.
 
-##### A `cart_items` tábla
+#### A `cart_items` tábla
 A kosárba helyezett elemeket is az adatbázisban tároljuk. Ezeket a termékeket meg tudja vásárolni a vevő.
 
-##### A `comments` tábla
+#### A `comments` tábla
 A hirdetések alatt lehetséges hozzászólásokat közzétenni. Ezekben további információkat kérdezhetünk meg az eladótól. Eltároljuk nem csak azt, hogy melyik hirdetés alatt hagyták a kommentet, hanem azt is, hogy melyik másik hozzászólásra válaszoltak.
 
-##### A `purchases` tábla
+#### A `purchases` tábla
 A kosárba helyezett termékeket megvásárolhatjuk, ebben a táblában az eddigi vásárlásokat tároljuk.
 
-##### A `ratings` tábla
+#### A `ratings` tábla
 A vásárlás után lehetőségünk van a terméket és az eladó által nyújtott szolgáltatást értékelni. Eltároljuk, hogy melyik vásárláshoz kapcsolódik az értékelés, valamint annak értékét.
 
-##### Az `advert_pics` tábla
+#### Az `advert_pics` tábla
 A vásárlóknak lehetőségük van a hirdetésekhez több képet csatolniuk. Maga a kép mellett egyéb adatokat is tárolunk a táblában. A képekhez lehet hozzáadni leírást is. Beállítható, hogy melyik legyen a fő kép, vagyis amelyik a hirdetés listázásakor megjelenik.
 
 ### Algoritmusok a backend és frontend megvalósításban
