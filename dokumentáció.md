@@ -283,7 +283,6 @@ A regisztrációt a backend a `POST /api/user` request segítségével biztosít
 A kérés elküldése után ez a kódrészlet fut le:
 
 ```ts
-// TODO: Nem végleges
 async create(dto: CreateUserDto): Promise<number> {
   if (await this.userRepository.existsBy({ name: dto.name })) {
     throw new BadRequestException('Username is taken');
@@ -349,11 +348,7 @@ register: async ({ cookies, request }) => {
     const password = data.get("password");
     const email = data.get("email");
 
-    console.log(username, password, email);
-
     if (username === null || password === null || email === null) return { message: "Invalid input" };
-
-    console.log(`${apiPath}/user/create`);
 
     const res = await fetch(`${apiPath}/user`, {
         method: "POST",
@@ -393,7 +388,6 @@ A belépést a backend a `POST /api/auth/login` request segítségével biztosí
 Ha a belépési adatok helyesek, egy token-t adunk vissza. A továbbiakban ez lesz használható a bejelentkezést igénylő funkciók eléréséhez.
 
 ```ts
-// TODO: Nem végleges
 async logIn(username: string, password: string) {
   const hash = await this.usersService._getPassHashFromName(username);
   if (hash == null) {
@@ -423,7 +417,6 @@ A bejelentkezést igénylő endpointokat a következő decoratorral jelölhetjü
 A tokent-t a guard-ban a következő módon használjuk fel:
 
 ```ts
-// TODO: Nem végleges
 async canActivate(context: ExecutionContext): Promise<boolean> {
   const request = context.switchToHttp().getRequest();
   const token = this.extractTokenFromHeader(request);
@@ -499,7 +492,6 @@ A form leadása után a következő kódrészlet fut le:
 
 ```ts
 login: async ({ cookies, request }) => {
-    //TODO debug
     const data = await request.formData();
     const username = data.get("name");
     const password = data.get("password");
@@ -520,7 +512,6 @@ login: async ({ cookies, request }) => {
     const body = await res.json();
 
     if (res.status == 201) {
-        //TODO
         cookies.set("token", body.access_token, {
             path: "/",
             maxAge: 60 * 60,
@@ -588,7 +579,6 @@ Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
                 let localFiles = [];
                 localFiles.push({ base64, aspect: `${image.width} / ${image.height}` });
                 imageFiles = [...imageFiles, ...localFiles];
-                console.log(imageFiles);
             };
         }
         target.files = null;
@@ -628,7 +618,6 @@ Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
                 let localFiles = [];
                 localFiles.push({ base64, aspect: `${image.width} / ${image.height}` });
                 imageFiles = [...imageFiles, ...localFiles];
-                console.log(imageFiles);
             };
         }
         target.files = null;
@@ -798,7 +787,6 @@ onMount(() => {
     observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                console.log("intersecting");
                 isIntersecting = true;
                 dispatch("intersect");
             }
