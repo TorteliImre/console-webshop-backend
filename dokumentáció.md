@@ -55,6 +55,10 @@ img {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.break {
+  page-break-after: always;
+}
 </style>
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
@@ -124,7 +128,7 @@ img {
 
 <!-- /code_chunk_output -->
 
-<div style="page-break-after: always;"></div>
+<div class="break"></div>
 
 # Konzol webshop dokumentáció
 
@@ -138,6 +142,8 @@ Egy videójáték konzolok árusítására specializálódott internetes áruhá
 
 ### Sajátosságok
 Weboldalunk fő sajátossága más felhasználók által vezérelt áruházzal szemben a részletes szűrési lehetőség a hirdetések létrehzása és keresése közben. Ez a rendszer lehetővé teszi, hogy a felhasználók könnyedén megtalálják azokat a hirdetéseket amelyek a számukra megfelelőek.
+
+<div class="break"></div>
 
 ## Fejlesztői dokumentáció
 
@@ -170,6 +176,8 @@ A `.env.template` fájlt `.env`-re átnevezve állíthatjuk be az adatbázis par
 A tesztelői adatbázist a backend `console-webshop-testing` néven, az éles adatbázist `console-webshop` néven keresi. Ezek közül létre kell hoznunk azt, amelyiket használni fogjuk. A táblák automatikusan létrejönnek.
 
 A képek tárolása érdekében lehetséges, hogy növelnünk kell a MySQL által engedélyezett maximum csomag méretet. Ezt a MySQL konfigurációs fájljában tehetjük meg.
+
+<div class="break"></div>
 
 A szükséges előkészületek után a backend futtatása következik. A mappájába belépve `npm i` paranccsal telepítjük a szükséges csomagokat, majd `npm run start:dev` paranccsal elindíthatjuk a backendet.
 
@@ -261,6 +269,8 @@ A felhasználók képesek hirdetéseket későbbre elmenteni könyvjelzőzés se
 #### A `cart_items` tábla
 A kosárba helyezett elemeket is az adatbázisban tároljuk. Ezeket a termékeket meg tudja vásárolni a vevő.
 
+<div class="break"></div>
+
 #### A `comments` tábla
 A hirdetések alatt lehetséges hozzászólásokat közzétenni. Ezekben további információkat kérdezhetünk meg az eladótól. Eltároljuk nem csak azt, hogy melyik hirdetés alatt hagyták a kommentet, hanem azt is, hogy melyik másik hozzászólásra válaszoltak.
 
@@ -272,6 +282,8 @@ A vásárlás után lehetőségünk van a terméket és az eladó által nyújto
 
 #### Az `advert_pics` tábla
 A vásárlóknak lehetőségük van a hirdetésekhez több képet csatolniuk. Maga a kép mellett egyéb adatokat is tárolunk a táblában. A képekhez lehet hozzáadni leírást is. Beállítható, hogy melyik legyen a fő kép, vagyis amelyik a hirdetés listázásakor megjelenik.
+
+<div class="break"></div>
 
 ### Algoritmusok a backend és frontend megvalósításban
 
@@ -298,6 +310,8 @@ Először a felhasználónév foglaltságát ellenőrizzük. Ez után a jelszó 
 Így elkerüljük a jelszó az adatbázisban szövegként történő tárolását.
 Létrehozzuk a beillesztendő entity-t, majd eltároljuk az adatbázisban.
 Az eltárolt sor id-jét visszaadjuk.
+
+<div class="break"></div>
 
 #### Felhasználó regisztrációs folyamat frontend oldal
 A regisztrációs felület az `/auth/register` aloldalon érhető el. Ez az oldal a bejelentkezés oldallal egybefűzött, így ez a két oldal szinte ugyan az.
@@ -413,6 +427,8 @@ Az adabázisból lekérjük a jelszó hashet. Ha ez nem létezik, vagy nem egyez
 
 Lekérjuk a felhasználó azonosítóját és az admin jogot tároló értéket. Ezek után legeneráljuk a token-t és visszaadjuk.
 
+<div class="break"></div>
+
 A bejelentkezést igénylő endpointokat a következő decoratorral jelölhetjük meg: `@UseGuards(JwtAuthGuard)`.
 A tokent-t a guard-ban a következő módon használjuk fel:
 
@@ -447,6 +463,8 @@ async canActivate(context: ExecutionContext): Promise<boolean> {
 ```
 
 A tokent visszaalakítjuk a payloaddá, majd ellenőrzéseket végzünk rajta. Egy másik decorator segítségével endpointokat csak admin által elérhetővé tehetünk. Ha ez az endpoint ilyen, ellenőrizzük, hogy a felhasználó admin-e. Ha a token rossz, hibát adunk vissza.
+
+<div class="break"></div>
 
 #### Felhasználó belépési folyamat frontend oldal
 A bejelntkezési felület az `/auth/login` aloldalon érhető el. Ez az oldal a regisztrációs oldallal egybefűzött, így ez a két oldal szinte ugyan az.
@@ -525,6 +543,8 @@ login: async ({ cookies, request }) => {
 }
 ```
 
+<div class="break"></div>
+
 Az oldal bejelentkezés után nem elérhető. Ezt minden betöltésnél a `LayoutServerLoad` funkció teszi lehetővé.
 
 ```ts
@@ -547,6 +567,7 @@ Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
 - Az első rész, amely bal-felül található a hirdetéshez tartozó képek  két féle módon történő feltöltésére szolgál
   - A plussz (+) gombra kattintva az böngésző segítségével kiválaszthatunk képeket amelyeket fel akarunk tölteni.
     - A `handleFiles` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhejezzük a kiválaszott képek listájában.
+          <div class="break"></div>
       ```ts
       async function handleFiles(event: Event | DragEvent) {
         event.preventDefault();
@@ -646,6 +667,9 @@ Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
 - A harmadik rész, amely az előző kettő alatt helyezkedik el, a leírás megadásához szolgáló szövegdobozt tartalmazza.
   - A leírás megadásánál lehetőségünk van markdown segítségével formázni a megadott szöveget. Ehhez segítségül a "Carta" nevű csomagot használjuk, amely tartalmaz egy Markdown szövegszerkesztőt.
   - A leírás hossza maximum 1000 karakter lehet, amelyet a Svelte segítségével ellenörzünk minden változtatás után.
+
+<div class="break"></div>
+
 #### Keresési folyamat backend oldal
 A hirdetések keresése tetszőlegesen cím alapján is történhet, de emellett szűrők is rendelkezésre állnak.
 A gyártón és modellen kívül a hely alapján is kereshetünk. Beállíthatjuk, hogy egy adott település körüli területen belüli hirdetéseket lássuk.
