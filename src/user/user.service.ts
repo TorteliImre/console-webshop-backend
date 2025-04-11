@@ -107,13 +107,14 @@ export class UserService {
       throw new BadRequestException('No parameters were passed');
     }
 
-    if (dto.bio != null && dto.bio != undefined) this.setUserBio(dto.bio, id);
+    if (dto.bio != null && dto.bio != undefined)
+      await this.setUserBio(dto.bio, id);
     if (dto.picture != null && dto.picture != undefined)
-      this.setUserPicture(dto.picture, id);
+      await this.setUserPicture(dto.picture, id);
     if (dto.password != null && dto.password != undefined)
-      this.setUserPassword(dto.password, id);
+      await this.setUserPassword(dto.password, id);
     if (dto.email != null && dto.email != undefined)
-      this.setUserEmail(dto.email, id);
+      await this.setUserEmail(dto.email, id);
   }
 
   async setUserBio(bio: string, id: number): Promise<void> {
