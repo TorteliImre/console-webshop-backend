@@ -177,8 +177,6 @@ A tesztelői adatbázist a backend `console-webshop-testing` néven, az éles ad
 
 A képek tárolása érdekében lehetséges, hogy növelnünk kell a MySQL által engedélyezett maximum csomag méretet. Ezt a MySQL konfigurációs fájljában tehetjük meg.
 
-<div class="break"></div>
-
 A szükséges előkészületek után a backend futtatása következik. A mappájába belépve `npm i` paranccsal telepítjük a szükséges csomagokat, majd `npm run start:dev` paranccsal elindíthatjuk a backendet.
 
 Az API és annak dokumentációja a `localhost:3000/api` címen lesz elérhető.
@@ -217,6 +215,8 @@ A mappaszerkezet:
 - `src/suggestions/`: Felhasználók által hagyott javaslatok végpontjai.
 - `src/user/`: Felhasználók létrehozása, módosítása és keresése.
 - `test_scripts/`: Végpont teszt scriptek és adataik.
+
+<div class="break"></div>
 
 ### Végpontok
 ![](docs/swagger_1.png)
@@ -269,8 +269,6 @@ A felhasználók képesek hirdetéseket későbbre elmenteni könyvjelzőzés se
 #### A `cart_items` tábla
 A kosárba helyezett elemeket is az adatbázisban tároljuk. Ezeket a termékeket meg tudja vásárolni a vevő.
 
-<div class="break"></div>
-
 #### A `comments` tábla
 A hirdetések alatt lehetséges hozzászólásokat közzétenni. Ezekben további információkat kérdezhetünk meg az eladótól. Eltároljuk nem csak azt, hogy melyik hirdetés alatt hagyták a kommentet, hanem azt is, hogy melyik másik hozzászólásra válaszoltak.
 
@@ -282,8 +280,6 @@ A vásárlás után lehetőségünk van a terméket és az eladó által nyújto
 
 #### Az `advert_pics` tábla
 A vásárlóknak lehetőségük van a hirdetésekhez több képet csatolniuk. Maga a kép mellett egyéb adatokat is tárolunk a táblában. A képekhez lehet hozzáadni leírást is. Beállítható, hogy melyik legyen a fő kép, vagyis amelyik a hirdetés listázásakor megjelenik.
-
-<div class="break"></div>
 
 ### Algoritmusok a backend és frontend megvalósításban
 
@@ -330,15 +326,11 @@ Az adabázisból lekérjük a jelszó hashet. Ha ez nem létezik, vagy nem egyez
 
 Lekérjuk a felhasználó azonosítóját és az admin jogot tároló értéket. Ezek után legeneráljuk a token-t és visszaadjuk.
 
-<div class="break"></div>
-
 A bejelentkezést igénylő endpointokat a következő decoratorral jelölhetjük meg: `@UseGuards(JwtAuthGuard)`.
 A tokent-t a guard-ban a következő módon használjuk fel:
 ![](./docs/code/backend-login-2.png)
 
 A tokent visszaalakítjuk a payloaddá, majd ellenőrzéseket végzünk rajta. Egy másik decorator segítségével endpointokat csak admin által elérhetővé tehetünk. Ha ez az endpoint ilyen, ellenőrizzük, hogy a felhasználó admin-e. Ha a token rossz, hibát adunk vissza.
-
-<div class="break"></div>
 
 #### Felhasználó belépési folyamat frontend oldal
 A bejelntkezési felület az `/auth/login` aloldalon érhető el. Ez az oldal a regisztrációs oldallal egybefűzött, így ez a két oldal szinte ugyan az.
@@ -351,11 +343,11 @@ A `data` változót tartalmazza az URL utolsó szekcióját, az úgynevezett `ac
 A form leadása után a következő kódrészlet fut le:
 ![](./docs/code/frontend-login-2.png)
 
-<div class="break"></div>
-
 Az oldal bejelentkezés után nem elérhető. Ezt minden betöltésnél a `LayoutServerLoad` funkció teszi lehetővé.
 
 ![](./docs/code/frontend-register-3.png)
+
+<div class="break"></div>
 
 #### Hirdetés feltöltési folyamat backend oldal
 A hirdetések feltöltése az oldal legfontosabb funkciója. A feltöltéskor megadhatjuk az eladni kívánt termék adatait, árát, leírását és annak helyét.
@@ -365,10 +357,11 @@ A videójáték-konzol modellének megadása a webáruház egyik fő sajátossá
 #### Hirdetés feltöltési folyamat frontend oldal
 A hirdetés feltöltésére szolgáló oldalt az `advert/create` címen érhetjük el, vagy az "Új hirdetés" menüpontra kattintva a felhasználói menüben.
 Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
-- Az első rész, amely bal-felül található a hirdetéshez tartozó képek  két féle módon történő feltöltésére szolgál
+- Az első rész, amely bal-felül található a hirdetéshez tartozó képek  két féle módon történő feltöltésére szolgál<div class="break"></div>
   - A plussz (+) gombra kattintva az böngésző segítségével kiválaszthatunk képeket amelyeket fel akarunk tölteni.
     - A `handleFiles` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhejezzük a kiválaszott képek listájában.
       ![](./docs/code/frontend-create-advert.png)
+    <div class="break"></div>
   - A fájlokat a szekcióra dobva (Drag&Drop) a mozgatott fájlok feltöltésre kerülnek
     - Az `imageDrop` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhejezzük a kiválaszott képek listájában.
     ![](./docs/code/frontend-create-advert-2.png)
@@ -376,7 +369,7 @@ Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
   - A cím megadása, amely a `limitTo100` függvény segítségével 100 karakternél nem lehet hoszabb.
     ![](./docs/code/frontend-create-advert-3.png)
   - A hirdetés árát, amelyet 0 és 10000000 között tart a kód.
-  - A hirdetés gyártóját és állapotát, melyeket a backend által megadott opciók közül választhatóak ki
+  - A hirdetés gyártóját és állapotát, melyeket a backend által megadott opciók közül választhatóak ki<div class="break"></div>
   - A hirdetés modelljét, amelyeket az után kérünk le, miután a felhasználó kiválaszott egy gyártót
     ![](./docs/code/frontend-create-advert-4.png)
 - A harmadik rész, amely az előző kettő alatt helyezkedik el, a leírás megadásához szolgáló szövegdobozt tartalmazza.
@@ -400,6 +393,8 @@ Ha egy gyártót kapunk, akkor az azon belüli minden modell visszaadandó.
 Viszont ha gyártó mellett ahhoz tartozó modelleket is megkapunk, nem az összes modellt, hanem csak a megadottakat nézzük.
 
 ![](./docs/code/backend-search-2.png)
+
+<div class="break"></div>
 
 A keresési paraméterek előkészítése után lefuttatjuk a keresést.
 Pagináció használatával adjuk vissza az eredményeket. A `skip` paraméter a kihagyott találatok, a `count` pedig a visszaadandó találatok száma.
@@ -426,6 +421,8 @@ Ehhez létrehoztunk egy saját Svelte komponenst:
 
 Ennek segítségével könnyedén észlelhetjük hogy egy adott szekció mikor jelenik meg az oldalon.
 
+<div class="break"></div>
+
 ### Különböző körülmények, esetek és hibakezelések
 #### Hirdetések hiánya
 Ha nincsenek hirdetések feltöltve az oldalra, akkor a keresőben a "Nincs találat" felirat látható
@@ -438,12 +435,16 @@ A kosárba helyezés azért zárja le a hirdetést, hogy annak módosítása sem
 
 ![](./docs/code/backend-modify-advert.png)
 
+<div class="break"></div>
+
 #### Túl nagy vagy hibás kép feltöltése
 Ha a felhasználó túl nagy képet szeretne feltölteni, akkor átméretezzük.
 Hibás kép feltöltése esetén `Bad Request` hibát adunk vissza.
 Profilkép és hirdetés kép feltöltése esetén is hasonlóan járunk el.
 
 ![](./docs/code/backend-check-resize-image.png)
+
+<div class="break"></div>
 
 #### Hirdetés kosárhoz adása közbeni hibák
 A következő esetekben adunk vissza hibát:
@@ -466,6 +467,8 @@ A következő esetekben adunk vissza hibát:
 - Hozzászólások törlése
 - Minden funkciót magába foglaló tesztek
 - Privát üzenetek küldése és fogadása
+
+<div class="break"></div>
 
 ## Teszt dokumentáció
 ### Backend tesztek
@@ -493,6 +496,8 @@ Ez a teszt azt ellenőrzi, hogy a regisztrációs felület látható-e az oldalo
 Ezeket a teszteket a Playwright által szolgáltatott felhasználó felületen futtathatjuk.
 ![Playwright](./docs/Playwright.png "Playwright ablak")
 Itt láthatunk minden tesztet és azok eredményeit.
+
+<div class="break"></div>
 
 ## Felhasználói dokumentáció
 ### Üdvözöllek!
@@ -522,10 +527,14 @@ Például:
 
 Ezek a böngészők lehetővé teszik a Konzol Webshop weboldalának teljes körű használatát és böngészését.
 
+<div class="break"></div>
+
 ### Weboldal használatának részletes ismertetése
 ![Főoldal](./docs/main-page.jpeg "Főoldal")
 Ez a Konzol Webshop főoldala. A fejlécben láthatja az oldal logóját, a szöveges kereső mezőt, a kocsár, bejelentkezés és regisztráció gombokat.
 A fejléc alatt az oldal fő tartalma, a hirdetés kereső található, bal oldalt a szűrőkkel, jobb oldalt pedig a hirdetésekkel.
+
+<div class="break"></div>
 
 #### A regisztráció folyamatának ismertetése
 A regisztrációs folyamat megkezdéséhez először a regisztrációs oldalra kell navigálnunk. Ezt a jobb felső sarokban található "Regisztráció" gombbal tehetjük meg.
@@ -581,11 +590,15 @@ Az oldal bal oldalán találjuk a szűrési lehetőségeket. Keresés közben sz
 Akármelyik szűrési opció változása esetén az oldal autómatikusan ujratöltődik, és a megfelelő hirdetések jelennek meg az oldalon.
 
 ![Hirdetés keresés szűrés példa](./docs/advert-search-filters-content.png "Hirdetés keresése szűrés példa")
+
+<div class="break"></div>
+
 #### Hirdetés vásárlás folyamatának ismertetése
 A weblap egyik talán legfontosabb funkciója a hirdetések megvásárlása. A hirdetések listáját bárki elérheti akár bejelentkezés nélkül is, de a vásárláshoz szükséges lesz bejelentkeznünk.
 Egy hirdetés megvásárlásához először el kell jutnunk a hirdetések saját oldalára. Ezt a keresőben a hirdetésekre kattintva tehetjük meg. Ekkor eljutunk a hirdetés dedikált oldalára.
 
 ![Hirdetés oldal](./docs/advert-page.png "Hirdetés oldal")
+<div class="break"></div>
 
 Itt megtekinthetjük a hirdetés pontos adatait, és ha meg vagyunk elégedve akkor elmenteni késöbbre, vagy akár kosárba helyezni.
 A hirdetés adai alatt két gomb található.
@@ -593,10 +606,12 @@ A hirdetés adai alatt két gomb található.
   ![Hirdetés könyvjelző](./docs/advert-page-bookmark.jpg "Hirdetés könyvjelző")
 - A második gomb hozzáadja a hirdetést a kosárhoz, így később megvásárolhatjuk azt.
   ![Hirdetés kosár](./docs/advert-page-cart.jpg "Hirdetés kosár")
+<div class="break"></div>
 
 Kosárba helyezést követően a vásárlás folytatásához a kosár oldalra kell átlépnünk, amit a kosár gombra való kattintással tehetünk meg.
 
 ![Hirdetés kosárban](./docs/advert-page-incart.jpg "Hirdetés kosárban")
+<div class="break"></div>
 
 A gombra kattintva átkerülünk a `/cart` aloldalra, ahol a saját kosarunkat tekinthetjk meg.
 
