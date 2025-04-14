@@ -26,6 +26,10 @@ ul:nth-of-type(1) a {
     line-height: 1.4rem;
 }
 
+ul:nth-of-type(1) a:after {
+  content: leader(' .') target-counter(attr(href), page);
+}
+
 a:hover {
   background-color: black;
   color: white;
@@ -138,10 +142,10 @@ img {
 A konzol árusító oldal ötlete a csapat videójátékok iránti szenvedélyéből ered. A webshop ötlet már hamar felmerült, viszont a játékkonzolos fő téma csak később került szóba. Miután eldöntöttük a fő témát, tanáraink segítségét kértük a különböző funkciók eldöntéséhez. Az eredi ötletünk csak a különleges szűrési megoldást tartalmazta, de végül kialakult egy megvalósítható funkció lista.
 
 ### Záródolgozatom témája, mégis milyen funkciókat foglal magába?
-Egy videójáték konzolok árusítására specializálódott internetes áruház, ahol felhasználók feltölthetnek hirdetéseket, illetve böngészhetnek azok között. A weboldal fő funkciói közé tartozik a felhasználói profil regisztrációja és testreszabása, a hirdetések közzétéle, a hirdetések részletes keresése.
+Egy videójáték konzolok árusítására specializálódott internetes áruház, ahol felhasználók feltölthetnek hirdetéseket, illetve böngészhetnek azok között. A weboldal fő funkciói közé tartozik a felhasználói profil regisztrációja és testreszabása, a hirdetések közzététele, a hirdetések részletes keresése.
 
 ### Sajátosságok
-Weboldalunk fő sajátossága más felhasználók által vezérelt áruházzal szemben a részletes szűrési lehetőség a hirdetések létrehzása és keresése közben. Ez a rendszer lehetővé teszi, hogy a felhasználók könnyedén megtalálják azokat a hirdetéseket amelyek a számukra megfelelőek.
+Weboldalunk fő sajátossága más felhasználók által vezérelt áruházzal szemben a részletes szűrési lehetőség a hirdetések létrehozása és keresése közben. Ez a rendszer lehetővé teszi, hogy a felhasználók könnyedén megtalálják azokat a hirdetéseket amelyek a számukra megfelelőek.
 
 <div class="break"></div>
 
@@ -160,7 +164,7 @@ Weboldalunk fő sajátossága más felhasználók által vezérelt áruházzal s
 ### Fejlesztői környezet
 
 #### Github és git
-Projektmunkánk során verziókezelőként a Git rendszerét választottuk, amelyet online a Github szolgáltalásaival tárolunk. Ezzel nagyban megkönyítettük a fejlesztési folyamatot és a változtatások egymással való megosztását.
+Projektmunkánk során verziókezelőként a Git rendszerét választottuk, amelyet online a Github szolgáltat ásaival tárolunk. Ezzel nagyban megkönnyítettük a fejlesztési folyamatot és a változtatások egymással való megosztását.
 
 #### Tesztelési keretrendszerek
 - **Backend: Pytest**
@@ -195,7 +199,7 @@ A végpontokhoz tartozó mappákban a következő fájlok vannak:
 
 A mappaszerkezet:
 - `.env.template`: Sablon a `.env` fájlhoz, amely a backend beállításait tartalmazza.
-- `data/`: A statikus adatok (települések, gyártók, modellek) és példa adatok (felhasználók, hirdetések, képek, hozzászólások és javaslatok) CSV filejai.
+- `data/`: A statikus adatok (települések, gyártók, modellek) és példa adatok (felhasználók, hirdetések, képek, hozzászólások és javaslatok) CSV fájljai.
 - `entities/`: Az adatbázis táblákban tárolt példányok definícióji.
 - `migration/`: A statikus és példa adatokat betöltő adatbázis migrációk.
 - `src/admin/`: Csak adminok által elérhető végpontok dekorátora.
@@ -238,14 +242,14 @@ A mappaszerkezet:
 #### A `locations` tábla
 A `locations` tábla tárolja el az eladni kívánt termékek lehetséges helyeit.
 Ez a tábla statikus adatok tárolására szolgál, futás közben nem módosul, hanem induláskor töltődik be.
-Eltároljuk a település nevét, megyéjét és irányítószámá. Ezek a keresést teszik lehetővé.
+Eltároljuk a település nevét, megyéjét és irányítószámmá. Ezek a keresést teszik lehetővé.
 A koordináták segítségével ki tudjuk számolni a távolságokat. [Ez a keresési folyamat során történik meg](#keresési-folyamat-backend-oldal).
 
 #### A `manufacturers` tábla
 Itt tároljuk ez a gyártókat, amik a modellekhez kapcsolódnak.
 
 #### A `product_states` tábla
-Szintén a keresést segító tábla, a termékek lehetséges állapotjait tárolja.
+Szintén a keresést segító tábla, a termékek lehetséges állapotait tárolja.
 
 #### A `users` tábla
 Az egyik legfontosabb tábla, a felhasználói profilok legfőbb adatait tárolja.
@@ -286,7 +290,7 @@ A vásárlóknak lehetőségük van a hirdetésekhez több képet csatolniuk. Ma
 #### Felhasználó regisztrációs folyamat backend oldal
 Egy felhasználó regisztrációja a bejelentkezés alapfeltétele. Ez után válik használhatóvá a bejelentkező képernyő és vele együtt a bejelentkezett felhasználóknak nyújtott funkciók.
 
-A regisztrációt a backend a `POST /api/user` request segítségével biztosítja. Az adatokat érzékenységük miatt természetesen a kérés body-jában fogadja, HTTPS titkosításra hagyadkozva. Hibakezelés után létrehozza a felhasználót, majd visszaadja az id-jét.
+A regisztrációt a backend a `POST /api/user` request segítségével biztosítja. Az adatokat érzékenységük miatt természetesen a kérés body-jában fogadja, HTTPS titkosításra hagyatkozva. Hibakezelés után létrehozza a felhasználót, majd visszaadja az id-jét.
 
 A kérés elküldése után ez a kódrészlet fut le:
 ![](./docs/code/backend-register.png)
@@ -322,18 +326,18 @@ Ha a belépési adatok helyesek, egy token-t adunk vissza. A továbbiakban ez le
 
 ![](./docs/code/backend-login.png)
 
-Az adabázisból lekérjük a jelszó hashet. Ha ez nem létezik, vagy nem egyezik a felhasználó által megadott jelszóval, `401 Unauthorized` hibát adunk vissza.
+Az adatbázisból lekérjük a jelszó hashet. Ha ez nem létezik, vagy nem egyezik a felhasználó által megadott jelszóval, `401 Unauthorized` hibát adunk vissza.
 
-Lekérjuk a felhasználó azonosítóját és az admin jogot tároló értéket. Ezek után legeneráljuk a token-t és visszaadjuk.
+Lekérjük a felhasználó azonosítóját és az admin jogot tároló értéket. Ezek után legeneráljuk a token-t és visszaadjuk.
 
-A bejelentkezést igénylő endpointokat a következő decoratorral jelölhetjük meg: `@UseGuards(JwtAuthGuard)`.
+A bejelentkezést igénylő endpoint-okat a következő decorator-ral jelölhetjük meg: `@UseGuards(JwtAuthGuard)`.
 A tokent-t a guard-ban a következő módon használjuk fel:
 ![](./docs/code/backend-login-2.png)
 
-A tokent visszaalakítjuk a payloaddá, majd ellenőrzéseket végzünk rajta. Egy másik decorator segítségével endpointokat csak admin által elérhetővé tehetünk. Ha ez az endpoint ilyen, ellenőrizzük, hogy a felhasználó admin-e. Ha a token rossz, hibát adunk vissza.
+A token-t visszaalakítjuk a payload-dá, majd ellenőrzéseket végzünk rajta. Egy másik decorator segítségével endpoint-okat csak admin által elérhetővé tehetünk. Ha ez az endpoint ilyen, ellenőrizzük, hogy a felhasználó admin-e. Ha a token rossz, hibát adunk vissza.
 
 #### Felhasználó belépési folyamat frontend oldal
-A bejelntkezési felület az `/auth/login` aloldalon érhető el. Ez az oldal a regisztrációs oldallal egybefűzött, így ez a két oldal szinte ugyan az.
+A bejelentkezési felület az `/auth/login` aloldalon érhető el. Ez az oldal a regisztrációs oldallal egybefűzött, így ez a két oldal szinte ugyan az.
 
 A form kódja a következő:
 ![](./docs/code/frontend-login.png)
@@ -358,23 +362,23 @@ A videójáték-konzol modellének megadása a webáruház egyik fő sajátossá
 A hirdetés feltöltésére szolgáló oldalt az `advert/create` címen érhetjük el, vagy az "Új hirdetés" menüpontra kattintva a felhasználói menüben.
 Az oldalon egy négy részre osztott felhasználói felület tárul elénk.
 - Az első rész, amely bal-felül található a hirdetéshez tartozó képek  két féle módon történő feltöltésére szolgál<div class="break"></div>
-  - A plussz (+) gombra kattintva az böngésző segítségével kiválaszthatunk képeket amelyeket fel akarunk tölteni.
-    - A `handleFiles` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhejezzük a kiválaszott képek listájában.
+  - A plusz (+) gombra kattintva az böngésző segítségével kiválaszthatunk képeket amelyeket fel akarunk tölteni.
+    - A `handleFiles` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhelyezzük a kiválaszott képek listájában.
       ![](./docs/code/frontend-create-advert.png)
     <div class="break"></div>
   - A fájlokat a szekcióra dobva (Drag&Drop) a mozgatott fájlok feltöltésre kerülnek
-    - Az `imageDrop` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhejezzük a kiválaszott képek listájában.
+    - Az `imageDrop` eseménykezelő függvény fut le ebben az esetben. Itt ellenőrizzük a fájl méretét, ugyanis a backend 50MB méretnél nagyobb fájlokat nem fogad el. Mindez után a képet Base64 formátumba alakítjuk és elhelyezzük a kiválasztott képek listájában.
     ![](./docs/code/frontend-create-advert-2.png)
 - A második rész, amely a kép feltöltéstől jobbra helyezkedik el, a hirdetés fő adatainak feltöltésére szolgál.
-  - A cím megadása, amely a `limitTo100` függvény segítségével 100 karakternél nem lehet hoszabb.
+  - A cím megadása, amely a `limitTo100` függvény segítségével 100 karakternél nem lehet hosszabb.
     ![](./docs/code/frontend-create-advert-3.png)
   - A hirdetés árát, amelyet 0 és 10000000 között tart a kód.
-  - A hirdetés gyártóját és állapotát, melyeket a backend által megadott opciók közül választhatóak ki<div class="break"></div>
-  - A hirdetés modelljét, amelyeket az után kérünk le, miután a felhasználó kiválaszott egy gyártót
+  - A hirdetés gyártóját és állapotát, melyeket a backend által megadott opciók közül választhatók ki<div class="break"></div>
+  - A hirdetés modelljét, amelyeket az után kérünk le, miután a felhasználó kiválasztott egy gyártót
     ![](./docs/code/frontend-create-advert-4.png)
 - A harmadik rész, amely az előző kettő alatt helyezkedik el, a leírás megadásához szolgáló szövegdobozt tartalmazza.
   - A leírás megadásánál lehetőségünk van markdown segítségével formázni a megadott szöveget. Ehhez segítségül a "Carta" nevű csomagot használjuk, amely tartalmaz egy Markdown szövegszerkesztőt.
-  - A leírás hossza maximum 1000 karakter lehet, amelyet a Svelte segítségével ellenörzünk minden változtatás után.
+  - A leírás hossza maximum 1000 karakter lehet, amelyet a Svelte segítségével ellenőrzünk minden változtatás után.
 
 <div class="break"></div>
 
@@ -403,9 +407,9 @@ Az összes (tehát pagináció nélküli) találatok számát is betöltjük.
 ![](./docs/code/backend-search-3.png)
 
 #### Keresési folyamat frontend oldal
-A hirdetések kereséséhez egy szűrési rendszert alakítottunk ki, amely alapja a hirdetések pontos keresésének. A szűrő paramétereit a backend egy végponton keresztül teszi elérhetővé, így könnyen bővíthető, és jövőbiztos. Szűrőkön felül a felahsználó képes a hirdetések címére is keresni a keresőmeő segítségével.
+A hirdetések kereséséhez egy szűrési rendszert alakítottunk ki, amely alapja a hirdetések pontos keresésének. A szűrő paramétereit a backend egy végponton keresztül teszi elérhetővé, így könnyen bővíthető, és jövőbiztos. Szűrőkön felül a felhasználó képes a hirdetések címére is keresni a keresőmező segítségével.
 
-Egyik legtöbb munkát igénylő szűrő a távolságon alapuló kiválasztás volt. A felhasználó kiválaszthat egy adott magyarországi települést, majd a maximális távolságot, amin belüli hirdetéseke szereté látni. Ennek megvalósítására saját Svelte komponenst hoztunk létre, amely segítségével könnyedén kiválasztható egy település a település listából.
+Egyik legtöbb munkát igénylő szűrő a távolságon alapuló kiválasztás volt. A felhasználó kiválaszthat egy adott magyarországi települést, majd a maximális távolságot, amin belüli hirdetéseke szeretné látni. Ennek megvalósítására saját Svelte komponenst hoztunk létre, amely segítségével könnyedén kiválasztható egy település a település listából.
 Amikor a felhasználó elindítja a keresést egy megadott szöveggel, a backend egy település listát szolgáltat, amelyből kiválaszthatunk egyet.
 
 ![](./docs/code/frontend-search.png)
@@ -413,9 +417,9 @@ Amikor a felhasználó elindítja a keresést egy megadott szöveggel, a backend
 Miután megjelent a lehetséges települések listája a felhasználó kattintással, vagy akár a billentyűzeten található nyilakkal is választhat egyet. Ezt egy saját `keydown` eseménykezelő teszi lehetővé.
 ![](./docs/code/frontend-location-search-keydown.png)
 
-A szűrési rendszer minden változtatás után, ha 1,5 másodpercig nem történik változás autómatikas átnavigál a megfelelően szűrt oldalra. Minden szűrő az URL paramétereit módosítja, amelyeket elküld a backendnek ami azok alapján küld választ.
+A szűrési rendszer minden változtatás után, ha 1,5 másodpercig nem történik módosítás autómatikusan átnavigál a megfelelően szűrt oldalra. Minden szűrő az URL paramétereit módosítja, amelyeket elküld a backendnek ami azok alapján küld választ.
 
-A kereső felület úgynevezett "végtelen görgetést" használ a hirdetések progresszív betöltéséhez. Ezt egy `IntersectionObserver` segítségével oldjuk meg. Az observer segítségével tetszőleges fügvényt tudunk futtatni amikor egy adott elem megjelenik a felhasználó képernyőjén.
+A kereső felület úgynevezett "végtelen görgetést" használ a hirdetések progresszív betöltéséhez. Ezt egy `IntersectionObserver` segítségével oldjuk meg. Az observer segítségével tetszőleges függvényt tudunk futtatni amikor egy adott elem megjelenik a felhasználó képernyőjén.
 Ehhez létrehoztunk egy saját Svelte komponenst:
 ![](./docs/code/frontend-intersection-observer.png)
 
@@ -472,14 +476,14 @@ A következő esetekben adunk vissza hibát:
 
 ## Teszt dokumentáció
 ### Backend tesztek
-A végpontok tesztelése a kövekezőképpen történik: python scriptben kérést küldünk a `requests` könyvtár segítségével,
+A végpontok tesztelése a következőképpen történik: python scriptben kérést küldünk a `requests` könyvtár segítségével,
 majd `pytest` segítségével leellenőrizzük a választ.
 
 #### Előkészítés
 1. Beállítjuk a backendet: a `.env` fájlban beállítjuk, hogy teszt adatbázist használjon (`TESTING_DB=true`) és ne töltse be a példa adatokat (`LOAD_SAMPLE_DATA=false`), majd elindítjuk/újraindítjuk.
 2. Telepítjük a Python 3-at, ha szükséges.
 3. Parancssorban megnyitjuk a `test_scripts/` mappát.
-4. A következő paranccsal létrehozzuk a környezetet, ahova a csomagokat telepítjuk: `python -m venv .venv`.
+4. A következő paranccsal létrehozzuk a környezetet, ahova a csomagokat telepítjük: `python -m venv .venv`.
 5. Aktiváljuk a környezetet: `.venv\Scripts\activate`.
 6. Telepítjük a szükséges csomagokat: `python -m pip install -r requirements.txt`.
 
@@ -501,9 +505,9 @@ Itt láthatunk minden tesztet és azok eredményeit.
 
 ## Felhasználói dokumentáció
 ### Üdvözöllek!
-Ön a Konzol Webshop weboldalának felhasználói dokumentációját olvassa, amely egy online webshop, ahol könnyedén könnyedén vásárolhat vagy adhat el régi és új konzolokat egyaránt.
+Ön a Konzol Webshop weboldalának felhasználói dokumentációját olvassa, amely egy online webshop, ahol könnyedén vásárolhat vagy adhat el régi és új konzolokat egyaránt.
 A Konzol Webshop alapvető funkciói között szerepel a belépés és regisztráció lehetősége. Ha még nem regisztrált, egyszerűen létrehozhatja a fiókját, majd bejelentkezhet az oldalra, hogy teljes körű hozzáférést kapjon a funkciókhoz.
-Emellett a weboldalon lehetősége van hirdetések böngészésére és keresésére, amelyhez segítséget nyújt a részletes szűrésre lehetsőéget adó keresőmotor. 
+Emellett a weboldalon lehetősége van hirdetések böngészésére és keresésére, amelyhez segítséget nyújt a részletes szűrésre lehetőséget adó keresőmotor. 
 Ha pedig saját konzolját kívánja eladni könnyedén létre tud hozni új hirdetést melyet más felhasználók is megtekinthetnek.
 Köszönjük, hogy csatlakozott hozzánk, és jó böngészést kívánunk a játékkonzolok világában!
 Üdvözlettel,
@@ -531,7 +535,7 @@ Ezek a böngészők lehetővé teszik a Konzol Webshop weboldalának teljes kör
 
 ### Weboldal használatának részletes ismertetése
 ![Főoldal](./docs/main-page.jpeg "Főoldal")
-Ez a Konzol Webshop főoldala. A fejlécben láthatja az oldal logóját, a szöveges kereső mezőt, a kocsár, bejelentkezés és regisztráció gombokat.
+Ez a Konzol Webshop főoldala. A fejlécben láthatja az oldal logóját, a szöveges kereső mezőt, a kosár, bejelentkezés és regisztráció gombokat.
 A fejléc alatt az oldal fő tartalma, a hirdetés kereső található, bal oldalt a szűrőkkel, jobb oldalt pedig a hirdetésekkel.
 
 <div class="break"></div>
@@ -547,7 +551,7 @@ A gomb át navigál minket az `auth/register` aloldalra, ahol kitölthetjük a r
 
 Az űrlap helyes kitöltése után már kész is a saját felhasználónk amely adataival be is tudunk jelentkezni.
 #### A belépés folyamatának ismertetése
-A belépési folyamat megkezdéséhez, hasonlóan a regisztrációhoz, először a bejelentkezés oldalra kell navigálnunk. Ezz a jobb felső sarokban található "Bejelentkezés" gombbal tehetjük meg.
+A belépési folyamat megkezdéséhez, hasonlóan a regisztrációhoz, először a bejelentkezés oldalra kell navigálnunk. Ez a jobb felső sarokban található "Bejelentkezés" gombbal tehetjük meg.
 
 ![Bejelentkezés](./docs/login-guide.jpg "Bejelentkezés")
 
@@ -555,7 +559,7 @@ A gomb át navigál minket az `auth/login` aloldalra, ahol kitölthetjük a beje
 
 ![Bejelentkezés űrlap](./docs/login.jpeg "Bejelentkezés űrlap")
 
-Az űrlap helyes kitöltése után autómatikusan visszakerülünk a főoldalra, ahol a "Bejelentkezés" és a "Regisztráció" gombok helyett profilképünket láthatjuk.
+Az űrlap helyes kitöltése után automatikusan visszakerülünk a főoldalra, ahol a "Bejelentkezés" és a "Regisztráció" gombok helyett profilképünket láthatjuk.
 #### Hirdetés feltöltés folyamatának ismertetése
 Az oldal egyik legfontosabb funkciója a hirdetések létrehozása. Egy hirdetés feltöltéséhez először be kell jelentkeznünk az oldalra egy korábban létrehozott felhasználóval. Ezt követően a fejléc jobb oldalán a "Bejelentkezés" és "Regisztráció" gombok helyett a saját profilképünket találjuk, amelyre rákattintva megjeleníthetjük a felhasználói menüt.
 
@@ -567,9 +571,9 @@ A menüben az "Új hirdetés" opciót választva térhetünk át az új hirdeté
 
 ![Új hirdetés oldal](./docs/advert-create-page.png "Új hirdetés oldal")
 
-Ekkor átkerülünk az `advert/create` aloldara, ahol egy űrlap tárul elénk. Az űrlap 4 szekcióra osztódik szét.
+Ekkor átkerülünk az `advert/create` aloldalra, ahol egy űrlap tárul elénk. Az űrlap 4 szekcióra osztódik szét.
 
-- Az első szekció a bal felső sarokban található, amely képek feltöltésére szolgál. Itt a plussz (+) gombra kattintva vagy a fájlokat a fájlkezelőből a szekcióra dobva tudunk képeket feltölteni. Egy adott kép feltöltése után a szekcióban megjelenik a kép előnézete, amelyben egy jelölőnégyzet segítségével kiválaszthatjuk a kiemelni kívánt képet, amely a hirdetés indexképeként és első megjelnített képeként jelenik majd meg. Az előnézet alján pedig írhatunk leírást az adott képhez.
+- Az első szekció a bal felső sarokban található, amely képek feltöltésére szolgál. Itt a plu sz (+) gombra kattintva vagy a fájlokat a fájlkezelőből a szekcióra dobva tudunk képeket feltölteni. Egy adott kép feltöltése után a szekcióban megjelenik a kép előnézete, amelyben egy jelölőnégyzet segítségével kiválaszthatjuk a kiemelni kívánt képet, amely a hirdetés indexképeként és első megjelenített képeként jelenik majd meg. Az előnézet alján pedig írhatunk leírást az adott képhez.
   ![Új hirdetés képfeltöltés](./docs/advert-create-page-images.jpg "Új hirdetés képfeltöltés")
 - A második szekció az elsőtől jobbra, jobb felül található, amely a hirdetés fő adatainak megadására szolgál. Itt adhatjuk meg a hirdetésünk címét, árát, a konzol gyártóját és modelljét, illetve a hirdetés helyét is.
   ![Új hirdetés mezők](./docs/advert-create-page-inputs.jpg "Új hirdetés mezők")
@@ -579,7 +583,7 @@ Ekkor átkerülünk az `advert/create` aloldara, ahol egy űrlap tárul elénk. 
   ![Új hirdetés gombok](./docs/advert-create-page-buttons.jpg "Új hirdetés gombok")
 #### Hirdetés keresés folyamatának ismertetése
 Az oldal egyik fő funkciója a hirdetések keresése. Az oldal tartalmaz egy részletes keresőmotort amely segítségével megtalálhatjuk a számunkra megfelelő hirdetéseket.
-Az első keresési metódus a szöveges keresés, amely segítségével a a hirdetések címe alapján kereshetünk.
+Az első keresési metódus a szöveges keresés, amely segítségével a hirdetések címe alapján kereshetünk.
 
 ![Hirdetés keresés](./docs/advert-search-text.jpg "Hirdetés keresése")
 
@@ -587,7 +591,7 @@ Az oldal bal oldalán találjuk a szűrési lehetőségeket. Keresés közben sz
 
 ![Hirdetés keresés szűrés](./docs/advert-search-filters.jpg "Hirdetés keresése szűrés")
 
-Akármelyik szűrési opció változása esetén az oldal autómatikusan ujratöltődik, és a megfelelő hirdetések jelennek meg az oldalon.
+Akármelyik szűrési opció változása esetén az oldal automatikusan újratöltődik, és a megfelelő hirdetések jelennek meg az oldalon.
 
 ![Hirdetés keresés szűrés példa](./docs/advert-search-filters-content.png "Hirdetés keresése szűrés példa")
 
@@ -600,8 +604,8 @@ Egy hirdetés megvásárlásához először el kell jutnunk a hirdetések saját
 ![Hirdetés oldal](./docs/advert-page.png "Hirdetés oldal")
 <div class="break"></div>
 
-Itt megtekinthetjük a hirdetés pontos adatait, és ha meg vagyunk elégedve akkor elmenteni késöbbre, vagy akár kosárba helyezni.
-A hirdetés adai alatt két gomb található.
+Itt megtekinthetjük a hirdetés pontos adatait, és ha meg vagyunk elégedve akkor elmenteni későbbre, vagy akár kosárba helyezni.
+A hirdetés adatai alatt két gomb található.
 - Az első hozzáadja a hirdetést a könyvjelzők listához, amellyel könnyedén vissza tudunk jönni később is a hirdetéshez
   ![Hirdetés könyvjelző](./docs/advert-page-bookmark.jpg "Hirdetés könyvjelző")
 - A második gomb hozzáadja a hirdetést a kosárhoz, így később megvásárolhatjuk azt.
@@ -613,11 +617,11 @@ Kosárba helyezést követően a vásárlás folytatásához a kosár oldalra ke
 ![Hirdetés kosárban](./docs/advert-page-incart.jpg "Hirdetés kosárban")
 <div class="break"></div>
 
-A gombra kattintva átkerülünk a `/cart` aloldalra, ahol a saját kosarunkat tekinthetjk meg.
+A gombra kattintva átkerülünk a `/cart` aloldalra, ahol a saját kosarunkat tekinthetjük meg.
 
 ![Kosár oldal](./docs/cart-page.png "Kosár oldal")
 
-Ha meg vagyunk elégedve a kosarunk tartalmával, a "Vásárlás" gombra kattinva megvehetjük a kosárba rakott hirdetéseket.
+Ha meg vagyunk elégedve a kosarunk tartalmával, a "Vásárlás" gombra kattintva megvehetjük a kosárba rakott hirdetéseket.
 
 ![Kosár oldal vásárlás](./docs/cart-page-purchase.jpg "Kosár oldal vásárlás")
 
