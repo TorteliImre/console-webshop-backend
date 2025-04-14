@@ -63,7 +63,16 @@ img {
 .break {
   page-break-after: always;
 }
+
+h1 {
+  text-align: center;
+}
 </style>
+
+# Konzol webshop dokumentáció
+<h3 style="text-align:center;">Törteli Imre & Deli Bence</h3>
+
+<div class="break"></div>
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
@@ -133,8 +142,6 @@ img {
 <!-- /code_chunk_output -->
 
 <div class="break"></div>
-
-# Konzol webshop dokumentáció
 
 ## Bevezetés
 
